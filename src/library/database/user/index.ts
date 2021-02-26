@@ -1,12 +1,13 @@
 import {hash} from 'bcrypt'
 
 import createQueries from './create'
-import read from './read'
+import readQueries from './read'
 import updateQueries from './update'
 import delQueries from './delete'
 
 import {User} from '../../../types'
 import {getConnection} from '../pool'
+import {isBefore} from 'date-fns'
 
 const create = async (user: User, password: string) => {
     const userHash = await hash(password, 12);
@@ -31,7 +32,7 @@ const update = async(user:User) => {
     }
     const connection = await getConnection;
     await updateQueries.details(connection, user);
-    const originalUser = await read.byId(user.id);
+    const originalUser = await readQueries.byId(connection, user.id);
     if (user.availability) {
         const availability = user.availability;
         await createQueries.hours(connection, user.id, availability);
@@ -44,16 +45,48 @@ const update = async(user:User) => {
         const skills = user.skills;
         const deletes = originalUser.skills?.filter(value => !skills.includes(value));
         const inserts = skills.filter(value => !originalUser.skills?.includes(value));
-        updateQueries.skill(connection, user.id, inserts);
+        await updateQueries.skill(connection, user.id, inserts);
         if (deletes) {
-            delQueries.skill(connection, user.id, deletes);
+            await delQueries.skill(connection, user.id, deletes);
         }
     }
     if (user.leave) {
         const leave = user.leave;
         const inserts = leave.filter(value => originalUser.leave?.includes(value));
-        createQueries.leave(connection, user.id, inserts);
+        const deletes = originalUser.leave?.filter(value => isBefore(value.endDate, new Date()));
+        if (deletes) {
+            await delQueries.leave(connection, deletes);
+        }
+        await createQueries.leave(connection, user.id, inserts);
     }
+    connection.release();
 }
 
-export default {create, update, read, createQueries, updateQueries, delQueries}
+const read = async (userId?: number) => {
+    const connection = await getConnection;
+    if (!userId) {
+        return readQueries.list(connection);
+    }
+    let user = await readQueries.byId(connection, userId);
+    const deletes = user.leave?.filter(value => isBefore(value.endDate, new Date()));
+    if (deletes) {
+        await delQueries.leave(connection, deletes);
+        user.leave = user.leave?.filter(value => !deletes.includes(value));
+        connection.release();
+        return user
+    }
+    connection.release();
+    return user;
+}
+
+const auth = async (email: string, password: string) => {
+    const connection = await getConnection;
+    const userId = await readQueries.auth(connection, email, password);
+    connection.release();
+    if (userId) {
+        return read(userId);
+    }
+    return new Error('user inAuthentic');
+}
+
+export default {create, update, read, auth, createQueries, updateQueries, delQueries}
