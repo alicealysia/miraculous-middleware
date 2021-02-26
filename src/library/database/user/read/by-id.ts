@@ -1,10 +1,12 @@
 import {PoolConnection} from 'promise-mysql'
+import availability from './availability'
+import leave from './leave'
 import {User} from '../../../../types'
 
 export default async (connection: PoolConnection, userId: number) => {
     let user : User = await connection.query('call read_user(?)', userId).then(results => results[0][0]);
-    user.availability = await connection.query('call user_read_availability(?)', userId).then(results => results[0]);
-    user.leave = await connection.query('call user_read_leave(?)', userId).then(results => results[0]);
+    user.availability = await availability(connection, userId);
+    user.leave = await leave(connection, userId);
     user.skills = await connection.query('call user_read_skills(?)', userId).then(results => results[0]);
 
     return user;
