@@ -1,21 +1,22 @@
 export enum Service {
     Project = 0,
     Builder = 1,
-    'Occupational Therapist' = 2
+    OccupationalTherapist = 2
 }
 
 export enum Funding {
     Private = 0,
     NDIS = 1,
-    'My Aged Care' = 2,
+    MyAgedCare = 2,
     DVA = 3,
     Insurance = 4
 }
 
 export enum NDIS {
-    Self = 0,
-    Plan = 1,
-    Agency = 2
+    None = 0,
+    Self = 1,
+    Plan = 2,
+    Agency = 3
 }
 
 
@@ -25,7 +26,7 @@ export interface Client {
     fullName: string;
     DOB: Date;
     address: string;
-    phone: number;
+    phone: string;
     email: string;
     supportCoordinator: number;
     funding: Funding;

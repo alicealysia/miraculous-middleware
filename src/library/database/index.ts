@@ -1,2 +1,3 @@
 import user from './user';
-export default {user};
+import client from './client';
+export default {user, client};

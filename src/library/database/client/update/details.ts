@@ -1,8 +1,8 @@
-import { formatWithOptions } from 'date-fns/fp'
-import {PoolConnection} from 'promise-mysql'
+
+import {Pool} from 'promise-mysql'
 import {Client} from '../../../../types'
 
-export default async(connection: PoolConnection, client: Client) => connection.query('call update_client(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+export default async(connection: Pool, client: Client) => connection.query('call update_client(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
     client.id, 
     client.fullName, 
     client.DOB, 

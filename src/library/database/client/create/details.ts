@@ -1,7 +1,7 @@
-import {PoolConnection} from 'promise-mysql'
+import {Pool} from 'promise-mysql'
 import {Client} from '../../../../types' 
 
-export default async (connection: PoolConnection, client: Client) => connection.query('call create_client(?,?,?,?,?,?,?,?,?,?,?,?)', [
+export default async (connection: Pool, client: Client) => connection.query('call create_client(?,?,?,?,?,?,?,?,?,?,?,?)', [
     client.fullName, 
     client.DOB, 
     client.address, 

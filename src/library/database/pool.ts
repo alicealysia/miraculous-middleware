@@ -11,7 +11,7 @@ const config : PoolConfig = {
     port: 3306
 }
 
-const getPool = async () => {
+export const getPool = async () => {
     if (pool) {
         return pool;
     }
