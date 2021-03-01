@@ -49,7 +49,7 @@ const read = async (userId?: number) => {
         connection.release();
         return user;
     }
-    const user = await readQueries.byId(connection, userId);
+    const user: User = await readQueries.byId(connection, userId);
     connection.release();
     return user;
 }

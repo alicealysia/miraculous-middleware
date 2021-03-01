@@ -6,6 +6,7 @@ const app = express();
 const port = 8080;
 app.use(express.json());
 
+
 if (result.parsed) {
     console.log(result.parsed);
     bootFunc();

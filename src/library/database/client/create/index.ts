@@ -2,5 +2,20 @@ import approvals from './approval'
 import details from './details'
 import referrals from './referral'
 import services from './service'
+import {getConnection} from '../../pool'
+import {Client} from '../../../../types'
 
-export default {approvals, details, referrals, services}
+export default async (client: Client) => {
+    const connection = await getConnection;
+    const clientId = await details(connection, client);
+    if (client.approvals) {
+        await approvals(connection, clientId, client.approvals);
+    }
+    if (client.referrals) {
+        await referrals(connection, clientId, client.referrals);
+    }
+    if (client.services) {
+        await services(connection, clientId, client.services);
+    }
+    connection.release();
+}

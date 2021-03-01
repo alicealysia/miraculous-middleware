@@ -12,5 +12,12 @@
     "strict": true,
     "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true
+  },
+  "paths": {
+    "@localtypes/*": ["types"],
+    "@library/*": ["library"],
+    "@middleware/*": ["middleware"],
+    "@routes/*": ["routes"],
+    "@utils/*": ["utils"]
   }
 }
