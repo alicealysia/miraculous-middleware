@@ -19,3 +19,5 @@ export default async (client: Client) => {
     }
     connection.release();
 }
+
+export {approvals as createApprovals, details as createDetails, referrals as createReferrals, services as createServices}

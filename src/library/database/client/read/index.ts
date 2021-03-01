@@ -20,3 +20,5 @@ export default async (clientId?: number) => {
     connection.release();
     return client;
 }
+
+export {approvals as readApprovals, byId as readClientById, list as readClientList, referrals as readReferrals, services as readServices}
