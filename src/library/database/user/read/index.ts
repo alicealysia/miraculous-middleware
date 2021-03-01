@@ -1,13 +1,12 @@
 import authQuery from './auth'
 import byId from './by-id'
 import list from './list'
-import skills from './skills'
 import leave from './leave'
 import availability from './availability'
 import {getConnection} from '../../pool'
 import {User} from '../../../../types'
 
-export {authQuery, byId, list, skills, availability, leave}
+export {authQuery, byId, list, availability, leave}
 
 
 export default async (userId?: number) => {

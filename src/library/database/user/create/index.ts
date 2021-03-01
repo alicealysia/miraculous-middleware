@@ -1,13 +1,12 @@
 import hours from './hours'
 import details from './details'
 import leaveQuery from './leave'
-import skill from './skill'
 import {skill as updateSkill, wwvp as updateWWVP} from '../update'
 import {getConnection} from '../../pool'
 import {User, Leave} from '../../../../types'
 import {hash} from 'bcrypt'
 
-export { skill, leaveQuery, hours, details }
+export { leaveQuery, hours, details }
 
 export default async (user: User, password: string) => {
     const userHash = await hash(password, 12);

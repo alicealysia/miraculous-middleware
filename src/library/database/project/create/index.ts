@@ -1,8 +1,7 @@
 import assignmentQuery from './assignment'
 import details from './details'
-import materialQuery from './material'
 import {getPool} from '../../pool'
-import {Project, Assignment, Material} from '../../../../types'
+import {Project, Assignment} from '../../../../types'
 
 export const create = async(project: Project) => {
     const connection = await getPool();
@@ -14,12 +13,7 @@ export const create = async(project: Project) => {
     return projectId;
 }
 
-export const assignment = async(projectId:number, _assignment: Assignment) => {
+export const createAssignment = async(projectId:number, _assignment: Assignment) => {
     const connection = await getPool();
     return assignmentQuery(connection, projectId, _assignment);
-}
-
-export const material = async(_material: Material) => {
-    const connection = await getPool();
-    return materialQuery(connection, _material);
 }
