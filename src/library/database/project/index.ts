@@ -1,3 +1,4 @@
-import {createAssignment, create} from './create'
+import {createAssignment, create, assignMaterial} from './create'
+import read from './read'
 
-export default {create, createAssignment}
+export default {create, read, createAssignment, assignMaterial}

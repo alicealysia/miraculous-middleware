@@ -1,3 +1,4 @@
 import create from './create'
+import read from './read'
 
-export default {create}
+export default {create, read}

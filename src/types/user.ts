@@ -13,6 +13,7 @@ export interface User {
     availability?: Availability[];
     leave?: Leave[];
     skills?: Skill[];
+    assignments?: UserAssignment[];
 }
 
 export enum Weekday {
@@ -23,6 +24,12 @@ export enum Weekday {
     thursday = 4,
     friday = 5,
     saturday = 6
+}
+
+export interface UserAssignment {
+    id: number,
+    projectId: number,
+    projectName: string
 }
 
 export interface Availability {
