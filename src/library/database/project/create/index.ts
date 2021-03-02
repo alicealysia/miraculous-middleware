@@ -12,7 +12,12 @@ export const create = async(project: Project) => {
         await Promise.all(assignments);
     }
     if (project.materials) {
-        const materials = project.materials.map(material => materialQuery(connection, material, projectId));
+        const materials = project.materials.map(material => {
+            if (material.id && material.units) {
+            return materialQuery(connection, projectId, material.id, material.units);
+            }
+            return 'noId';
+        });
         await Promise.all(materials);
     }
     return projectId;
@@ -23,7 +28,7 @@ export const createAssignment = async(projectId:number, _assignment: Assignment)
     return assignmentQuery(connection, projectId, _assignment);
 }
 
-export const assignMaterial = async(projectId: number, _material: Material) => {
+export const assignMaterial = async(projectId: number, materialId: number, materialUnits: number) => {
     const pool = await getPool();
-    return materialQuery(pool, _material, projectId);
+    return materialQuery(pool, projectId, materialId, materialUnits);
 }

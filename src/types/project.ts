@@ -1,8 +1,8 @@
 export interface Material {
     id?: number,
-    materialName: string,
-    cost: number,
-    serialCode: string,
+    materialName?: string,
+    cost?: number,
+    serialCode?: string,
     units?: number
 }
 
@@ -22,7 +22,7 @@ export interface Project {
     id?: number,
     projectName: string,
     projectDescription: string,
-    enquiryDate: string,
+    enquiryDate: Date,
     startDate: Date,
     finishEstimate: Date,
     hoursEstimate: number,
