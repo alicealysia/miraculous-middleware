@@ -6,7 +6,7 @@ import byId from './by-id'
 import list from './list'
 
 /** list returns a list of tasks dependant on the assignment ID, if not list, taskID is used to find a single task and its details */
-export const read = async(id: number, _list: boolean) => {
+export default async(id: number, _list: boolean) => {
     const pool = await getPool();
     if (_list) {
         return list(pool, id);

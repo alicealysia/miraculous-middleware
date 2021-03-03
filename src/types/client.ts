@@ -1,7 +1,11 @@
 export enum Service {
-    Project = 0,
-    Builder = 1,
-    OccupationalTherapist = 2
+    NDISorMyAgeCare = 0,
+    FreedomWheels = 1,
+    OccupationalTherapy = 2,
+    AssistiveTechnology = 3,
+    DesignAndManufacture = 4,
+    EquipmentRefurbishmentsAndModifications = 5,
+    RepairOrService = 6
 }
 
 export enum Funding {
