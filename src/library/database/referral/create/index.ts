@@ -1,5 +1,5 @@
 import spine from './spine'
-import ot from './OT'
+import ot from './ot'
 import otDocument from './ot-document'
 import customDesign from './custom-design'
 import custom from './custom'
@@ -8,12 +8,9 @@ import service from './service'
 import {Referral} from '../../../../types'
 import {getPool} from '../../pool'
 
-export default async (referral: Referral) => {
-    if (!referral.clientId) {
-        throw new Error('no client')
-    }
+export default async (clientId: number, referral: Referral) => {
     const pool = await getPool();
-    const id = await spine(pool, referral.clientId);
+    const id = await spine(pool, clientId);
     if (referral.equipmentReferrals) {
         await Promise.all(referral.equipmentReferrals.map(equipmentReferral => equipment(pool, id, equipmentReferral)));
     }

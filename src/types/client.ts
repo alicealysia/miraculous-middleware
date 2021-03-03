@@ -1,3 +1,5 @@
+import {Referral} from './referral'
+
 export enum Service {
     NDISorMyAgeCare = 0,
     FreedomWheels = 1,
@@ -39,7 +41,7 @@ export interface Client {
     gender: string;
     occupation: string;
     disability: string;
-    referrals?: string[];
+    referrals?: Referral[];
     approvals?: string[];
     services?: Service[];
 }

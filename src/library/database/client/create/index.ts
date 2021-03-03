@@ -1,6 +1,6 @@
 import approvals from './approval'
 import details from './details'
-import referrals from './referral'
+import referral from '../../referral'
 import services from './service'
 import {getPool} from '../../pool'
 import {Client} from '../../../../types'
@@ -12,11 +12,12 @@ export default async (client: Client) => {
         await approvals(connection, clientId, client.approvals);
     }
     if (client.referrals) {
-        await referrals(connection, clientId, client.referrals);
+        const referrals = client.referrals.map(value => referral.create(clientId, value));
+        await Promise.all(referrals);
     }
     if (client.services) {
         await services(connection, clientId, client.services);
     }
 }
 
-export {approvals as createApprovals, details as createDetails, referrals as createReferrals, services as createServices}
+export {approvals as createApprovals, details as createDetails, services as createServices}
