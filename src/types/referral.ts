@@ -33,7 +33,7 @@ export interface CustomDesignReferral {
     referralId?: number;
     productType: string;
     concept: string;
-    designs: Design[];
+    designs?: Design[];
 }
 
 export interface EquipmentReferral {
