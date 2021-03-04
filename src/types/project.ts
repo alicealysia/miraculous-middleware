@@ -1,16 +1,35 @@
+import {Task} from './task'
+
 export interface Material {
-    id?: number,
-    materialName?: string,
-    cost?: number,
+    id: number,
+    materialName: string,
+    cost: number,
     serialCode?: string,
-    units?: number
+    units: number
+}
+
+export interface InsertMaterial {
+    materialName: string,
+    cost: number,
+    serialCode?: string
+}
+
+export interface AssignMaterial {
+    id: number,
+    units: number
 }
 
 export interface Assignment {
-    id?: number,
+    id: number,
     userId: number,
-    userName?: string,
-    accessRights?: string
+    userName: string,
+    accessRights?: string,
+    hourlyRate: number,
+    tasks: Task[]
+}
+
+export interface InsertAssignment {
+    userId: number
 }
 
 export enum ProjectType {
@@ -19,7 +38,7 @@ export enum ProjectType {
 }
 
 export interface Project {
-    id?: number,
+    id: number,
     projectName: string,
     projectDescription: string,
     enquiryDate: Date,
@@ -31,4 +50,17 @@ export interface Project {
     clientName?: string,
     assignments?: Assignment[],
     materials?: Material[]
+}
+
+export interface InsertProject {
+    projectName: string,
+    projectDescription: string,
+    enquiryDate: Date,
+    startDate: Date,
+    finishEstimate: Date,
+    hoursEstimate: number,
+    projectType: ProjectType,
+    clientId: number,
+    assignments?: InsertAssignment[],
+    materials?: AssignMaterial[]
 }

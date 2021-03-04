@@ -28,7 +28,25 @@ export enum NDIS {
 
 
 export interface Client {
-    id?: number;
+    id: number;
+    fullName: string;
+    DOB: Date;
+    address: string;
+    phone: string;
+    email: string;
+    supportCoordinator: number;
+    funding: Funding;
+    NDIS: NDIS;
+    orgName: string;
+    gender: string;
+    occupation: string;
+    disability: string;
+    referrals?: Referral[];
+    approvals?: string[];
+    services?: Service[];
+}
+
+export interface InsertClient {
     fullName: string;
     DOB: Date;
     address: string;

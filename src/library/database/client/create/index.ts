@@ -3,9 +3,9 @@ import details from './details'
 import referral from '../../referral'
 import services from './service'
 import {getPool} from '../../pool'
-import {Client} from '../../../../types'
+import {InsertClient} from '../../../../types'
 
-export default async (client: Client) => {
+export default async (client: InsertClient) => {
     const connection = await getPool();
     const clientId = await details(connection, client);
     if (client.approvals) {
