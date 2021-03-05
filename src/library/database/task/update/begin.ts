@@ -1,7 +1,7 @@
 import {getPool} from '../../pool'
-import {Task, Note} from '../../../../types'
+import {BeginTask} from '../../../../types'
 
-export default async(task: Task, note: Note) => 
+export default async(task: BeginTask) => 
     getPool().then(pool => pool.query('call task_update_begin(?, ?, ?, ?, ?, ?, ?)', 
-        [task.id, task.estimatedHours, task.estimatedTravel, note.note, task.actualHours, task.actualTravel, note.noteDate]));
+        [task.id, task.estimatedHours, task.estimatedTravel, task.note.note, task.actualHours, task.actualTravel, task.note.noteDate]));
 

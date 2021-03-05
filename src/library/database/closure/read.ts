@@ -12,7 +12,7 @@ export default async(projectId: number) => {
     const materials = project.materials;
     let reports: string[] = [];
     const userCosts = assignments.map(assignment => assignment.tasks.reduce<UserCosts>((usercost: UserCosts, task: Task) => {
-        if (!task.estimatedHours || !task.estimatedTravel || !task.actualHours || !task.actualTravel || !task.complete) {
+        if (task.estimatedHours === undefined || task.estimatedTravel === undefined || task.actualHours === undefined || task.actualTravel === undefined || !task.complete) {
             throw new Error ('task not complete');
         }
         if (task.report) {

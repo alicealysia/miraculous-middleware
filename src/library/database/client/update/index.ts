@@ -1,8 +1,8 @@
 import details from './details'
 import {getPool} from '../../pool'
 import del from '../delete'
-import {readApprovals, readReferrals} from '../read'
-import {createApprovals, createReferrals, createServices} from '../create'
+import {readApprovals} from '../read'
+import {createApprovals, createServices} from '../create'
 import {Client} from '../../../../types'
 
 export default async(client: Client) => {
@@ -17,13 +17,6 @@ export default async(client: Client) => {
          if (approvals.length > 0) {
             await createApprovals(connection, client.id, approvals);
          }
-    }
-    if (client.referrals) {
-        const oldReferrals = await readReferrals(connection, client.id);
-        const referrals = client.referrals.filter(referral => !oldReferrals.includes(referral));
-         if (referrals.length > 0) {
-            await createReferrals(connection, client.id, referrals);
-        }
     }
     if (client.services) {
         await del.services(connection, client.id);

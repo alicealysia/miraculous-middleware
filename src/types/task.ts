@@ -21,9 +21,6 @@ interface Contract {
 export interface InsertContract {
     referringAgent: number;
     billerCode: string;
-    quoteLink?: string;
-    invoiceLink?: string;
-    cost?: number;
 }
 
 interface OTAssessment {
@@ -67,15 +64,25 @@ export interface InsertTask {
     taskName: string;
     due: Date;
     taskType: TaskType;
-    estimatedTravel?: number;
-    estimatedHours?: number;
-    actualHours?: number;
-    actualTravel?: number;
-    report?: string;
-    complete?: Date;
-    contract?: Contract;
-    assessment?: OTAssessment;
-    notes?: Note[];
+    contract?: InsertContract;
+    assessment?: InsertOTAssessment;
+}
+
+export interface BeginTask {
+    id: number;
+    estimatedHours: number,
+    estimatedTravel: number,
+    actualHours: number,
+    actualTravel: number,
+    note: InsertNote
+}
+
+export interface CompleteTask {
+    id: number,
+    actualHours: number,
+    actualTravel: number,
+    note: InsertNote,
+    report: string
 }
 
 export { Contract, TaskType, Task, OTAssessment, Note}

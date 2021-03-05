@@ -8,17 +8,15 @@ import designs from './custom-design'
 import documents from './document'
 import {getPool} from '../../pool'
 
-export default async(id: number, _list: boolean) => {
+export const readOne = async(referralId: number) => {
     const pool = await getPool();
-    if (_list) {
-        return list(pool, id);
-    }
-    let referral = await byId(pool, id);
-    referral.customDesigns = await custom(pool, id);
-    referral.equipmentReferrals = await equipment(pool, id);
-    referral.OTReferrals = await ot(pool, id);
-    referral.services = await service(pool, id);
+    let referral = await byId(pool, referralId);
+    referral.customDesigns = await custom(pool, referralId);
+    referral.equipmentReferrals = await equipment(pool, referralId);
+    referral.OTReferrals = await ot(pool, referralId);
+    referral.services = await service(pool, referralId);
     return referral;
 }
+export const readList = async(clientId: number) => getPool().then(pool => list(pool, clientId));
 
 export {byId, custom, equipment, list, ot, service, designs, documents}
