@@ -1,15 +1,23 @@
-import {PoolConnection} from 'promise-mysql'
+import {Pool} from 'promise-mysql'
 import availability from './availability'
 import leave from './leave'
 import assignment from './assignment'
-import {User} from '../../../../types'
+import {UninitUser, User} from '../../../../types'
 
-export default async (connection: PoolConnection, userId: number) => {
-    let user : User = await connection.query('call read_user(?)', userId).then(results => results[0][0]);
-    user.availability = await availability(connection, userId);
-    user.leave = await leave(connection, userId);
-    user.skills = await connection.query('call user_read_skills(?)', userId).then(results => results[0]);
-    user.assignments = await assignment(connection, userId);
+export default async (connection: Pool, userId: number) => {
+    const _user: UninitUser = await connection.query('call read_user(?)', userId).then(results => results[0][0]);
+    
+    const _availability = await availability(connection, userId);
+    const _leave = await leave(connection, userId);
+    const _skills = await connection.query('call user_read_skills(?)', userId).then(results => results[0]);
+    const _assignments = await assignment(connection, userId);
 
-    return user;
+    return {
+        ..._user,
+        accessRights: _user.accessRights.split(','),
+        availability: _availability,
+        leave: _leave,
+        skills: _skills,
+        assignments: _assignments
+    } as User
 }

@@ -28,6 +28,8 @@ export interface OTDocument {
     docLink: string;
 }
 
+export const isOTDocument = (obj: any): obj is  OTDocument  => true;
+
 export interface CustomDesignReferral {
     id?: number;
     referralId?: number;
@@ -36,12 +38,16 @@ export interface CustomDesignReferral {
     designs?: Design[];
 }
 
+export const isCustomDesignReferral = (obj: any): obj is  CustomDesignReferral  => true;
+
 export interface EquipmentReferral {
     id?: number;
     referralId?: number;
     product: string;
     modifications: string;
 }
+
+export const isEquipmentReferral = (obj: any): obj is EquipmentReferral => true;
 
 export interface OTReferral {
     id?: number;
@@ -56,6 +62,8 @@ export interface OTReferral {
     documents?: OTDocument[];
 }
 
+export const isOTReferral = (obj: any): obj is OTReferral => true;
+
 export interface ServiceReferral {
     id?: number;
     referralId?: number;
@@ -63,6 +71,8 @@ export interface ServiceReferral {
     serviceDescription: string;
     serialNumber?: string;
 }
+
+export const isServiceReferral = (obj: any): obj is ServiceReferral => true;
 
 export interface Referral {
     id?: number;
@@ -72,3 +82,5 @@ export interface Referral {
     OTReferrals?: OTReferral[];
     services?: ServiceReferral[];
 }
+
+export const isReferral = (obj: any): obj is Referral => true;
