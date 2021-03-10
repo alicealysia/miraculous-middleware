@@ -33,6 +33,6 @@ export default  {
         'read:any': ['*']
     },
     client: {
-        'read: any': ['*']
+        'read:any': ['*']
     }
 }

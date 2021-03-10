@@ -14,7 +14,7 @@ export default async (connection: Pool, userId: number) => {
 
     return {
         ..._user,
-        accessRights: _user.accessRights.split(','),
+        accessRights: _user.accessRights.replace(/\s+/g, '').split(','),
         availability: _availability,
         leave: _leave,
         skills: _skills,

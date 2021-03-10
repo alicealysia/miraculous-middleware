@@ -1,4 +1,5 @@
 import byId from './by-id'
+import {Referral} from '../../../../types'
 import custom from './custom'
 import equipment from './equipment'
 import list from './list'
@@ -10,12 +11,12 @@ import {getPool} from '../../pool'
 
 export const readOne = async(referralId: number) => {
     const pool = await getPool();
-    let referral = await byId(pool, referralId);
-    referral.customDesigns = await custom(pool, referralId);
-    referral.equipmentReferrals = await equipment(pool, referralId);
-    referral.OTReferrals = await ot(pool, referralId);
-    referral.services = await service(pool, referralId);
-    return referral;
+    const details = await byId(pool, referralId);
+    const customDesigns = await custom(pool, referralId);
+    const equipmentReferrals = await equipment(pool, referralId);
+    const OTReferrals = await ot(pool, referralId);
+    const services = await service(pool, referralId);
+    return {...details, customDesigns, equipmentReferrals, OTReferrals, services} as Referral;
 }
 export const readList = async(clientId: number) => getPool().then(pool => list(pool, clientId));
 

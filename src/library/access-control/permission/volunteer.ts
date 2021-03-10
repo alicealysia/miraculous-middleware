@@ -15,7 +15,7 @@ export default {
         'update:own': ['*']
     },
     project: {
-        'read:own': ["projectId", "assignment", "projectName", "due", "projectDescription", "clientName"]
+        'read:own': ["*", '!assignments']
     },
     user: {
         'read:own': ['*', '!userHash'],

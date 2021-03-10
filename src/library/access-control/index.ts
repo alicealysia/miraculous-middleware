@@ -46,3 +46,5 @@ class idInit {
         return accessManager(this._user, this._action, this._resource, _id, true);
     }
 }
+
+export default accessControl;

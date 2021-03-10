@@ -7,6 +7,6 @@ export default {
     },
     skill: {
         'create:any': ['*'],
-        'read: any': ['*']
+        'read:any': ['*']
     }
 }

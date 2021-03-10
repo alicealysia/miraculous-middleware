@@ -5,7 +5,6 @@ import list from '../../task/read/list'
 
 export default async(pool: Pool, userId: number) => {
     const initialQuery = await pool.query('call user_read_assignments(?)', userId).then(results => results[0] as UserAssignment[]);
-    console.log(initialQuery);
     return Promise.all(initialQuery.map(
         (assignment: UserAssignment) => list(pool, assignment.id).then(taskList => ({
            id: assignment.id,

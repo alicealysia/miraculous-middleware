@@ -11,15 +11,15 @@ export default async (user: User, action: Action, resource: Resource, id?: numbe
         return anyPerm;
     }
     if (!id) {
-        return false;
+        throw Error('id required for ownership check');
     }
     const ownPerm = ac.permission({...query, possession: 'own'});
     if (!ownPerm.granted) {
-        return false;
+        throw Error('user unauthorized');
     }
     const ownership = await isOwn(user, action, resource, id, list);
     if (!ownership) {
-        return false;
+        throw Error('user does not own resource');
     }
     return ownPerm;
 }

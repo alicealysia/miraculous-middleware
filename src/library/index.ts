@@ -1,3 +1,4 @@
 import database from './database';
+import accessControl from './access-control'
 
-export {database};
+export {database, accessControl};
