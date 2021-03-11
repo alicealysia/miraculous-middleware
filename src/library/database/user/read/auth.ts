@@ -8,5 +8,5 @@ export default async (connection: Pool, email: string, password: string) => {
     if (legitValue) {
         return byId(connection, id);
     }
-    return new Error('incorrect User');
+    throw new Error('incorrect password');
 }
