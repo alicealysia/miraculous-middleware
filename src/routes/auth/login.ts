@@ -25,8 +25,8 @@ router.post(
                 if (err) {
                     return next(err);
                 }
-                const token = sign({uid: user.id, iat: Math.floor(Date.now() / 1000), iss: 'database.tadact.org.au'}, secret);
-                return response.json({user, token});
+                const token = sign({uid: user.id, iat: Math.floor(Date.now() / 1000)}, secret, {expiresIn: '2 days', issuer: 'database.tadact.org.au'});
+                return response.json({token});
             });
             //success!
         }) (request, response, next);

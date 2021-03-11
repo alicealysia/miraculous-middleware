@@ -3,6 +3,10 @@ import {Request, Response, NextFunction} from 'express'
 
 const router = Router();
 
+router.get('/', (request: Request, response: Response, next: NextFunction) => {
+    return response.json(request.user);
+})
+
 router.get('/test', (request: Request, response: Response, next: NextFunction) => {
     return response.json({message: 'success!'});
 })
