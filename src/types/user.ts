@@ -30,6 +30,7 @@ export interface User {
     hourlyRate: number;
     accessRights: string[];
     xeroId?: number;
+    msalToken?: string;
     availability?: Availability[];
     leave?: Leave[];
     skills?: Skill[];

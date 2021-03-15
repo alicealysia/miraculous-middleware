@@ -2,8 +2,9 @@ import wwvp from './wwvp';
 import passwordQuery from './password';
 import skill from './skill'
 import details from './details'
+import msal from './msal'
 
-import {getConnection} from '../../pool'
+import {getConnection, getPool} from '../../pool'
 import {User} from '../../../../types'
 import del from '../delete'
 import hours from '../create/hours'
@@ -29,9 +30,14 @@ export default async(user:User) => {
 }
 
 export const resetPassword = async(userId: number, password: string) => {
-    const connection = await getConnection;
+    const connection = await getPool();
     await passwordQuery(connection, userId, password);
     connection.release();
+}
+
+export const setMSAL = async(userId: number, msalToken: string) => {
+    const connection = await getPool();
+    await msal(connection, userId, msalToken);
 }
 
 export {wwvp, passwordQuery, skill, details}

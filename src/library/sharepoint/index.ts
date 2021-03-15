@@ -1,6 +1,8 @@
 const msal = require('@azure/msal-node');
 
-const REDIRECT_URI = 'http://localhost:8080/sharepoint/redirect';
+import users from './users'
+
+const REDIRECT_URI = 'http://localhost:8080/api/sharepoint/redirect';
 
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
     throw new Error('unconfigured');
@@ -8,7 +10,7 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
 const config = {
     auth: {
         clientId: process.env.CLIENT_ID,
-        authority: "https://login.microsoftonline.com/common",
+        authority: "https://login.microsoftonline.com/f3c40ad1-b1f1-4acb-ab41-775c59682001",
         clientSecret: process.env.CLIENT_SECRET
     },
     system: {
@@ -39,5 +41,7 @@ export const getToken = async (code: string) => {
         scopes: ["user.read"],
         redirectUri: REDIRECT_URI
     };
-    return pca.acquireTokenByCode(tokenRequest)
+    return pca.acquireTokenByCode(tokenRequest);
 }
+
+export {users}
