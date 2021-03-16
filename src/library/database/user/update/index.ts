@@ -8,6 +8,7 @@ import {getConnection, getPool} from '../../pool'
 import {User} from '../../../../types'
 import del from '../delete'
 import hours from '../create/hours'
+import xero from './xero';
 
 export default async(user:User) => {
     if (!user.id) {
@@ -38,6 +39,11 @@ export const resetPassword = async(userId: number, password: string) => {
 export const setMSAL = async(userId: number, msalToken: string) => {
     const connection = await getPool();
     await msal(connection, userId, msalToken);
+}
+
+export const setXero = async(userId: number, xeroToken: string) => {
+    const connection = await getPool();
+    await xero(connection, userId, xeroToken);
 }
 
 export {wwvp, passwordQuery, skill, details}

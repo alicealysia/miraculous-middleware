@@ -1,4 +1,5 @@
 import {Task} from './task'
+import {TokenSet} from 'openid-client'
 
 export interface UninitUser {
     id?: number;
@@ -11,7 +12,8 @@ export interface UninitUser {
     WWVPexp?: Date;
     hourlyRate: number;
     accessRights: string;
-    xeroId?: number;
+    xeroToken?: string;
+    msalToken?: string;
     availability?: Availability[];
     leave?: Leave[];
     skills?: Skill[];
@@ -29,7 +31,7 @@ export interface User {
     WWVPexp?: Date;
     hourlyRate: number;
     accessRights: string[];
-    xeroId?: number;
+    xeroToken?: TokenSet;
     msalToken?: string;
     availability?: Availability[];
     leave?: Leave[];
@@ -47,7 +49,6 @@ export interface InsertUser {
     WWVPexp?: Date;
     hourlyRate: number;
     accessRights: string[];
-    xeroId?: number;
     availability?: Availability[];
     leave?: Leave[];
     skills?: Skill[];

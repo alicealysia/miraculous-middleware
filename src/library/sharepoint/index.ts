@@ -6,16 +6,16 @@ import sites from './sites'
 
 let client: Client;
 
-const REDIRECT_URI = 'http://localhost:8080/api/sharepoint/redirect';
+const REDIRECT_URI = process.env.NODE_ENV === 'production'? 'http://localhost/msal' : `${process.env.BASE_URL}/msal`;
 
-if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
+if (!process.env.MSAL_CLIENT_ID || !process.env.MSAL_CLIENT_SECRET) {
     throw new Error('unconfigured');
 }
 const config = {
     auth: {
-        clientId: process.env.CLIENT_ID,
+        clientId: process.env.MSAL_CLIENT_ID,
         authority: `https://login.microsoftonline.com/${process.env.TENNANT_ID}`,
-        clientSecret: process.env.CLIENT_SECRET
+        clientSecret: process.env.MSAL_CLIENT_SECRET
     },
     system: {
         loggerOptions: {
@@ -35,11 +35,11 @@ const authCodeUrlParameters = {
     redirectUri: REDIRECT_URI,
 };
 
-export const getCodeURL = async () => {
+const getCodeURL = async () => {
     return pca.getAuthCodeUrl(authCodeUrlParameters);
 }
 
-export const getToken = async (code: string) => {
+const getToken = async (code: string) => {
     const tokenRequest = {
         code,
         ...authCodeUrlParameters
@@ -54,4 +54,5 @@ export const getClient = (token: string) => {
     });
 }
 
-export {sites}
+
+export default {sites, getCodeURL, getClient, getToken}

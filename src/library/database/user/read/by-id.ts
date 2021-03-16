@@ -15,6 +15,7 @@ export default async (connection: Pool, userId: number) => {
     return {
         ..._user,
         accessRights: _user.accessRights.replace(/\s+/g, '').split(','),
+        xeroToken: _user.xeroToken? JSON.parse(_user.xeroToken): undefined,
         availability: _availability,
         leave: _leave,
         skills: _skills,
