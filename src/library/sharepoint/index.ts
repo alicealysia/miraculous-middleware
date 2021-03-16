@@ -31,7 +31,7 @@ const config = {
 const pca = new msal.ConfidentialClientApplication(config);
 
 const authCodeUrlParameters = {
-    scopes: ["User.Read", "Sites.FullControl.All"],
+    scopes: ["Files.Read.All"],
     redirectUri: REDIRECT_URI,
 };
 
@@ -42,21 +42,16 @@ export const getCodeURL = async () => {
 export const getToken = async (code: string) => {
     const tokenRequest = {
         code,
-        scopes: ["User.Read", "Sites.FullControl.All", "Sites.Read.All", "Sites.ReadWrite.All", "Sites.Manage.All"],
-        redirectUri: REDIRECT_URI
+        ...authCodeUrlParameters
     };
     return pca.acquireTokenByCode(tokenRequest);
 }
 
 export const getClient = (token: string) => {
-    if (client) {
-        return client;
-    }
-    client = Client.init({
+    return Client.init({
         debugLogging: true,
         authProvider: (done) => done(null, token)
-    })
-    return client;
+    });
 }
 
 export {sites}

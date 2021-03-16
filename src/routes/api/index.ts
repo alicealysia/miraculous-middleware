@@ -5,7 +5,7 @@ import sharepoint from './sharepoint'
 const router = Router();
 
 router.get('/', (request: Request, response: Response, next: NextFunction) => {
-    return response.json(request.User);
+    return response.json({...request.User, msalToken: ''});
 })
 
 router.get('/test', (request: Request, response: Response, next: NextFunction) => {
