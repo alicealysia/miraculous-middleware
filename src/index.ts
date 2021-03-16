@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/error-handler'
 import './library/passport'
 import {User} from './types'
+import 'isomorphic-fetch'
 
 const app = express();
 const port = 8080;
@@ -20,6 +21,7 @@ declare global {
         }
     }
 }
+
 
 app.use(express.json());
 app.use(express.text())

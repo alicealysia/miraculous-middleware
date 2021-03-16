@@ -1,6 +1,10 @@
 const msal = require('@azure/msal-node');
+//const MicrosoftGraph = require("@microsoft/microsoft-graph-client");
 
-import users from './users'
+import {Client} from '@microsoft/microsoft-graph-client'
+import sites from './sites'
+
+let client: Client;
 
 const REDIRECT_URI = 'http://localhost:8080/api/sharepoint/redirect';
 
@@ -10,7 +14,7 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
 const config = {
     auth: {
         clientId: process.env.CLIENT_ID,
-        authority: "https://login.microsoftonline.com/f3c40ad1-b1f1-4acb-ab41-775c59682001",
+        authority: `https://login.microsoftonline.com/${process.env.TENNANT_ID}`,
         clientSecret: process.env.CLIENT_SECRET
     },
     system: {
@@ -27,7 +31,7 @@ const config = {
 const pca = new msal.ConfidentialClientApplication(config);
 
 const authCodeUrlParameters = {
-    scopes: ["user.read"],
+    scopes: ["User.Read", "Sites.FullControl.All"],
     redirectUri: REDIRECT_URI,
 };
 
@@ -38,10 +42,21 @@ export const getCodeURL = async () => {
 export const getToken = async (code: string) => {
     const tokenRequest = {
         code,
-        scopes: ["user.read"],
+        scopes: ["User.Read", "Sites.FullControl.All", "Sites.Read.All", "Sites.ReadWrite.All", "Sites.Manage.All"],
         redirectUri: REDIRECT_URI
     };
     return pca.acquireTokenByCode(tokenRequest);
 }
 
-export {users}
+export const getClient = (token: string) => {
+    if (client) {
+        return client;
+    }
+    client = Client.init({
+        debugLogging: true,
+        authProvider: (done) => done(null, token)
+    })
+    return client;
+}
+
+export {sites}

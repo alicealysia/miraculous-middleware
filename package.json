@@ -22,6 +22,7 @@
   "dependencies": {
     "@azure/msal-common": "^4.0.2",
     "@azure/msal-node": "^1.0.1",
+    "@microsoft/microsoft-graph-client": "^2.2.1",
     "@pnp/graph": "^2.2.0",
     "@pnp/sp": "^2.2.0",
     "@types/bcrypt": "^3.0.0",
@@ -41,6 +42,7 @@
     "dotenv": "^8.2.0",
     "express-jwt": "^6.0.0",
     "express-promise-router": "^4.0.1",
+    "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
     "node-fetch": "^2.6.1",
