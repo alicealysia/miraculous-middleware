@@ -1,5 +1,5 @@
-import {create, createContract, createOTAssessment} from './create'
+import {create, assign} from './create'
 import update from './update'
-import {readList, readOne} from './read'
+import read from './read'
 
-export default {create, createContract, createOTAssessment, update, readList, readOne}
+export default {create, assign, update, read}

@@ -3,10 +3,10 @@ import assessment from './assessment'
 import contract from './contract'
 import notes from './notes'
 import byId from './by-id'
-import list from './list'
+import listQuery from './list'
 
 /** list returns a list of tasks dependant on the assignment ID, if not list, taskID is used to find a single task and its details */
-export const readOne = async(taskId: number) => {
+const one = async(taskId: number) => {
     const pool = await getPool();
     let task = await byId(pool, taskId);
     task.assessment = await assessment(pool, taskId);
@@ -14,4 +14,6 @@ export const readOne = async(taskId: number) => {
     task.notes = await notes(pool, taskId);
     return task;
 }
-export const readList = async(assignmentId: number) => getPool().then(pool => list(pool, assignmentId));
+const list = async(assignmentId: number) => getPool().then(pool => listQuery(pool, assignmentId));
+
+export default {one, list}

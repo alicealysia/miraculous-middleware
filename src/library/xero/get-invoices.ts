@@ -16,7 +16,7 @@ export default async(user: User, invoiceId?: string) => {
         return xero.accountingApi.getInvoice(process.env.XERO_TENNANT_ID, invoiceId).then(invoicesObject => {
             const invoices = invoicesObject.body.invoices;
             if (invoices) {
-                return invoices[0];
+                return {...invoices[0], url: `https://go.xero.com/AccountsReceivable/View.aspx?InvoiceID=${invoices[0].invoiceID}`};
             }
             return 'no invoices found';
         });
@@ -28,6 +28,6 @@ export default async(user: User, invoiceId?: string) => {
         invoiceNumber: invoice.invoiceNumber,
         date: invoice.date,
         total: invoice.total,
-        url: invoice.url
+        url: `https://go.xero.com/AccountsReceivable/View.aspx?InvoiceID=${invoice.invoiceID}`
     })));
 }

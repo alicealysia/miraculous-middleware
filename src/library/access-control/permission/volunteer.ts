@@ -7,13 +7,6 @@ export default {
         'read:own': ['*'],
         'create:own': ['*']
     },
-    material: {
-        'create:any': ['*']
-    },
-    assignMaterial: {
-        'create:own': ['*'],
-        'update:own': ['*']
-    },
     project: {
         'read:own': ["*", '!assignments']
     },

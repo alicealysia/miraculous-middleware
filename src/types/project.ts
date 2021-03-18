@@ -59,7 +59,10 @@ export interface Project {
     clientId: number,
     clientName?: string,
     assignments?: Assignment[],
-    materials?: Material[]
+    materials?: Material[],
+    materialsEstimate?: Material[],
+    quotes?: string[],
+    invoices?: string[]
 }
 
 export const isProject = (obj: any): obj is Project => true;
@@ -74,7 +77,10 @@ export interface InsertProject {
     projectType: ProjectType,
     clientId: number,
     assignments?: InsertAssignment[],
-    materials?: AssignMaterial[]
+    materials?: AssignMaterial[],
+    materialsEstimate?: AssignMaterial[],
+    quotes?: string[],
+    invoices?: string[]
 }
 
 export const isInsertProject = (obj: any): obj is InsertProject => true;

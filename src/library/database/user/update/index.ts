@@ -1,21 +1,21 @@
 import wwvp from './wwvp';
 import passwordQuery from './password';
 import skill from './skill'
-import details from './details'
-import msal from './msal'
+import info from './details'
+import setMSAL from './msal'
 
 import {getConnection, getPool} from '../../pool'
 import {User} from '../../../../types'
 import del from '../delete'
 import hours from '../create/hours'
-import xero from './xero';
+import setXero from './xero';
 
-export default async(user:User) => {
+const details = async(user:User) => {
     if (!user.id) {
         throw new Error('no id found');
     }
     const connection = await getConnection;
-    await details(connection, user);
+    await info(connection, user);
     if (user.WWVPno && user.WWVPexp) {
         await wwvp(connection, user.id, user.WWVPno, user.WWVPexp);
     }
@@ -30,20 +30,22 @@ export default async(user:User) => {
     connection.release();
 }
 
-export const resetPassword = async(userId: number, password: string) => {
+const password = async(userId: number, password: string) => {
     const connection = await getPool();
     await passwordQuery(connection, userId, password);
     connection.release();
 }
 
-export const setMSAL = async(userId: number, msalToken: string) => {
+const msal = async(userId: number, msalToken: string) => {
     const connection = await getPool();
-    await msal(connection, userId, msalToken);
+    await setMSAL(connection, userId, msalToken);
 }
 
-export const setXero = async(userId: number, xeroToken: string) => {
+const xero = async(userId: number, xeroToken: string) => {
     const connection = await getPool();
-    await xero(connection, userId, xeroToken);
+    await setXero(connection, userId, xeroToken);
 }
 
-export {wwvp, passwordQuery, skill, details}
+export default {details, password, msal, xero}
+
+export {wwvp, passwordQuery, skill, info as details}

@@ -6,9 +6,9 @@ import {getConnection} from '../../pool'
 import {InsertUser, Leave} from '../../../../types'
 import {hash} from 'bcrypt'
 
-export { leaveQuery, hours, details }
+export { create, assign, leaveQuery, hours, details }
 
-export default async (user: InsertUser, password: string) => {
+const create = async (user: InsertUser, password: string) => {
     const userHash = await hash(password, 12);
     const connection = await getConnection;
     const userId = await details(connection, user, userHash);
@@ -24,8 +24,10 @@ export default async (user: InsertUser, password: string) => {
     connection.release();
 }
 
-export const submitLeave = async(leave: Leave, userId: number) => {
+const leave = async(leave: Leave, userId: number) => {
     const connection = await getConnection;
     await leaveQuery(connection, userId, leave);
     connection.release();
 }
+
+const assign = {leave}

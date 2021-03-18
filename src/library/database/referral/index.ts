@@ -1,5 +1,5 @@
 import create from './create'
-import {readList, readOne} from './read'
+import read from './read'
 import update from './update'
 
-export default {create, readList, readOne, update}
+export default {create, read, update}

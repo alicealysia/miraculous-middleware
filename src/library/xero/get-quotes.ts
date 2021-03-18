@@ -25,6 +25,7 @@ export default async(user: User, quoteId?: string) => {
         title: quote.title,
         summary: quote.summary,
         id: quote.quoteID,
+        url: `https://go.xero.com/Accounts/Receivable/Quotes/View/${quote.quoteID}`,
         quoteNumber: quote.quoteNumber,
         contactName: quote.contact?.name,
         total: quote.total
