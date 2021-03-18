@@ -4,12 +4,13 @@ import DBcontract from '../task/read/contract'
 import {Closure, Project, UserCosts, Task, Contract} from '../../../types'
 
 export default async(projectId: number) => {
-    const project = await DBproject.readOne(projectId) as Project;
+    const project = await DBproject.read.one(projectId) as Project;
     if (!project.assignments) {
         throw new Error('project has no assignments');
     }
     const assignments = project.assignments;
     const materials = project.materials;
+    const materialEstimates = project.materials;
     let reports: string[] = [];
     const userCosts = assignments.map(assignment => assignment.tasks.reduce<UserCosts>((usercost: UserCosts, task: Task) => {
         if (task.estimatedHours === undefined || task.estimatedTravel === undefined || task.actualHours === undefined || task.actualTravel === undefined || !task.complete) {
@@ -49,9 +50,15 @@ export default async(projectId: number) => {
     const userCostTotal = userCosts.reduce<number>((total, current) => {
         return total + ((current.actualHours/3600000)* current.hourlyRate) + current.actualTravel;
     }, 0);
+
+    const materialEstimatesTotal = !materialEstimates? 0: materialEstimates.reduce<number>((total, current) => {
+        return total + current.cost * current.units;
+    }, 0);
+
     const materialCostTotal = !materials? 0: materials.reduce<number>((total, current) => {
         return total + current.cost * current.units;
     }, 0);
+
     const contractorCostTotal = contractorCosts.reduce<number>((total, current) => {return total + current}, 0);
     reports = reports.concat(contracts.reduce<string[]>((invoicesAndQuotes, contract) => {
         let newValues: string[] = [];
@@ -72,6 +79,7 @@ export default async(projectId: number) => {
         projectId: project.id,
         contractorCosts,
         materials,
+        materialEstimates,
         userCosts,
         reports,
         totalHours,

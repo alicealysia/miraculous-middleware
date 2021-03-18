@@ -19,6 +19,7 @@ export interface UserCosts {
 export interface Closure {
     projectId: number;
     userCosts: UserCosts[];
+    materialEstimates: Material[];
     materials: Material[];
     contractorCosts: number[];
     reports: string[];
