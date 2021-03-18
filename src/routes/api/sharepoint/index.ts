@@ -13,7 +13,7 @@ router.get('/consent', async (request: Request, response: Response, next: NextFu
 router.get('/token', async (request, response, next) => {
     const token = await sharepoint.getToken(request.query.code as string).catch(error => next(error));
     console.log(token);
-    await database.user.setMSAL(request.User.id, token.accessToken);
+    await database.user.update.msal(request.User.id, token.accessToken);
     request.User.msalToken = token.accessToken;
     return next();
 }, returnSuccess);

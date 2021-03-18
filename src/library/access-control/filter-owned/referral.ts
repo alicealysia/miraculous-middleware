@@ -5,6 +5,6 @@ export default async (user: User, referrals: Referral[]) => {
     if (!user.assignments) {
         throw new Error('no Assignments')
     }
-    const projects = await Promise.all(user.assignments.map(assignment => database.project.readOne(assignment.projectId)));
+    const projects = await Promise.all(user.assignments.map(assignment => database.project.read.one(assignment.projectId)));
     return referrals.filter(referral => projects.some(project => project.clientId === referral.clientId));
 }

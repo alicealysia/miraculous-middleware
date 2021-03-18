@@ -5,6 +5,6 @@ export default async (user: User, clientId: number) => {
     if (!user.assignments) {
         return false;
     }
-    const projects = await Promise.all(user.assignments.map(assignment => database.project.readOne(assignment.projectId)));
+    const projects = await Promise.all(user.assignments.map(assignment => database.project.read.one(assignment.projectId)));
     return projects.some(project => project.clientId === clientId);
 }

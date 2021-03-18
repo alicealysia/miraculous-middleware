@@ -10,13 +10,13 @@ router.get('/consent', async (request, response, next) => {
 
 router.get('/token', async (request, response, next) => {
     const token = await xero.apiCallback(request.url);
-    database.user.setXero(request.User.id, JSON.stringify(token));
+    database.user.update.xero(request.User.id, JSON.stringify(token));
     return next();
 }, returnSuccess);
 
 router.put('/token', async (request, response, next) => {
     const token = await xero.refresh();
-    database.user.setXero(request.User.id, JSON.stringify(token));
+    database.user.update.xero(request.User.id, JSON.stringify(token));
     return next();
 }, returnSuccess)
 
