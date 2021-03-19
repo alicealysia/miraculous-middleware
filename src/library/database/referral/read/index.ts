@@ -18,7 +18,17 @@ const one = async(referralId: number) => {
     const services = await service(pool, referralId);
     return {...details, customDesigns, equipmentReferrals, OTReferrals, services} as Referral;
 }
-const list = async(clientId: number) => getPool().then(pool => listQuery(pool, clientId));
+const list = async(clientId: number) => {
+    const pool = await getPool();
+    const spines = await listQuery(pool, clientId);
+    const referrals = await Promise.all(spines.map(referral => {
+        if (!referral.id) {
+            throw new Error('wtf???');
+        }
+        return one(referral.id);
+    }));
+    return referrals;
+}
 
 export default {one, list}
 

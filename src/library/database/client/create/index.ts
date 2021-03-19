@@ -18,6 +18,7 @@ export default async (client: InsertClient) => {
     if (client.services) {
         await services(connection, clientId, client.services);
     }
+    return clientId as number;
 }
 
 export {approvals as createApprovals, details as createDetails, services as createServices}

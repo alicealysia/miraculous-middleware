@@ -2,6 +2,7 @@ import Router from 'express-promise-router'
 import passport from 'passport';
 import auth from './auth'
 import api from './api'
+import unAuth from './unAuth'
 import {User} from '../types'
 import { Request, Response, NextFunction} from 'express';
 
@@ -14,5 +15,6 @@ router.use('/api', passport.authenticate('jwt', {session: false}), (request: Req
     }
     next();
 }, api);
+router.post('/unAuth/client', unAuth);
 
 export default router;

@@ -32,7 +32,7 @@ export interface Client {
     address: string;
     phone: string;
     email: string;
-    supportCoordinator: number;
+    supportCoordinator: string;
     funding: Funding;
     NDIS: NDIS;
     orgName: string;
@@ -50,7 +50,7 @@ export interface InsertClient {
     address: string;
     phone: string;
     email: string;
-    supportCoordinator: number;
+    supportCoordinator: string;
     funding: Funding;
     NDIS: NDIS;
     orgName: string;
