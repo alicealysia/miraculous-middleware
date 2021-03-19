@@ -3,6 +3,7 @@ import {Request, Response, NextFunction} from 'express'
 import sharepoint from './sharepoint'
 import xero from './xero'
 import client from './client'
+import project from './project'
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/sharepoint', sharepoint);
 router.use('/xero', xero);
 
 router.use('/client', client);
+router.use('/project', project);
 
 export default router;
