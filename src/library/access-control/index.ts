@@ -27,7 +27,7 @@ class accessControl {
     }
 }
 
-class idInit {
+export class idInit {
     private _user: User;
     private _action: Action;
     private _resource: Resource;

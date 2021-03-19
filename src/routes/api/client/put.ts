@@ -8,8 +8,8 @@ export default async (request: Request<any, any, Client, {id: number}>, response
         const clientId = request.query.id;
         const filter = await new accessControl(request.User).update(Resource.client).id(clientId);
         const client = {...request.body, id: clientId};
-        const id = await database.client.update(filter.filter(client));
-        return response.send(`${id}`);
+        await database.client.update(filter.filter(client));
+        return response.send(`success`);
     } catch (err) {
         return next(err);
     }
