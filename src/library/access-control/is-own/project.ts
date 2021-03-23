@@ -1,5 +1,7 @@
 import {User} from '../../../types'
 
+// is a project assigned to a user?
+
 export default (user: User, projectId: number) => {
     if (!user.assignments) {
         return false;
@@ -7,4 +9,4 @@ export default (user: User, projectId: number) => {
     return user.assignments.some(assignment => assignment.projectId === projectId);
 }
 
-//closure, assignMaterial, assignment
+//also used by closure, assignMaterial, assignment

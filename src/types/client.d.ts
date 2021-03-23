@@ -61,6 +61,3 @@ export interface InsertClient {
     approvals?: string[];
     services?: Service[];
 }
-
-export const isClient = (obj: any): obj is Client => true;
-export const isInsertClient = (obj: any): obj is InsertClient => true;

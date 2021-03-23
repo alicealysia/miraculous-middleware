@@ -1,7 +1,6 @@
 import {Request, Response, NextFunction} from 'express'
 import {database, accessControl} from '../../../../library'
-import {Permission} from 'accesscontrol'
-import { Resource, InsertAssignment, Project } from '../../../../types';
+import { Resource, InsertAssignment} from '../../../../types';
 
 export default async (request: Request<any, any, InsertAssignment, {id: number}>, response: Response, next: NextFunction) => {
     try {

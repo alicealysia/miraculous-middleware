@@ -55,8 +55,6 @@ export interface InsertUser {
     assignments?: UserAssignment[];
 }
 
-export const isUser = (obj: any): obj is User => true;
-
 export enum Weekday {
     sunday = 0,
     monday = 1,
@@ -74,15 +72,11 @@ export interface UserAssignment {
     tasks: Task[]
 }
 
-export const isUserAssignment = (obj: any): obj is UserAssignment => true;
-
 export interface Availability {
     workDay: Weekday;
     startTime: number;
     endTime: number;
 }
-
-export const isAvailability = (obj: any): obj is Availability => true;
 
 export interface Leave {
     id?: number;
@@ -90,11 +84,7 @@ export interface Leave {
     endDate: Date;
 }
 
-export const isLeave = (obj: any): obj is Leave => true;
-
 export interface Skill {
     id: number;
     skill: string;
 }
-
-export const isSkill = (obj: any): obj is Skill => true;

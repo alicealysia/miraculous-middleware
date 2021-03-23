@@ -13,7 +13,7 @@ export default async (request: Request<any, any, any, {taskId?: number, assignme
             throw new Error('no referral or client specified');
         }
         const tasks = await database.task.read.list(request.query.assignmentId);
-        const filteredTasks = await new accessControl(request.User).filterToOwned(tasks);
+        const filteredTasks = await new accessControl(request.User).read(Resource.task).list(tasks);
         return response.json(filteredTasks);
         
     } catch (err) {

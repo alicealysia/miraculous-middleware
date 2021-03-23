@@ -27,5 +27,3 @@ export interface Closure {
     totalCost: number;
 }
 
-export const isUserCosts = (obj: any): obj is UserCosts => true;
-export const isClosure = (obj: any): obj is Closure => true;

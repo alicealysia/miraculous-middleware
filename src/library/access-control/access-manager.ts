@@ -3,8 +3,8 @@ import ac from './permission'
 import {IQueryInfo} from 'accesscontrol'
 import isOwn from './is-own'
 
-
-export default async (user: User, action: Action, resource: Resource, id?: number, list?: boolean) => {
+//constructs a QueryInfo based off arguments, if possession is own, return isOwn function
+export default async (user: User, action: Action, resource: Resource, id?: number) => {
     const query: IQueryInfo = {action, resource, role: user.accessRights};
     const anyPerm = ac.permission({...query, possession: 'any'});
     if (anyPerm.granted) {
@@ -17,7 +17,7 @@ export default async (user: User, action: Action, resource: Resource, id?: numbe
     if (!ownPerm.granted) {
         throw Error('user unauthorized');
     }
-    const ownership = await isOwn(user, action, resource, id, list);
+    const ownership = await isOwn(user, action, resource, id);
     if (!ownership) {
         throw Error('user does not own resource');
     }

@@ -13,7 +13,7 @@ export default async (request: Request<any, any, any, {referralId?: number, clie
             throw new Error('no referral or client specified');
         }
         const referrals = await database.referral.read.list(request.query.clientId);
-        const filteredReferrals = await new accessControl(request.User).filterToOwned(referrals);
+        const filteredReferrals = await new accessControl(request.User).read(Resource.referral).list(referrals);
         return response.json(filteredReferrals);
         
     } catch (err) {

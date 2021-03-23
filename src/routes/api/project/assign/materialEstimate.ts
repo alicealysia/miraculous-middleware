@@ -1,6 +1,5 @@
 import {Request, Response, NextFunction} from 'express'
 import {database, accessControl} from '../../../../library'
-import {Permission} from 'accesscontrol'
 import { Resource, AssignMaterial } from '../../../../types';
 
 export default async (request: Request<any, any, AssignMaterial, {id: number}>, response: Response, next: NextFunction) => {

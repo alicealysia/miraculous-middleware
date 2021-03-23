@@ -10,7 +10,7 @@ export default async (request: Request<any, any, any, {id: number | undefined}>,
             return response.json(filter(project));
         }
         const projects = await database.project.read.list();
-        const filteredProjects = await new accessControl(request.User).filterToOwned(projects);
+        const filteredProjects = await new accessControl(request.User).read(Resource.project).list(projects);
         return response.json(filteredProjects);
         
     } catch (err) {

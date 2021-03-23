@@ -10,7 +10,7 @@ export default async (request: Request<any, any, any, {id: number | undefined}>,
             return response.json(filter(client));
         }
         const clients = await database.client.read.list();
-        const filteredClients = await new accessControl(request.User).filterToOwned(clients);
+        const filteredClients = await new accessControl(request.User).read(Resource.client).list(clients);
         return response.json(filteredClients);
         
     } catch (err) {
