@@ -7,7 +7,7 @@ export default async (request: Request<any, any, Referral, {id: number}>, respon
         const referralId = request.query.id;
         const filter = await new accessControl(request.User).update(Resource.referral).id(referralId);
         const referral = {...request.body, id: referralId};
-        await database.referral.update(filter.filter(referral));
+        await database.referral.update(filter(referral));
         return response.send(`success`);
     } catch (err) {
         return next(err);

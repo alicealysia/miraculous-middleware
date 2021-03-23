@@ -1,15 +1,21 @@
 import {User, Resource, Action} from '../../types'
+import {Permission} from 'accesscontrol'
 import accessManager from './access-manager'
 import filterOwned from './filter-owned'
+
+type instantReturn = Resource.client | Resource.project | Resource.skill | Resource.material;
+type idReturn = Resource.assignMaterial | Resource.assignment | Resource.closure | Resource.contract  | Resource.otAssessment | Resource.project | Resource.referral | Resource.task | Resource.user;
 
 class accessControl {
     private _user: User;
     constructor (user: User) {
         this._user = user;
     }
-    public create (resource: Resource) {
-        if (resource === (Resource.client || Resource.material || Resource.project || Resource.skill)) {
-            return accessManager(this._user, Action.create, resource);
+    public create(resource: instantReturn) : Promise<(data:any) => any>;
+    public create(resource: idReturn) : idInit;
+    public create (resource: instantReturn | idReturn){
+        if (resource === Resource.client || Resource.project || Resource.skill || Resource.material) {
+            return accessManager(this._user, Action.create, resource).then(permissions => permissions.filter);
         }
         return new idInit(this._user, Action.create, resource);
     }
@@ -39,7 +45,7 @@ export class idInit {
     }
 
     public id (_id: number) {
-        return accessManager(this._user, this._action, this._resource, _id);
+        return accessManager(this._user, this._action, this._resource, _id).then(permissions => permissions.filter);
     }
 
     public list(_id: number) {

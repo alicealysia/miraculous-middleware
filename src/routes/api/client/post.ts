@@ -5,9 +5,9 @@ import { Resource, InsertClient } from '../../../types';
 
 export default async (request: Request<any, any, InsertClient, any>, response: Response, next: NextFunction) => {
     try {
-        const filter = await new accessControl(request.User).create(Resource.client) as Permission;
+        const filter = await new accessControl(request.User).create(Resource.client);
         const client = request.body;
-        const id = await database.client.create(filter.filter(client));
+        const id = await database.client.create(filter(client));
         return response.send(`${id}`);
     } catch (err) {
         return next(err);

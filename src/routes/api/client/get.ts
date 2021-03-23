@@ -7,7 +7,7 @@ export default async (request: Request<any, any, any, {id: number | undefined}>,
         if (request.query.id) {
             const filter = await new accessControl(request.User).read(Resource.client).id(request.query.id);
             const client = await database.client.read.one(request.query.id);
-            return response.json(filter.filter(client));
+            return response.json(filter(client));
         }
         const clients = await database.client.read.list();
         const filteredClients = await new accessControl(request.User).filterToOwned(clients);
