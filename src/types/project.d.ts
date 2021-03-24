@@ -50,6 +50,7 @@ export interface Project {
     hoursEstimate: number,
     projectType: ProjectType,
     clientId: number,
+    amountInvoiced: number,
     clientName?: string,
     assignments?: Assignment[],
     materials?: Material[],
@@ -72,6 +73,7 @@ export interface InsertProject {
     materials?: AssignMaterial[],
     materialsEstimate?: AssignMaterial[],
     quotes?: string[],
-    invoices?: string[]
+    invoices?: string[],
+    amountInvoiced: number
 }
 

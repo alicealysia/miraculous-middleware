@@ -1,6 +1,7 @@
 import Router from 'express-promise-router'
 import {xero, database} from '../../../library'
 import returnSuccess from '../returnSuccess'
+import {Resource} from '../../../types'
 const router = Router();
 
 router.get('/consent', async (request, response, next) => {

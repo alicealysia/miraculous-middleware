@@ -7,6 +7,8 @@ import project from './project'
 import referral from './referral'
 import task from './task'
 import user from './user'
+import billing from './billing'
+import closure from './closure'
 
 const router = Router();
 
@@ -24,5 +26,7 @@ router.use('/project', project);
 router.use('/referral', referral);
 router.use('/task', task);
 router.use('/user', user);
+router.use(billing);
+router.use('/closure', closure);
 
 export default router;

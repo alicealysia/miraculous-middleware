@@ -23,7 +23,8 @@ const create = async(project: InsertProject) => {
         Promise.all(project.quotes.map(item => quotes(connection, projectId, item)));
     }
     if (project.invoices) {
-        Promise.all(project.invoices.map(item => invoices(connection, projectId, item)));
+        const amount = project.amountInvoiced / project.invoices.length;
+        Promise.all(project.invoices.map(item => invoices(connection, projectId, item, amount)));
     }
     return projectId;
 }
@@ -48,9 +49,9 @@ const quote = async(projectId: number, quoteId: string) => {
     return quotes(pool, projectId, quoteId);
 }
 
-const invoice = async(projectId: number, invoiceId: string) => {
+const invoice = async(projectId: number, invoiceId: string, amount: number) => {
     const pool = await getPool();
-    return invoices(pool, projectId, invoiceId);
+    return invoices(pool, projectId, invoiceId, amount);
 }
 
 const assign = {user, material, materialEstimate, quote, invoice};
