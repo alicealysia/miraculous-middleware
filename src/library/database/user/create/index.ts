@@ -1,17 +1,21 @@
 import hours from './hours'
 import details from './details'
 import leaveQuery from './leave'
-import {skill as updateSkill, wwvp as updateWWVP} from '../update'
-import {getConnection} from '../../pool'
+import {skill as updateSkill, wwvp as updateWWVP, passwordQuery} from '../update'
+import {getPool} from '../../pool'
 import {InsertUser, Leave} from '../../../../types'
 import {hash} from 'bcrypt'
 
 export { create, assign, leaveQuery, hours, details }
 
-const create = async (user: InsertUser, password: string) => {
-    const userHash = await hash(password, 12);
-    const connection = await getConnection;
-    const userId = await details(connection, user, userHash);
+const create = async (user: InsertUser, password?: string) => {
+
+    const connection = await getPool();
+    const userId = await details(connection, user);
+    if (password) {
+        const userHash = await hash(password, 12);
+        await passwordQuery(connection, userId, userHash);
+    }
     if (user.skills) {
         await updateSkill(connection, userId, user.skills);
     }
@@ -21,13 +25,11 @@ const create = async (user: InsertUser, password: string) => {
     if (user.WWVPno && user.WWVPexp) {
         await updateWWVP(connection, userId, user.WWVPno, user.WWVPexp);
     }
-    connection.release();
 }
 
 const leave = async(leave: Leave, userId: number) => {
-    const connection = await getConnection;
-    await leaveQuery(connection, userId, leave);
-    connection.release();
+    const connection = await getPool();
+    return leaveQuery(connection, userId, leave);
 }
 
 const assign = {leave}

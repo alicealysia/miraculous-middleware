@@ -5,6 +5,8 @@ import xero from './xero'
 import client from './client'
 import project from './project'
 import referral from './referral'
+import task from './task'
+import user from './user'
 
 const router = Router();
 
@@ -20,5 +22,7 @@ router.use('/xero', xero);
 router.use('/client', client);
 router.use('/project', project);
 router.use('/referral', referral);
+router.use('/task', task);
+router.use('/user', user);
 
 export default router;

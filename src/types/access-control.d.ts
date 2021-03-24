@@ -1,4 +1,4 @@
-import {User, Project, Assignment, Closure, Referral, Task, Client} from '.'
+import {User, Project, Assignment, Closure, Referral, Task, Client, Estimates, Costings} from '.'
 
 export enum Resource {
     client = 'client',
@@ -12,13 +12,14 @@ export enum Resource {
     contract = 'contract',
     otAssessment = 'otAssessment',
     assignment = 'assignment',
-    user = 'user'
+    user = 'user',
+    billing = 'billing'
 }
 
-export type readList = Resource.user | Resource.project | Resource.assignment | Resource.closure | Resource.referral | Resource.task | Resource.client;
-export type cantReadList = Resource.assignMaterial | Resource.contract | Resource.material | Resource.otAssessment | Resource.skill;
-export type createAnyRequired = Resource.client | Resource.project | Resource.skill | Resource.material;
-export type createOwnId = Resource.assignMaterial | Resource.assignment | Resource.closure | Resource.contract  | Resource.otAssessment | Resource.project | Resource.referral | Resource.task | Resource.user;
+export type readList = Resource.user | Resource.project | Resource.assignment | Resource.closure | Resource.referral | Resource.task | Resource.client | Resource.billing;
+export type cantReadList = Resource.assignMaterial | Resource.contract | Resource.material | Resource.otAssessment | Resource.skill ;
+export type createAnyRequired = Resource.client | Resource.project | Resource.skill | Resource.material | Resource.user;
+export type createOwnId = Resource.assignMaterial | Resource.assignment | Resource.closure | Resource.contract  | Resource.otAssessment | Resource.project | Resource.referral | Resource.task | Resource.billing;
 
 export type resolveReadList = {
     [Resource.user]: User[],
@@ -27,7 +28,8 @@ export type resolveReadList = {
     [Resource.closure]: Closure[],
     [Resource.referral]: Referral[],
     [Resource.task]: Task[],
-    [Resource.client]: Client[]
+    [Resource.client]: Client[],
+    [Resource.billing]: Array<Estimates | Costings>
 }
 
 export enum Action {

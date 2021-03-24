@@ -16,11 +16,13 @@ interface Contract {
     quoteLink?: string;
     invoiceLink?: string;
     cost?: number;
+    estimate: number;
 }
 
 export interface InsertContract {
     referringAgent: number;
     billerCode: string;
+    estimate: number;
 }
 
 

@@ -2,12 +2,12 @@ import {User, Resource, Action, readList, resolveReadList} from '../../../types'
 import ac from '../permission'
 import {IQueryInfo} from 'accesscontrol'
 import client from './client'
-import {projects, closures, assignment} from './project'
+import {projects, billing, assignment} from './project'
 import referral from './referral'
 import task from './task'
 
 //same typescript shinnanigans as accessControl.read.list
-async function filterOwned <T extends readList>(user: User, resource: T, obj: resolveReadList[T]) {
+async function filterOwned <T extends readList>(user: User, resource: T, obj: resolveReadList[T]): Promise<resolveReadList[T]> {
 
     //build a queryInfo object
     const query: IQueryInfo = {action: Action.read, resource, role: user.accessRights};
@@ -32,11 +32,10 @@ async function filterOwned <T extends readList>(user: User, resource: T, obj: re
             case Resource.client: 
                 return await client(user, obj as resolveReadList[Resource.client]).then(clients => clients.map(_client => ownPerm.filter(_client))); 
             break;
+            case Resource.billing:
+                return billing(user, obj as resolveReadList[Resource.billing]).map(bill => ownPerm.filter(bill));
             case Resource.project: 
                 return projects(user, obj as resolveReadList[Resource.project]).map(project => ownPerm.filter(project)); 
-            break;
-            case Resource.closure: 
-                return closures(user, obj as resolveReadList[Resource.closure]).map(closure => ownPerm.filter(closure)); 
             break;
             case Resource.assignment: 
                 return assignment(user, obj as resolveReadList[Resource.assignment]).map(assignment => ownPerm.filter(assignment)); 

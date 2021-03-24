@@ -1,4 +1,5 @@
-import {User, Task} from '../../../types'
+import {User, Task, Contract} from '../../../types'
+import {database} from '../../'
 
 //tasks reference assignment id when created, meaning we just need to check the given ID vs the user assignments
 
@@ -23,3 +24,15 @@ export const existing = async (user: User, taskId: number) => {
 }
 
 //contract, otAssessment
+
+export const existingContract = async (user: User, contractId: number) => {
+    if (!user.assignments) {
+        return false;
+    }
+    const tasks = await Promise.all(user.assignments.reduce<Task[]>((finalList: Task[], assignment) => finalList.concat(assignment.tasks), []).map(task => database.task.read.one(task.id)));
+    const contracts = tasks.reduce<Contract[]>((finalList: Contract[], task) => {
+        if (task.contract) {return finalList.concat(task.contract)}
+        return finalList
+    }, []);
+    return contracts.some(contract => contract.id === contractId);
+}

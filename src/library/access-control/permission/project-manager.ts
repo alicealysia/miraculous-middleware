@@ -25,7 +25,8 @@ export default  {
          'delete:any': ['*']
      },
      user: {
-         'read:any': ['*', '!userHash']
+         'read:any': ['*', '!userHash'],
+         'update:any': ['!id', '!accessRights']
      },
      referral: {
          'create:any': ['*'],

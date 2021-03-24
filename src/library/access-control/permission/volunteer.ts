@@ -12,6 +12,6 @@ export default {
     },
     user: {
         'read:own': ['*', '!userHash'],
-        'update:own': ['userHash']
+        'update:own': ['!id', '!hourlyRate', '!accessRights', '!assignments', '!skills']
     }
 }

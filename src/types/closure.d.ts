@@ -4,26 +4,67 @@
 //materials = project -> materialsUsed.units * materials.cost
 //contractors = project -> assignments -> contract.cost
 
-import {Material} from './index'
+import {Material, Contract, ProjectType} from './index'
 
-export interface UserCosts {
+export interface UserCostings {
+    fullName: string;
+    accessRights: string;
+    hourlyRate: number;
+    actualHours: number;
+    actualTravel: number;
+}
+
+export interface UserEstimates {
     fullName: string;
     accessRights: string;
     hourlyRate: number;
     hoursEstimate: number;
-    actualHours: number;
     estimatedTravel: number;
-    actualTravel: number;
+}
+
+export interface InsertClosure {
+    projectId: number;
+    finalReport: string;
+    totalHours: number;
+    totalCost: number;
+    totalQuote: number;
 }
 
 export interface Closure {
-    projectId: number;
-    userCosts: UserCosts[];
-    materialEstimates: Material[];
-    materials: Material[];
-    contractorCosts: number[];
-    reports: string[];
+    id: number;
+    projectName: string;
+    projectDescription: string;
+    enquiryDate: Date;
+    startDate: Date;
+    finishDate: Date;
+    projectType: ProjectType;
+    clientId: number;
     totalHours: number;
+    finalReport: string;
+    totalCost: number;
+    totalQuote: number;
+}
+
+export interface Estimates {
+    projectId: number;
+    userEstimates: UserEstimates[];
+    materialEstimates: Material[];
+    contracts: Contract[];
+    totalHours: number;
+    totalLabor: number;
+    totalMaterialCost: number;
+    totalContractEstimate: number;
     totalCost: number;
 }
 
+export interface Costings {
+    projectId: number;
+    userCostings: UserCostings[];
+    materials: Material[];
+    contracts: Contract[];
+    totalHours: number;
+    totalLabor: number;
+    totalMaterialCost: number;
+    totalContractCost: number;
+    totalCost: number;
+}

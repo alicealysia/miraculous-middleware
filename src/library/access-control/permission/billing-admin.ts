@@ -32,6 +32,10 @@ export default  {
     closure: {
         'read:any': ['*']
     },
+    billing: {
+        'read:any': ['*'],
+        'create:any': ['*']
+    },
     client: {
         'read:any': ['*']
     }

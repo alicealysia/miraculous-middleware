@@ -1,4 +1,4 @@
-import {User, Project, Closure, Assignment} from '../../../types'
+import {User, Project, Estimates, Costings, Assignment} from '../../../types'
 
 export const projects = (user: User, projectArray: Project[]) => {
     if (!user.assignments) {
@@ -8,13 +8,13 @@ export const projects = (user: User, projectArray: Project[]) => {
     return projectArray.filter(project => assignments.some(assignment => assignment.projectId === project.id));
 }
 
-export const closures = (user: User, closureArray: Closure[]) => {
+export const billing = (user: User, billingArray: Array<Estimates | Costings>) => {
     if (!user.assignments) {
         throw new Error('no Assignments')
     }
     const assignments = user.assignments;
     
-    return closureArray.filter(closure => assignments.some(assignment => assignment.projectId === closure.projectId));
+    return billingArray.filter(billing => assignments.some(assignment => assignment.projectId === billing.projectId));
 }
 
 export const assignment = (user: User, assignmentArray: Assignment[]) => {
