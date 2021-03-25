@@ -1,6 +1,5 @@
-import {PoolConnection} from 'promise-mysql'
-import {Availability} from '../../../../types'
+import {Pool} from 'promise-mysql'
 
-export default async (connection: PoolConnection, userId: number) => {
+export default async (connection: Pool, userId: number) => {
     return connection.query('call user_delete_availability(?)', userId);
 }

@@ -3,8 +3,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.pug",
-    "src/**/*.css",
-    "src/**/*.d.ts"
+    "src/**/*.css"
   ],
   "compilerOptions": {
     "target": "ES5",
@@ -15,12 +14,5 @@
     "strict": true,
     "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true
-  },
-  "paths": {
-    "@localtypes/*": ["types"],
-    "@library/*": ["library"],
-    "@middleware/*": ["middleware"],
-    "@routes/*": ["routes"],
-    "@utils/*": ["utils"]
   }
 }

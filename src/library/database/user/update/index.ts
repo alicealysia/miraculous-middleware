@@ -4,7 +4,7 @@ import skill from './skill'
 import info from './details'
 import setMSAL from './msal'
 
-import {getConnection, getPool} from '../../pool'
+import {getPool} from '../../pool'
 import {User} from '../../../../types'
 import del from '../delete'
 import hours from '../create/hours'
@@ -14,7 +14,7 @@ const details = async(user:User) => {
     if (!user.id) {
         throw new Error('no id found');
     }
-    const connection = await getConnection;
+    const connection = await getPool();
     await info(connection, user);
     if (user.WWVPno && user.WWVPexp) {
         await wwvp(connection, user.id, user.WWVPno, user.WWVPexp);

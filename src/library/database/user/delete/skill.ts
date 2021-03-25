@@ -1,7 +1,5 @@
-import { formatWithOptions } from 'date-fns/fp';
-import {PoolConnection} from 'promise-mysql'
-import {Skill} from '../../../../types'
+import {Pool} from 'promise-mysql'
 
-export default async (connection: PoolConnection, userId: number) => {
+export default async (connection: Pool, userId: number) => {
     connection.query('call user_delete_skill(?)', userId);
 }
