@@ -6,8 +6,8 @@ export default async (request: Request<any, any, BeginTask, {id: number}>, respo
     try {
         const taskId = request.query.id;
         const filter = await new accessControl(request.User).update(Resource.task).id(taskId);
-        const task = {...request.body, id: taskId};
-        await database.task.update.begin(filter(task));
+        const task: BeginTask = {...request.body, id: taskId};
+        await database.task.update.begin(filter(task) as BeginTask);
         return response.send(`success`);
     } catch (err) {
         return next(err);

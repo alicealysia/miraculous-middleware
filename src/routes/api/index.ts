@@ -9,6 +9,8 @@ import task from './task'
 import user from './user'
 import billing from './billing'
 import closure from './closure'
+import skill from './skill'
+import material from './material'
 
 const router = Router();
 
@@ -28,5 +30,7 @@ router.use('/task', task);
 router.use('/user', user);
 router.use(billing);
 router.use('/closure', closure);
+router.use('/skill', skill);
+router.use('/material', material);
 
 export default router;

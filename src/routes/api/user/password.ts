@@ -5,7 +5,8 @@ import {Request, Response, NextFunction} from 'express'
 export default async (request: Request<any, any, {password: string, existingPassword?: string}, {id: number}>, response: Response, next: NextFunction) => {
     try {
     const uid = request.query.id;
-    const filter = await new accessControl(request.User).update(Resource.user).id(uid);
+    // we're only concerned with if the user can be updated, so we don't need to keep this around.
+    await new accessControl(request.User).update(Resource.user).id(uid);
     if (request.User.id === uid) {
         if (!request.body.existingPassword) {
             throw new Error('no existing password');
@@ -15,7 +16,7 @@ export default async (request: Request<any, any, {password: string, existingPass
             throw new Error('incorrect old password');
         } 
     }
-    await database.user.update.password(uid, filter(request.body).password);
+    await database.user.update.password(uid, request.body.password);
     return response.send('success');
 
     } catch(err) {

@@ -4,9 +4,9 @@ import { Resource } from '../../../types';
 
 export default async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const materials = await database.material.read();
-        const filteredMaterials = await new accessControl(request.User).read(Resource.material).list(materials);
-        return response.json(filteredMaterials);
+        const skills = await database.skill.read();
+        const filteredSkills = await new accessControl(request.User).read(Resource.skill).list(skills);
+        return response.json(filteredSkills);
         
     } catch (err) {
         return next(err);

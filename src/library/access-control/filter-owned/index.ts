@@ -46,6 +46,9 @@ async function filterOwned <T extends readList>(user: User, resource: T, obj: re
             case Resource.task: 
                 return task(user, obj as resolveReadList[Resource.task]).map(_task => ownPerm.filter(_task)); 
             break;
+            default:
+                return [];
+            break;
         }
     }
     throw new Error('unauthorized');

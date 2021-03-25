@@ -4,8 +4,8 @@ import { Resource } from '../../../../types';
 
 export default async (request: Request<any, any, {quote: string}, {id: number}>, response: Response, next: NextFunction) => {
     try {
-        const filter = await new accessControl(request.User).update(Resource.project).id(request.query.id);
-        const quote = filter({quotes: request.body.quote}).quotes;
+        const filter = await new accessControl(request.User).create(Resource.billing).id(request.query.id);
+        const quote = filter(request.body.quote);
         await database.project.assign.quote(request.query.id, quote);
         return response.send('success');
     } catch (err) {

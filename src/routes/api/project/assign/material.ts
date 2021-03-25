@@ -4,8 +4,8 @@ import { Resource, AssignMaterial } from '../../../../types';
 
 export default async (request: Request<any, any, AssignMaterial, {id: number}>, response: Response, next: NextFunction) => {
     try {
-        const filter = await new accessControl(request.User).update(Resource.assignMaterial).id(request.query.id);
-        const material = filter({materials: request.body}).materials;
+        const filter = await new accessControl(request.User).create(Resource.assignMaterial).id(request.query.id);
+        const material = filter(request.body);
         await database.project.assign.material(request.query.id, material);
         return response.send('success');
     } catch (err) {
