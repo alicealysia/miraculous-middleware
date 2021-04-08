@@ -1,11 +1,13 @@
+import {Resource} from '../../../types'
+
 export default {
-    user: {
+    [Resource.user]: {
         'create:any': ['*'],
         'read:any': ['*', '!userHash'],
         'update:any': ['*'],
         'delete:any': ['*']
     },
-    skill: {
+    [Resource.skill]: {
         'create:any': ['*'],
         'read:any': ['*']
     }

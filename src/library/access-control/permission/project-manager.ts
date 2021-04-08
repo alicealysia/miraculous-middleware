@@ -1,68 +1,64 @@
+import {Resource} from '../../../types'
+
 export default  {
     $extend: ['occupationalTherapist', 'contractor'],
-     note: {
+     [Resource.contract]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     contract: {
+     [Resource.otAssessment]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     otAssessment: {
+     [Resource.task]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     task: {
-         'create:any': ['*'],
-         'read:any': ['*'],
-         'update:any': ['*'],
-         'delete:any': ['*']
-     },
-     user: {
+     [Resource.user]: {
          'read:any': ['*', '!userHash'],
          'update:any': ['!id', '!accessRights']
      },
-     referral: {
+     [Resource.referral]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     material: {
+     [Resource.material]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     assignMaterial: {
+     [Resource.assignMaterial]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     assignment: {
+     [Resource.assignment]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     project: {
+     [Resource.project]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     closure: {
+     [Resource.closure]: {
          'read:any': ['*'],
          'create:any': ['*']
      },
-     client: {
+     [Resource.client]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],

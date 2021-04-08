@@ -1,6 +1,8 @@
+import {Resource} from '../../../types'
+
 export default {
     $extend: ['volunteer'],
-        contract: {
+        [Resource.contract]: {
             'read:own': ['*'],
             'update:own': ['*'],
             'create:own': ['*']

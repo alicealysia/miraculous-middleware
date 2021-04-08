@@ -1,15 +1,17 @@
+import {Resource} from '../../../types'
+
 export default {
     $extend: ['volunteer'],
-        otAssessment: {
+        [Resource.otAssessment]: {
             'read:own': ['*'],
             'update:own': ['*'],
             'create:own': ['*']
         },
-        referral: {
+        [Resource.referral]: {
             'read:any': ['*'],
             'update:any': ['*']
         },
-        client: {
+        [Resource.client]: {
             'read:any': ['*']
         }
 }

@@ -1,16 +1,14 @@
+import {Resource} from '../../../types'
+
 export default {
-    task: {
+    [Resource.task]: {
         'read:own': ['*'],
         'update:own': ['*', '!id', '!assignment', '!taskName', '!due', '!taskType'],
     },
-    note: {
-        'read:own': ['*'],
-        'create:own': ['*']
-    },
-    project: {
+    [Resource.project]: {
         'read:own': ["*", '!assignments']
     },
-    user: {
+    [Resource.user]: {
         'read:own': ['*', '!userHash'],
         'update:own': ['!id', '!hourlyRate', '!accessRights', '!assignments', '!skills']
     }

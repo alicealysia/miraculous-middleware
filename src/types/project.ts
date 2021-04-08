@@ -1,34 +1,33 @@
 import {Task} from './task'
 
 export interface Material {
-    id: number,
-    materialName: string,
-    cost: number,
-    serialCode?: string,
+    id: number;
+    materialName: string;
+    cost: number;
+    serialCode?: string;
     units: number
 }
 
 export interface InsertMaterial {
-    materialName: string,
-    cost: number,
-    serialCode?: string
+    materialName: string;
+    cost: number;
+    serialCode?: string;
 }
 
 export interface AssignMaterial {
-    id: number,
-    units: number
+    id: number;
+    units: number;
 }
 
 
 export interface Assignment {
-    id: number,
-    userId: number,
-    userName: string,
-    accessRights?: string,
-    hourlyRate: number,
-    tasks: Task[]
+    id: number;
+    userId: number;
+    userName: string;
+    accessRights?: string;
+    hourlyRate: number;
+    tasks: Task[];
 }
-
 
 export interface InsertAssignment {
     userId: number
@@ -58,7 +57,6 @@ export interface Project {
     quotes?: string[],
     invoices?: string[]
 }
-
 
 export interface InsertProject {
     projectName: string,

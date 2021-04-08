@@ -8,6 +8,8 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,

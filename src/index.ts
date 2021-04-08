@@ -1,13 +1,14 @@
 const result = require('dotenv').config();
 import express from 'express'
 import passport from 'passport'
-import {bootFunc} from './boot';
+// import {bootFunc} from './boot';
 import routes from './routes';
 import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/error-handler'
 import './library/passport'
 import 'isomorphic-fetch'
 import { User } from './types';
+import "reflect-metadata";
 
 const app = express();
 const port = 8080;
@@ -22,7 +23,6 @@ declare global {
     }
 }
 
-
 app.use(express.json());
 app.use(express.text())
 app.use(express.raw());
@@ -35,7 +35,7 @@ app.use(errorHandler);
 
 if (result.parsed) {
     console.log(result.parsed);
-    bootFunc();
+    // bootFunc();
 } else {
     throw result.error;
 }

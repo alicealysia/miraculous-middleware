@@ -36,14 +36,12 @@ export interface CustomDesignReferral {
     designs?: Design[];
 }
 
-
 export interface EquipmentReferral {
     id?: number;
     referralId?: number;
     product: string;
     modifications: string;
 }
-
 
 export interface OTReferral {
     id?: number;
@@ -58,7 +56,6 @@ export interface OTReferral {
     documents?: OTDocument[];
 }
 
-
 export interface ServiceReferral {
     id?: number;
     referralId?: number;
@@ -67,13 +64,11 @@ export interface ServiceReferral {
     serialNumber?: string;
 }
 
-
 export interface Referral {
-    id?: number;
-    clientId?: number;
-    customDesigns?: CustomDesignReferral[];
-    equipmentReferrals?: EquipmentReferral[];
-    OTReferrals?: OTReferral[];
-    services?: ServiceReferral[];
+    id?: number
+    clientId?: number
+    customDesigns?: CustomDesignReferral[]
+    equipmentReferrals?: EquipmentReferral[]
+    OTReferrals?: OTReferral[]
+    services?: ServiceReferral[]
 }
-

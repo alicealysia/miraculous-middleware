@@ -1,42 +1,41 @@
+import {Resource} from '../../../types'
+
 export default  {
-    note: {
+    [Resource.contract]: {
         'read:any': ['*']
     },
-    contract: {
+    [Resource.otAssessment]: {
         'read:any': ['*']
     },
-    otAssessment: {
-        'read:any': ['*']
-    },
-    task: {
+    [Resource.task]: {
         'read:any': ['*', '!userHash']
     },
-    user: {
+    [Resource.user]: {
         'read:any': ['*']
     },
-    referral: {
+    [Resource.referral]: {
         'read:any': ['*']
     },
-    material: {
+    [Resource.material]: {
         'read:any': ['*']
     },
-    assignMaterial: {
+    [Resource.assignMaterial]: {
         'read:any': ['*']
     },
-    assignment: {
+    [Resource.assignment]: {
         'read:any': ['*']
     },
-    project: {
+    [Resource.project]: {
         'read:any': ['*']
     },
-    closure: {
+    [Resource.closure]: {
         'read:any': ['*']
     },
-    billing: {
+    [Resource.billing]: {
         'read:any': ['*'],
         'create:any': ['*']
     },
-    client: {
+    [Resource.client]: {
         'read:any': ['*']
     }
 }

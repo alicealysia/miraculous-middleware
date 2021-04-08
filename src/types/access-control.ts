@@ -6,19 +6,19 @@ import { Contract, InsertContract, InsertOTAssessment, InsertTask, OTAssessment,
 import { InsertUser, Skill } from './user';
 
 export enum Resource {
-    client = 'client',
-    closure = 'closure',
-    material = 'material',
-    assignMaterial = 'assignMaterial',
-    project = 'project',
-    referral = 'referral',
-    skill = 'skill',
-    task = 'task',
-    contract = 'contract',
-    otAssessment = 'otAssessment',
-    assignment = 'assignment',
-    user = 'user',
-    billing = 'billing'
+    client = 'clients',
+    closure = 'closures',
+    material = 'materials',
+    assignMaterial = 'assignMaterials',
+    project = 'projects',
+    referral = 'referrals',
+    skill = 'skills',
+    task = 'tasks',
+    contract = 'contracts',
+    otAssessment = 'otAssessments',
+    assignment = 'assignments',
+    user = 'users',
+    billing = 'billings'
 }
 
 export enum Read {
