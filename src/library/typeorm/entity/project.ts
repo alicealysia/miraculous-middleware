@@ -1,4 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable} from 'typeorm'
+import { Client } from './client';
 import {Task} from './task'
 import {User} from './user'
 
@@ -31,11 +32,11 @@ export class XeroLink {
 export class Assignment {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Project, project => project.assignments)
+    @ManyToOne(() => Project, project => project.assignments,  {cascade: true})
     projectId!: Project;
-    @ManyToOne(() => User, user => user.assignments)
+    @ManyToOne(() => User, user => user.assignments,  {cascade: true})
     userId!: User;
-    @OneToMany(() => Task, task => task.assignment)
+    @OneToMany(() => Task, task => task.assignment, {cascade: true})
     tasks!: Task[];
 }
 
@@ -51,7 +52,7 @@ export class Project {
     id!: number;
     @Column()
     projectName!: string;
-    @Column()
+    @Column({length: 1000})
     projectDescription!: string;
     @Column()
     enquiryDate!: Date;
@@ -61,26 +62,26 @@ export class Project {
     finishEstimate!: Date;
     @Column()
     hoursEstimate!: number;
-    @Column()
+    @Column('enum')
     projectType!: ProjectType;
-    @Column()
-    clientId!: number;
+    @ManyToOne(() => Client, client => client.projects)
+    clientId!: Client;
     @Column()
     amountInvoiced!: number;
     @Column()
     clientName?: string;
-    @OneToMany(() => Assignment, assignment => assignment.projectId)
+    @OneToMany(() => Assignment, assignment => assignment.projectId, {cascade: true})
     assignments!: Assignment[];
-    @ManyToMany(() => Material )
+    @ManyToMany(() => Material , {cascade: true})
     @JoinTable()
     materials!: Material[];
-    @ManyToMany(() => Material )
+    @ManyToMany(() => Material, {cascade: true} )
     @JoinTable()
     materialsEstimate!: Material[];
-    @ManyToMany(() => XeroLink)
+    @ManyToMany(() => XeroLink, {cascade: true})
     @JoinTable()
     quotes!: XeroLink[]
-    @ManyToMany(() => XeroLink)
+    @ManyToMany(() => XeroLink, {cascade: true})
     @JoinTable()
     invoices!: XeroLink[]
 }

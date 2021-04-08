@@ -23,3 +23,5 @@ export const getConnection = async () => {
     connection = await createConnection(config);
     return connection;
 }
+
+export * from './entity'

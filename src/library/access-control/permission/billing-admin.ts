@@ -1,4 +1,4 @@
-import {Resource} from '../../../types'
+import {Resource} from '../../../types/access-control'
 
 export default  {
     [Resource.contract]: {
@@ -19,9 +19,6 @@ export default  {
     [Resource.material]: {
         'read:any': ['*']
     },
-    [Resource.assignMaterial]: {
-        'read:any': ['*']
-    },
     [Resource.assignment]: {
         'read:any': ['*']
     },
@@ -30,10 +27,6 @@ export default  {
     },
     [Resource.closure]: {
         'read:any': ['*']
-    },
-    [Resource.billing]: {
-        'read:any': ['*'],
-        'create:any': ['*']
     },
     [Resource.client]: {
         'read:any': ['*']

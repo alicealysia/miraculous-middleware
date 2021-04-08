@@ -28,9 +28,9 @@ export enum ServiceType {
 export class DesignLink {
     @PrimaryGeneratedColumn()
     id!: number;
-    @Column()
+    @Column('enum')
     design!: Design;
-    @ManyToOne(() => CustomDesignReferral, customDesignReferral => customDesignReferral.designs)
+    @ManyToOne(() => CustomDesignReferral, customDesignReferral => customDesignReferral.designs, {cascade: true})
     customDesignId!: CustomDesignReferral;
 }
 
@@ -38,9 +38,9 @@ export class DesignLink {
 export class OTDocument {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => OTReferral, otReferral => otReferral.documents)
+    @ManyToOne(() => OTReferral, otReferral => otReferral.documents, {cascade: true})
     referralOtIId!: OTReferral;
-    @Column()
+    @Column('enum')
     docType!: OTDocType;
     @Column()
     docLink!: string;
@@ -56,7 +56,7 @@ export class CustomDesignReferral {
     productType!: string;
     @Column()
     concept!: string;
-    @OneToMany(() => DesignLink, designLink => designLink.customDesignId)
+    @OneToMany(() => DesignLink, designLink => designLink.customDesignId, {cascade: true})
     designs!: DesignLink[];
 }
 
@@ -64,7 +64,7 @@ export class CustomDesignReferral {
 export class EquipmentReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.equipmentReferrals)
+    @ManyToOne(() => Referral, referral => referral.equipmentReferrals, {cascade: true})
     referralId!: Referral;
     @Column()
     product!: string;
@@ -76,23 +76,23 @@ export class EquipmentReferral {
 export class OTReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.OTReferrals)
+    @ManyToOne(() => Referral, referral => referral.OTReferrals, {cascade: true})
     referralId!: Referral;
     @Column()
     focus!: string;
     @Column()
     disability?: string;
-    @Column()
+    @Column({length: 1000})
     therapyGoals!: string;
-    @Column()
+    @Column({length: 1000})
     clientGoals!: string;
-    @Column()
+    @Column('enum')
     billableHours!: BillableHours;
     @Column()
     bikeHeight?: number;
     @Column()
     bikeWidth?: number;
-    @OneToMany(() => OTDocument, otDocument => otDocument.referralOtIId)
+    @OneToMany(() => OTDocument, otDocument => otDocument.referralOtIId, {cascade: true})
     documents!: OTDocument[];
 }
 
@@ -100,7 +100,7 @@ export class OTReferral {
 export class ServiceReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.services)
+    @ManyToOne(() => Referral, referral => referral.services, {cascade: true})
     referralId!: Referral;
     @Column()
     serviceType!: ServiceType;
@@ -114,14 +114,14 @@ export class ServiceReferral {
 export class Referral {
     @PrimaryGeneratedColumn()
     id!: number
-    @ManyToOne(() => Client, client => client.referrals)
+    @ManyToOne(() => Client, client => client.referrals, {cascade: true})
     clientId!: Client
-    @OneToMany(() => CustomDesignReferral, customDesignReferral => customDesignReferral.referralId)
+    @OneToMany(() => CustomDesignReferral, customDesignReferral => customDesignReferral.referralId, {cascade: true})
     customDesigns!: CustomDesignReferral[]
-    @OneToMany(() => EquipmentReferral, equipmentReferral => equipmentReferral.referralId)
+    @OneToMany(() => EquipmentReferral, equipmentReferral => equipmentReferral.referralId, {cascade: true})
     equipmentReferrals?: EquipmentReferral[]
-    @OneToMany(() => OTReferral, otReferral => otReferral.referralId)
+    @OneToMany(() => OTReferral, otReferral => otReferral.referralId, {cascade: true})
     OTReferrals?: OTReferral[]
-    @OneToMany(() => ServiceReferral, serviceReferral => serviceReferral.referralId)
+    @OneToMany(() => ServiceReferral, serviceReferral => serviceReferral.referralId, {cascade: true})
     services?: ServiceReferral[]
 }

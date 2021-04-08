@@ -1,4 +1,4 @@
-import {Resource} from '../../../types'
+import {Resource} from '../../../types/access-control'
 
 export default  {
     $extend: ['occupationalTherapist', 'contractor'],
@@ -31,12 +31,6 @@ export default  {
          'delete:any': ['*']
      },
      [Resource.material]: {
-         'create:any': ['*'],
-         'read:any': ['*'],
-         'update:any': ['*'],
-         'delete:any': ['*']
-     },
-     [Resource.assignMaterial]: {
          'create:any': ['*'],
          'read:any': ['*'],
          'update:any': ['*'],

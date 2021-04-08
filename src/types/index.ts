@@ -1,8 +1,25 @@
-export * from './user'
-export * from './task'
-export * from './referral'
-export * from './project'
-export * from './error-handling'
-export * from './closure'
-export * from './client'
-export * from './access-control'
+import * as ErrorHandling from './error-handling'
+import * as AccessControl from './access-control'
+import * as Entity from '../library/typeorm'
+
+export {
+    ErrorHandling,
+    AccessControl,
+    Entity
+}
+
+const Resource = AccessControl.Resource;
+
+export type IndexableEntity = {
+    [Resource.assignment]: Entity.Assignment,
+    [Resource.client]: Entity.Client,
+    [Resource.closure]: Entity.Closure,
+    [Resource.contract]: Entity.Contract,
+    [Resource.material]: Entity.Material,
+    [Resource.otAssessment]: Entity.Note,
+    [Resource.project]: Entity.Project,
+    [Resource.referral]: Entity.Referral,
+    [Resource.skill]: Entity.Skill,
+    [Resource.task]: Entity.Task,
+    [Resource.user]: Entity.User
+}

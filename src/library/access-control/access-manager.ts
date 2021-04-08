@@ -1,10 +1,10 @@
-import {User, Resource, Action} from '../../types'
+import {Entity, AccessControl} from '../../types'
 import ac from './permission'
 import {IQueryInfo} from 'accesscontrol'
 import isOwn from './is-own'
 
 //constructs a QueryInfo based off arguments, if possession is own, return isOwn function
-export default async (user: User, action: Action, resource: Resource, id?: number) => {
+export default async (user: Entity.User, action: AccessControl.Action, resource: AccessControl.Resource, id?: number) => {
     const query: IQueryInfo = {action, resource, role: user.accessRights};
     const anyPerm = ac.permission({...query, possession: 'any'});
     if (anyPerm.granted) {
@@ -17,7 +17,7 @@ export default async (user: User, action: Action, resource: Resource, id?: numbe
     if (!ownPerm.granted) {
         throw Error('user unauthorized');
     }
-    const ownership = await isOwn(user, action, resource, id);
+    const ownership = await isOwn(user.id, action, resource, id);
     if (!ownership) {
         throw Error('user does not own resource');
     }

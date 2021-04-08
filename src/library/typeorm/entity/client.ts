@@ -1,5 +1,6 @@
 import {Referral} from './referral'
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable} from 'typeorm'
+import { Project } from '.';
 
 export enum Funding {
     Private = 0,
@@ -32,7 +33,7 @@ export class Service {
     id!: number;
     @Column()
     service!: ServiceEnum;
-    @ManyToOne(() => Client, client => client.services)
+    @ManyToOne(() => Client, client => client.services, {cascade: true})
     clientId!: Client;
 }
 
@@ -54,15 +55,15 @@ export class Client {
     DOB!: Date;
     @Column()
     address!: string;
-    @Column()
+    @Column({length: 10})
     phone!: string;
     @Column()
     email!: string;
     @Column()
     supportCoordinator!: string;
-    @Column()
+    @Column('enum')
     funding!: Funding;
-    @Column()
+    @Column('enum')
     NDIS!: NDIS;
     @Column()
     orgName!: string;
@@ -72,11 +73,13 @@ export class Client {
     occupation!: string;
     @Column()
     disability!: string;
-    @OneToMany(() => Referral, referral => referral.clientId)
+    @OneToMany(() => Referral, referral => referral.clientId, {cascade: true})
     referrals!: Referral[];
-    @ManyToMany(() => SharepointLink)
+    @ManyToMany(() => SharepointLink,  {cascade: true})
     @JoinTable()
     approvals?: SharepointLink[];
-    @OneToMany(() => Service, service => service.clientId)
+    @OneToMany(() => Service, service => service.clientId,  {cascade: true})
     services?: Service[];
+    @ManyToOne(() => Project, project => project.clientId)
+    projects!: Project[];
 }

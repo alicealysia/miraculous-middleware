@@ -1,5 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
-import {ProjectType} from '../../../types'
+import {ProjectType} from './project'
 
 
 @Entity()
@@ -8,7 +8,7 @@ class Closure {
     id!: number;
     @Column()
     projectName!: string;
-    @Column()
+    @Column({length: 1000})
     projectDescription!: string;
     @Column()
     enquiryDate!: Date;
@@ -16,7 +16,7 @@ class Closure {
     startDate!: Date;
     @Column()
     finishDate!: Date;
-    @Column()
+    @Column('enum')
     projectType!: ProjectType;
     @Column()
     clientId!: number;

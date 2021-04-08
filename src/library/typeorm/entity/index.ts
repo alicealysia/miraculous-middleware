@@ -30,3 +30,29 @@ export default [
     Leave,
     Skill
 ]
+
+export {
+    Client,
+    SharepointLink,
+    Service,
+    Closure,
+    XeroLink,
+    Project,
+    Assignment,
+    Material,
+    Referral,
+    CustomDesignReferral,
+    DesignLink,
+    EquipmentReferral,
+    OTDocument,
+    OTReferral,
+    ServiceReferral,
+    Note,
+    Contract,
+    OTAssessment,
+    Task,
+    User,
+    Availability,
+    Leave,
+    Skill
+}

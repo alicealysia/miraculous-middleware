@@ -1,9 +1,10 @@
-import {User, Resource, Action, createAnyRequired, createOwnId, readList, cantReadList, resolveResource, resolveReadList} from '../../types'
+import {Resource, Action, createAnyRequired, createOwnId, readList, cantReadList} from '../../types/access-control'
+import {Entity, IndexableEntity} from '../../types'
 import {Permission} from 'accesscontrol'
 import accessManager from './access-manager'
 import filterOwned from './filter-owned'
 
-
+type User = Entity.User;
 
 class accessControl {
 
@@ -15,7 +16,7 @@ class accessControl {
     }
 
     // create overloads, narrows return function (promise vs class)
-    public async create<T extends createAnyRequired>(resource: T) : Promise<(data:resolveResource[Action.create][T]) => resolveResource[Action.create][T]>;
+    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: IndexableEntity[T]) => IndexableEntity[T]>;
     public create<T extends createOwnId>(resource: T) : filterResourceById<Action.create, T>;
 
     //logic satisfies overloads and returns values
@@ -32,7 +33,7 @@ class accessControl {
 
     // satisfies overloads and returns values
     public read (resource: readList | cantReadList) {
-        if (resource === Resource.assignMaterial || Resource.contract || Resource.material || Resource.otAssessment || Resource.skill) {
+        if (resource === Resource.contract || Resource.material || Resource.otAssessment || Resource.skill) {
             return new filterResourceById(this._user, Action.read, resource);
         }
         return new readResourceWithList(this._user, resource as readList);
@@ -61,7 +62,7 @@ class filterResourceById <K extends Action, T extends Resource> {
         this._resource = resource;
     }
 
-    public async id (_id: number): Promise<(data:resolveResource[K][T]) => resolveResource[K][T]>;
+    public async id (_id: number): Promise<(data:IndexableEntity[T]) => IndexableEntity[T]>;
     public async id (_id: number) {
         return accessManager(this._user, this._action, this._resource, _id).then(permissions => permissions.filter);
     }
@@ -76,11 +77,11 @@ class readResourceWithList <T extends readList> {
         this._user = user;
         this._resource = resource;
     }
-    public async id (_id: number): Promise<(data:resolveResource[Action.read][T]) => resolveResource[Action.read][T]>;
+    public async id (_id: number): Promise<(data:IndexableEntity[T]) => IndexableEntity[T]>;
     public async id (_id: number) {
         return accessManager(this._user, Action.read, this._resource, _id).then(permissions => permissions.filter);
     }
-    public list(resource: resolveReadList[T]) {
+    public list(resource: IndexableEntity[T]) {
         return filterOwned(this._user, this._resource, resource);
     }
 }

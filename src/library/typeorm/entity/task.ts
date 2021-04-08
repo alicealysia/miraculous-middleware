@@ -5,11 +5,11 @@ import {Assignment} from './project'
 export class Note {
     @PrimaryGeneratedColumn()
     id!: number;
-    @Column()
+    @Column({length: 1000})
     note!: string;
     @Column()
     noteDate!: Date;
-    @ManyToOne(() => Task, task => task.notes)
+    @ManyToOne(() => Task, task => task.notes, {cascade: true})
     taskId!: Task;
 }
 
@@ -54,13 +54,13 @@ export enum TaskType {
 export class Task {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Assignment, assignment => assignment.tasks)
+    @ManyToOne(() => Assignment, assignment => assignment.tasks, {cascade: true})
     assignment!: Assignment;
     @Column()
     taskName!: string;
     @Column()
     due!: Date;
-    @Column()
+    @Column('enum')
     taskType!: TaskType;
     @Column()
     estimatedTravel!: number;
@@ -80,6 +80,6 @@ export class Task {
     @OneToOne(() => OTAssessment)
     @JoinColumn()
     assessment?: OTAssessment;
-    @OneToMany(() => Note, note => note.taskId)
+    @OneToMany(() => Note, note => note.taskId, {cascade: true})
     notes?: Note[];
 }

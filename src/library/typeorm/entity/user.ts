@@ -22,9 +22,9 @@ export class User {
     WWVPexp?: Date;
     @Column()
     hourlyRate!: number;
-    @Column()
+    @Column('array')
     accessRights!: string[];
-    @Column()
+    @Column('json')
     xeroToken?: TokenSet;
     @Column()
     msalToken?: string;
@@ -53,7 +53,7 @@ export enum Weekday {
 export class Availability {
     @PrimaryGeneratedColumn()
     id!: number;
-    @Column()
+    @Column('simple-enum')
     workDay!: Weekday;
     @Column()
     startTime!: number;

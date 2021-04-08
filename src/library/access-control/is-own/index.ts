@@ -3,68 +3,64 @@ import project from './project'
 import referral from './referral'
 import {create as createTask, existing as existingTask, existingContract} from './task'
 import user from './user'
-import {User, Resource, Action} from '../../../types'
+import {Entity, AccessControl} from '../../../types'
 
 
 // check ownership based off resource and action
-export default async (_user: User, action: Action, resource: Resource, id: number) => {
+export default async (userId: number, action: AccessControl.Action, resource: AccessControl.Resource, id: number) => {
     switch (resource) {
 
         // client create requires 'any' permissions. otherwise, check ownership 
-        case (Resource.client):
-            if (action !== Action.create) {
-                return client(_user, id);
+        case (AccessControl.Resource.client):
+            if (action !== AccessControl.Action.create) {
+                return client(userId, id);
             }
         return false;
         break;  //despite being unreachable, not using breaks causes weirdness
 
         // same rules apply to projects!
-        case (Resource.project): case Resource.closure:
-            if (action !== Action.create) {
-                return project(_user, id);
+        case (AccessControl.Resource.project): case AccessControl.Resource.closure:
+            if (action !== AccessControl.Action.create) {
+                return project(userId, id);
             }
         return false;
         break;
 
-        case (Resource.billing):
-            return project(_user, id);
-        break;
-
         // below resources use same logic as projects, barring create restrictions.
-        case Resource.assignMaterial: case Resource.assignment:
-            return project(_user, id);
+        case AccessControl.Resource.assignment:
+            return project(userId, id);
         break;
 
         // when created, referrals reference client id. as such, use client logic.
         // other actions use unique logic
-        case Resource.referral:
-            if (action === Action.create) {
-                return client(_user, id);
+        case AccessControl.Resource.referral:
+            if (action === AccessControl.Action.create) {
+                return client(userId, id);
             }
-            return referral(_user, id);
+            return referral(userId, id);
         break;
 
         // same rules for tasks!
-        case Resource.task: 
-            if (action === Action.create) {
-                return createTask(_user, id);
+        case AccessControl.Resource.task: 
+            if (action === AccessControl.Action.create) {
+                return createTask(userId, id);
             }
-            return existingTask(_user, id);
+            return existingTask(userId, id);
         break;
 
-        case Resource.otAssessment:
-            return existingTask(_user, id);
+        case AccessControl.Resource.otAssessment:
+            return existingTask(userId, id);
         break;
-        case Resource.contract:
-            if (action === Action.create) {
-                return existingTask(_user, id);
+        case AccessControl.Resource.contract:
+            if (action === AccessControl.Action.create) {
+                return existingTask(userId, id);
             }
-            return existingContract(_user, id);
+            return existingContract(userId, id);
         break;
 
         // users have pretty simple ownership rules (is the user you???)
-        case Resource.user:
-            return user(_user, id);
+        case AccessControl.Resource.user:
+            return user(userId, id);
         break;
         default:
             return false;
