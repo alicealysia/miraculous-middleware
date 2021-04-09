@@ -31,7 +31,7 @@ export class DesignLink {
     @Column('enum')
     design!: Design;
     @ManyToOne(() => CustomDesignReferral, customDesignReferral => customDesignReferral.designs, {cascade: true})
-    customDesignId!: CustomDesignReferral;
+    customDesign!: CustomDesignReferral;
 }
 
 @Entity()
@@ -39,7 +39,7 @@ export class OTDocument {
     @PrimaryGeneratedColumn()
     id!: number;
     @ManyToOne(() => OTReferral, otReferral => otReferral.documents, {cascade: true})
-    referralOtIId!: OTReferral;
+    otReferral!: OTReferral;
     @Column('enum')
     docType!: OTDocType;
     @Column()
@@ -51,12 +51,12 @@ export class CustomDesignReferral {
     @PrimaryGeneratedColumn()
     id!: number;
     @Column()
-    referralId!: number;
+    referral!: number;
     @Column()
     productType!: string;
     @Column()
     concept!: string;
-    @OneToMany(() => DesignLink, designLink => designLink.customDesignId, {cascade: true})
+    @OneToMany(() => DesignLink, designLink => designLink.customDesign, {cascade: true})
     designs!: DesignLink[];
 }
 
@@ -65,7 +65,7 @@ export class EquipmentReferral {
     @PrimaryGeneratedColumn()
     id!: number;
     @ManyToOne(() => Referral, referral => referral.equipmentReferrals, {cascade: true})
-    referralId!: Referral;
+    referral!: Referral;
     @Column()
     product!: string;
     @Column()
@@ -77,7 +77,7 @@ export class OTReferral {
     @PrimaryGeneratedColumn()
     id!: number;
     @ManyToOne(() => Referral, referral => referral.OTReferrals, {cascade: true})
-    referralId!: Referral;
+    referral!: Referral;
     @Column()
     focus!: string;
     @Column()
@@ -92,7 +92,7 @@ export class OTReferral {
     bikeHeight?: number;
     @Column()
     bikeWidth?: number;
-    @OneToMany(() => OTDocument, otDocument => otDocument.referralOtIId, {cascade: true})
+    @OneToMany(() => OTDocument, otDocument => otDocument.otReferral, {cascade: true})
     documents!: OTDocument[];
 }
 
@@ -101,7 +101,7 @@ export class ServiceReferral {
     @PrimaryGeneratedColumn()
     id!: number;
     @ManyToOne(() => Referral, referral => referral.services, {cascade: true})
-    referralId!: Referral;
+    referral!: Referral;
     @Column()
     serviceType!: ServiceType;
     @Column()
@@ -115,13 +115,13 @@ export class Referral {
     @PrimaryGeneratedColumn()
     id!: number
     @ManyToOne(() => Client, client => client.referrals, {cascade: true})
-    clientId!: Client
-    @OneToMany(() => CustomDesignReferral, customDesignReferral => customDesignReferral.referralId, {cascade: true})
+    client!: Client
+    @OneToMany(() => CustomDesignReferral, customDesignReferral => customDesignReferral.referral, {cascade: true})
     customDesigns!: CustomDesignReferral[]
-    @OneToMany(() => EquipmentReferral, equipmentReferral => equipmentReferral.referralId, {cascade: true})
+    @OneToMany(() => EquipmentReferral, equipmentReferral => equipmentReferral.referral, {cascade: true})
     equipmentReferrals?: EquipmentReferral[]
-    @OneToMany(() => OTReferral, otReferral => otReferral.referralId, {cascade: true})
+    @OneToMany(() => OTReferral, otReferral => otReferral.referral, {cascade: true})
     OTReferrals?: OTReferral[]
-    @OneToMany(() => ServiceReferral, serviceReferral => serviceReferral.referralId, {cascade: true})
+    @OneToMany(() => ServiceReferral, serviceReferral => serviceReferral.referral, {cascade: true})
     services?: ServiceReferral[]
 }

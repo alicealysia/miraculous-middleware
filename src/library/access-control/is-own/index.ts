@@ -26,11 +26,6 @@ export default async (userId: number, action: AccessControl.Action, resource: Ac
         return false;
         break;
 
-        // below resources use same logic as projects, barring create restrictions.
-        case AccessControl.Resource.assignment:
-            return project(userId, id);
-        break;
-
         // when created, referrals reference client id. as such, use client logic.
         // other actions use unique logic
         case AccessControl.Resource.referral:

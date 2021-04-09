@@ -36,12 +36,6 @@ export default  {
          'update:any': ['*'],
          'delete:any': ['*']
      },
-     [Resource.assignment]: {
-         'create:any': ['*'],
-         'read:any': ['*'],
-         'update:any': ['*'],
-         'delete:any': ['*']
-     },
      [Resource.project]: {
          'create:any': ['*'],
          'read:any': ['*'],

@@ -1,7 +1,6 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable} from 'typeorm'
 import { Client } from './client';
 import {Task} from './task'
-import {User} from './user'
 
 @Entity()
 export class Material {
@@ -15,31 +14,12 @@ export class Material {
     serialCode?: string;
 }
 
-// export interface AssignMaterial {
-//     id: number;
-//     units: number;
-// }
-
 export class XeroLink {
     @PrimaryGeneratedColumn()
     id!: number;
     @Column()
     xeroLink!: string;
 }
-
-
-@Entity()
-export class Assignment {
-    @PrimaryGeneratedColumn()
-    id!: number;
-    @ManyToOne(() => Project, project => project.assignments,  {cascade: true})
-    projectId!: Project;
-    @ManyToOne(() => User, user => user.assignments,  {cascade: true})
-    userId!: User;
-    @OneToMany(() => Task, task => task.assignment, {cascade: true})
-    tasks!: Task[];
-}
-
 
 export enum ProjectType {
     FreedomWheels = 0,
@@ -65,13 +45,13 @@ export class Project {
     @Column('enum')
     projectType!: ProjectType;
     @ManyToOne(() => Client, client => client.projects)
-    clientId!: Client;
+    client!: Client;
     @Column()
     amountInvoiced!: number;
     @Column()
     clientName?: string;
-    @OneToMany(() => Assignment, assignment => assignment.projectId, {cascade: true})
-    assignments!: Assignment[];
+    @OneToMany(() => Task, task => task.project, {cascade: true})
+    tasks!: Task[];
     @ManyToMany(() => Material , {cascade: true})
     @JoinTable()
     materials!: Material[];

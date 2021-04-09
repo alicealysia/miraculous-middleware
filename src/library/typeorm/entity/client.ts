@@ -1,6 +1,7 @@
 import {Referral} from './referral'
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable} from 'typeorm'
 import { Project } from '.';
+import Closure from './closure';
 
 export enum Funding {
     Private = 0,
@@ -34,7 +35,7 @@ export class Service {
     @Column()
     service!: ServiceEnum;
     @ManyToOne(() => Client, client => client.services, {cascade: true})
-    clientId!: Client;
+    client!: Client;
 }
 
 @Entity()
@@ -73,13 +74,15 @@ export class Client {
     occupation!: string;
     @Column()
     disability!: string;
-    @OneToMany(() => Referral, referral => referral.clientId, {cascade: true})
+    @OneToMany(() => Referral, referral => referral.client, {cascade: true})
     referrals!: Referral[];
     @ManyToMany(() => SharepointLink,  {cascade: true})
     @JoinTable()
     approvals?: SharepointLink[];
-    @OneToMany(() => Service, service => service.clientId,  {cascade: true})
+    @OneToMany(() => Service, service => service.client,  {cascade: true})
     services?: Service[];
-    @ManyToOne(() => Project, project => project.clientId)
+    @ManyToOne(() => Project, project => project.client)
     projects!: Project[];
+    @OneToMany(() => Closure, closure => closure.client)
+    closures!: Closure[];
 }

@@ -1,6 +1,6 @@
-import {Assignment} from './project'
 import {TokenSet} from 'openid-client'
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinTable, ManyToMany} from 'typeorm'
+import { Task } from '.';
 
 @Entity()
 export class User {
@@ -35,8 +35,8 @@ export class User {
     @ManyToMany(() => Skill)
     @JoinTable()
     skills!: Skill[];
-    @OneToMany(() => Assignment, assignment => assignment.userId)
-    assignments?: Assignment[];
+    @OneToMany(() => Task, task => task.user)
+    tasks!: Task[];
 }
 
 export enum Weekday {

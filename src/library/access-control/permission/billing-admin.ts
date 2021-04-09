@@ -19,9 +19,6 @@ export default  {
     [Resource.material]: {
         'read:any': ['*']
     },
-    [Resource.assignment]: {
-        'read:any': ['*']
-    },
     [Resource.project]: {
         'read:any': ['*']
     },

@@ -1,12 +1,20 @@
-import {User} from '../../typeorm'
+import {getConnection, Task} from '../../typeorm'
 
 // is a project assigned to a user?
 
-export default (user: User, projectId: number) => {
-    if (!user.assignments) {
-        return false;
-    }
-    return user.assignments.some(assignment => assignment.projectId.id === projectId);
+export default async (userId: number, projectId: number) => {
+    const connection = await getConnection();
+    return connection.getRepository(Task).findOneOrFail({
+        relations: ['user', 'project'], 
+        where: {
+            user: {
+                id: userId
+            }, 
+            project: {
+                id: projectId
+            }
+        }
+    }).then(task => true).catch(error => false);
 }
 
 //also used by closure, assignMaterial, assignment

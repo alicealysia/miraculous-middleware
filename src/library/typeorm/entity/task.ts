@@ -1,5 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, OneToOne} from 'typeorm'
-import {Assignment} from './project'
+import { Project, User } from '.';
 
 @Entity()
 export class Note {
@@ -10,7 +10,7 @@ export class Note {
     @Column()
     noteDate!: Date;
     @ManyToOne(() => Task, task => task.notes, {cascade: true})
-    taskId!: Task;
+    task!: Task;
 }
 
 @Entity()
@@ -54,8 +54,10 @@ export enum TaskType {
 export class Task {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Assignment, assignment => assignment.tasks, {cascade: true})
-    assignment!: Assignment;
+    @ManyToOne(() => Project, project => project.tasks, {cascade: true})
+    project!: Project;
+    @ManyToOne(() => User, user => user.tasks)
+    user!: User;
     @Column()
     taskName!: string;
     @Column()
@@ -80,6 +82,6 @@ export class Task {
     @OneToOne(() => OTAssessment)
     @JoinColumn()
     assessment?: OTAssessment;
-    @OneToMany(() => Note, note => note.taskId, {cascade: true})
+    @OneToMany(() => Note, note => note.task, {cascade: true})
     notes?: Note[];
 }

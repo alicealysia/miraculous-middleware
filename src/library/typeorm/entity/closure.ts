@@ -1,4 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn} from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm'
+import { Client } from './client';
 import {ProjectType} from './project'
 
 
@@ -18,8 +19,8 @@ class Closure {
     finishDate!: Date;
     @Column('enum')
     projectType!: ProjectType;
-    @Column()
-    clientId!: number;
+    @ManyToOne(() => Client, client => client.closures)
+    client!: Client;
     @Column()
     totalHours!: number;
     @Column()

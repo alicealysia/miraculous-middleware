@@ -1,8 +1,13 @@
-import {getConnection, Assignment} from '../../typeorm'
+import {getConnection, Task} from '../../typeorm'
 
 export default async (user: number, clientId: number) => {
     const connection = await getConnection();
-    const clients = await connection.getRepository(Assignment).find({relations: ['user', 'project', 'project.clientId'], where: {userId: user}}).then(assignments => assignments.map(assignment => assignment.projectId.clientId));
-    // read assignment projects, then find the projects clients, if project client matches, you own them.
-    return clients.some(client => client.id === clientId);
+    return connection.getRepository(Task).findOneOrFail({
+        relations: ['user', 'project', 'project.client'], 
+        where: {
+            user: {id: user},
+            project: {
+                client: {id: clientId}
+            }
+        }}).then(task => true).catch(err => false);
 }

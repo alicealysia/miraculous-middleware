@@ -1,4 +1,4 @@
-import {Resource} from '../../../types'
+import {Resource} from '../../../types/access-control'
 
 export default {
     $extend: ['volunteer'],
