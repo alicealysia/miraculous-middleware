@@ -24,6 +24,8 @@ export class User {
     hourlyRate!: number;
     @Column('array')
     accessRights!: string[];
+    @Column()
+    userHash!: string;
     @Column('json')
     xeroToken?: TokenSet;
     @Column()

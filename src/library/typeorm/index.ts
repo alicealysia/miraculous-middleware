@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {createConnection, Connection, ConnectionOptions} from 'typeorm'
-import entities from './entity'
+import {compare} from 'bcrypt'
+import entities, {User} from './entity'
 
 let connection: Connection;
 
@@ -22,6 +23,16 @@ export const getConnection = async () => {
     }
     connection = await createConnection(config);
     return connection;
+}
+
+export const auth = async (email: string, password: string) => {
+    const connection = await getConnection();
+    const user = await connection.getRepository(User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
+    const valid = await compare(password, user.userHash);
+    if (valid) {
+        return user;
+    }
+    throw new Error('signin failure');
 }
 
 export * from './entity'

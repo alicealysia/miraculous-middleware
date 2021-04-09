@@ -1,5 +1,5 @@
 import getXero from './init'
-import {User} from '../../types'
+import {User} from '../typeorm'
 
 export default async(user: User, quoteId?: string) => {
     if (!user.xeroToken || !process.env.XERO_TENNANT_ID) {
