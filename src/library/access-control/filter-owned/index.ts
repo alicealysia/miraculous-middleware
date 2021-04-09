@@ -1,50 +1,46 @@
-import {User, Resource, Action, readList, resolveReadList} from '../../../types'
+import {Entity, AccessControl, IndexableEntity} from '../../../types'
 import ac from '../permission'
+import {getConnection} from '../../typeorm'
 import {IQueryInfo} from 'accesscontrol'
 import client from './client'
-import {projects, billing, assignment} from './project'
+import {projects} from './project'
 import referral from './referral'
 import task from './task'
 
-//same typescript shinnanigans as accessControl.read.list
-async function filterOwned <T extends readList>(user: User, resource: T, obj: resolveReadList[T]): Promise<resolveReadList[T]> {
+
+async function findOwned (user: Entity.User, resource: AccessControl.readList): Promise<any[]> {
 
     //build a queryInfo object
-    const query: IQueryInfo = {action: Action.read, resource, role: user.accessRights};
+    const query: IQueryInfo = {action: AccessControl.Action.read, resource, role: user.accessRights};
     const anyPerm = ac.permission({...query, possession: 'any'});
 
     //if anyperm, return unfiltered.
     // also, rare any usage :O
     if (anyPerm.granted) {
-        return obj.map((currentItem: any) => anyPerm.filter(currentItem));
+        const connection = await getConnection();
+        return connection.getRepository(Entity[resource]).find().then(obj => obj.map((currentItem: any) => anyPerm.filter(currentItem)));
     }
 
     const ownPerm = ac.permission({...query, possession: 'own'});
 
     if (ownPerm.granted) {
         switch (resource) {
-            //figure out which resource the object array is, push it to the correct filter, return a filtered version of that array.
-            //we use resolveReadList[resource.matchingCase] because typescript is too dumb to notice the branch & conditional we used to make our resource and type match.
-            // the logic we use to filter stuff to owned is akin to the logic used in isOwn, but working backwards from an existing array.
-            case Resource.user: 
-                return ownPerm.filter((obj as resolveReadList[Resource.user]).find(thisUser => thisUser.id === user.id)); 
+            case AccessControl.Resource.user: 
+                const connection = await getConnection();
+                const me = await connection.getRepository(Entity.User).findOneOrFail(user.id);
+                return ownPerm.filter(me); 
             break;
-            case Resource.client: 
-                return await client(user, obj as resolveReadList[Resource.client]).then(clients => clients.map(_client => ownPerm.filter(_client))); 
+            case AccessControl.Resource.client:
+                return client(user.id, ownPerm.filter); 
             break;
-            case Resource.billing:
-                return billing(user, obj as resolveReadList[Resource.billing]).map(bill => ownPerm.filter(bill));
-            case Resource.project: 
-                return projects(user, obj as resolveReadList[Resource.project]).map(project => ownPerm.filter(project)); 
+            case AccessControl.Resource.project: 
+                return projects(user.id, ownPerm.filter); 
             break;
-            case Resource.assignment: 
-                return assignment(user, obj as resolveReadList[Resource.assignment]).map(assignment => ownPerm.filter(assignment)); 
+            case AccessControl.Resource.referral: 
+                return referral(user.id, ownPerm.filter); 
             break;
-            case Resource.referral: 
-                return await referral(user, obj as resolveReadList[Resource.referral]).then(_referrals => _referrals.map(_referral => ownPerm.filter(_referral))); 
-            break;
-            case Resource.task: 
-                return task(user, obj as resolveReadList[Resource.task]).map(_task => ownPerm.filter(_task)); 
+            case AccessControl.Resource.task: 
+                return task(user.id, ownPerm.filter); 
             break;
             default:
                 return [];
@@ -54,4 +50,4 @@ async function filterOwned <T extends readList>(user: User, resource: T, obj: re
     throw new Error('unauthorized');
 }
 
-export default filterOwned
+export default findOwned

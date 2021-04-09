@@ -1,10 +1,13 @@
-import {User, Client} from '../../../types'
-import database from '../../database'
+import {getConnection, Task, Client} from '../../typeorm'
 
-export default async (user: User, clients: Client[]) => {
-    if (!user.assignments) {
-        throw new Error('no Assignments')
-    }
-    const projects = await Promise.all(user.assignments.map(assignment => database.project.read.one(assignment.projectId)));
-    return clients.filter(client => projects.some(project => project.clientId === client.id));
+export default async (userid: number, filter: (data: Client) => Client) => {
+    const connection = await getConnection();
+    return connection.getRepository(Task).find({
+        relations: ['user', 'project', 'project.client'],
+        where: {
+            user: {
+                id: userid
+            }
+        }
+    }).then(tasks => tasks.map(task => filter(task.project.client)));
 }

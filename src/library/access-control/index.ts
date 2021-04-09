@@ -2,7 +2,7 @@ import {Resource, Action, createAnyRequired, createOwnId, readList, cantReadList
 import {Entity, IndexableEntity} from '../../types'
 import {Permission} from 'accesscontrol'
 import accessManager from './access-manager'
-import filterOwned from './filter-owned'
+import findOwned from './filter-owned'
 
 type User = Entity.User;
 
@@ -81,8 +81,9 @@ class readResourceWithList <T extends readList> {
     public async id (_id: number) {
         return accessManager(this._user, Action.read, this._resource, _id).then(permissions => permissions.filter);
     }
-    public list(resource: IndexableEntity[T]) {
-        return filterOwned(this._user, this._resource, resource);
+    public async list (): Promise<IndexableEntity[T][]>;
+    public async list() {
+        return findOwned(this._user, this._resource);
     }
 }
 

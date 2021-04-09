@@ -1,11 +1,8 @@
-import {User, Task} from '../../../types'
+import {Task, getConnection} from '../../typeorm'
 
-export default (user:User, tasks: Task[]) => {
-    if (!user.assignments) {
-        throw new Error('no Assignments')
-    }
-    const assignments = user.assignments;
-    return tasks.filter(task => assignments.some(assignment => assignment.id === task.assignment));
+export default async (userid: number, filter: (data: Task) => Task) => {
+    const connection = await getConnection();
+    return connection.getRepository(Task).find({relations: ['user'], where: {user: {id: userid}}}).then(tasks => tasks.map(task => filter(task)));
 }
 
 //list

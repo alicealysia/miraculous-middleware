@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne} from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent, ManyToOne} from 'typeorm'
 import {Client} from './client'
 
 export enum Design {
@@ -25,20 +25,22 @@ export enum ServiceType {
 }
 
 @Entity()
+@Tree('nested-set')
 export class DesignLink {
     @PrimaryGeneratedColumn()
     id!: number;
     @Column('enum')
     design!: Design;
-    @ManyToOne(() => CustomDesignReferral, customDesignReferral => customDesignReferral.designs, {cascade: true})
+    @TreeParent()
     customDesign!: CustomDesignReferral;
 }
 
 @Entity()
+@Tree('nested-set')
 export class OTDocument {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => OTReferral, otReferral => otReferral.documents, {cascade: true})
+    @TreeParent()
     otReferral!: OTReferral;
     @Column('enum')
     docType!: OTDocType;
@@ -47,6 +49,7 @@ export class OTDocument {
 }
 
 @Entity()
+@Tree('nested-set')
 export class CustomDesignReferral {
     @PrimaryGeneratedColumn()
     id!: number;
@@ -56,15 +59,16 @@ export class CustomDesignReferral {
     productType!: string;
     @Column()
     concept!: string;
-    @OneToMany(() => DesignLink, designLink => designLink.customDesign, {cascade: true})
+    @TreeChildren({cascade: true})
     designs!: DesignLink[];
 }
 
 @Entity()
+@Tree('nested-set')
 export class EquipmentReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.equipmentReferrals, {cascade: true})
+    @TreeParent()
     referral!: Referral;
     @Column()
     product!: string;
@@ -73,10 +77,11 @@ export class EquipmentReferral {
 }
 
 @Entity()
+@Tree('nested-set')
 export class OTReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.OTReferrals, {cascade: true})
+    @TreeParent()
     referral!: Referral;
     @Column()
     focus!: string;
@@ -92,15 +97,16 @@ export class OTReferral {
     bikeHeight?: number;
     @Column()
     bikeWidth?: number;
-    @OneToMany(() => OTDocument, otDocument => otDocument.otReferral, {cascade: true})
+    @TreeChildren({cascade: true})
     documents!: OTDocument[];
 }
 
 @Entity()
+@Tree('nested-set')
 export class ServiceReferral {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Referral, referral => referral.services, {cascade: true})
+    @TreeParent()
     referral!: Referral;
     @Column()
     serviceType!: ServiceType;
@@ -111,17 +117,18 @@ export class ServiceReferral {
 }
 
 @Entity()
+@Tree('nested-set')
 export class Referral {
     @PrimaryGeneratedColumn()
     id!: number
-    @ManyToOne(() => Client, client => client.referrals, {cascade: true})
+    @TreeParent()
     client!: Client
-    @OneToMany(() => CustomDesignReferral, customDesignReferral => customDesignReferral.referral, {cascade: true})
+    @TreeChildren({cascade: true})
     customDesigns!: CustomDesignReferral[]
-    @OneToMany(() => EquipmentReferral, equipmentReferral => equipmentReferral.referral, {cascade: true})
+    @TreeChildren({cascade: true})
     equipmentReferrals?: EquipmentReferral[]
-    @OneToMany(() => OTReferral, otReferral => otReferral.referral, {cascade: true})
+    @TreeChildren({cascade: true})
     OTReferrals?: OTReferral[]
-    @OneToMany(() => ServiceReferral, serviceReferral => serviceReferral.referral, {cascade: true})
+    @TreeChildren({cascade: true})
     services?: ServiceReferral[]
 }
