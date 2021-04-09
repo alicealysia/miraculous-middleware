@@ -1,7 +1,7 @@
-import {Task, getConnection} from '../../typeorm'
+import typeorm, {Task} from '../../typeorm'
 
 export default async (userid: number, filter: (data: Task) => Task) => {
-    const connection = await getConnection();
+    const connection = await typeorm.getConnection();
     return connection.getRepository(Task).find({relations: ['user'], where: {user: {id: userid}}}).then(tasks => tasks.map(task => filter(task)));
 }
 

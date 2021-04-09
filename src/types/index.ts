@@ -11,7 +11,6 @@ export {
 const Resource = AccessControl.Resource;
 
 export type IndexableEntity = {
-    [Resource.assignment]: Entity.Assignment,
     [Resource.client]: Entity.Client,
     [Resource.closure]: Entity.Closure,
     [Resource.contract]: Entity.Contract,

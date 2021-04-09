@@ -1,6 +1,12 @@
-import {database} from '../library'
+import { In } from 'typeorm';
+import {typeorm} from '../library'
+import {Entity} from '../types'
 
 export default async () => {
-    const userList = await database.user.read.list();
-    return userList.filter(user => user.accessRights.includes('projectManager'));
+    const connection = await typeorm.getConnection();
+    return connection.getRepository(Entity.User).find({
+        where: {
+            accessRights: In(['projectManager'])
+        }
+    });
 }

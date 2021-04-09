@@ -3,7 +3,7 @@ import passport from 'passport';
 import auth from './auth'
 import api from './api'
 import unAuth from './unAuth'
-import {User} from '../types'
+import {Entity} from '../types'
 import { Request, Response, NextFunction} from 'express';
 
 const router = Router();
@@ -11,7 +11,7 @@ const router = Router();
 router.use('/auth', auth);
 router.use('/api', passport.authenticate('jwt', {session: false}), (request: Request, response: Response, next: NextFunction) => {
     if (request.user){
-        request.User = request.user as User;
+        request.User = request.user as Entity.User;
     }
     next();
 }, api);

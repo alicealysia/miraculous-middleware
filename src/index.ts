@@ -7,13 +7,13 @@ import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/error-handler'
 import './library/passport'
 import 'isomorphic-fetch'
-import { User } from './types';
+import { Entity } from './types';
 import "reflect-metadata";
 
 const app = express();
 const port = 8080;
 
-type ExpressUser = User;
+type ExpressUser = Entity.User;
 
 declare global {
     namespace Express {

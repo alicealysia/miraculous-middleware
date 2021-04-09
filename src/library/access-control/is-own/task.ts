@@ -1,5 +1,5 @@
 import {Entity} from '../../../types'
-import {getConnection} from '../../typeorm'
+import typeorm from '../../typeorm'
 
 //tasks reference assignment id when created, meaning we just need to check the given ID vs the user assignments
 
@@ -7,7 +7,7 @@ import {getConnection} from '../../typeorm'
 // this logic could grow in complexity, or multiple functions could be needed, so watch this space.
 
 export const create = async (userid: number, projectId: number) => {
-    const connection = await getConnection();
+    const connection = await typeorm.getConnection();
     return connection.getRepository(Entity.Task).findOneOrFail({
         relations: ['user', 'project'], 
         where: {
@@ -20,7 +20,7 @@ export const create = async (userid: number, projectId: number) => {
 // find tasks within assignments, compare task ID to assignment ID.
 
 export const existing = async (userId: number, taskId: number) => {
-    const connection = await getConnection();
+    const connection = await typeorm.getConnection();
     return connection.getRepository(Entity.Task).findOneOrFail({
         relations: ['user'],
         where: {
@@ -33,7 +33,7 @@ export const existing = async (userId: number, taskId: number) => {
 //contract, otAssessment
 
 export const existingContract = async (userId: number, contractId: number) => {
-    const connection = await getConnection();
+    const connection = await typeorm.getConnection();
     return connection.getRepository(Entity.Task).findOneOrFail({
         relations: ['user', 'contract'],
         where: {

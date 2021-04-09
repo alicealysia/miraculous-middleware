@@ -1,10 +1,10 @@
-import {getConnection, Task, Referral} from '../../typeorm'
+import typeorm, {Task, Referral} from '../../typeorm'
 
 // find projects from assignments, then clients from projects, then referrals from clients. finally, check if referral id is among clients.
 
 export default async (userId: number, referralId: number) => {
 
-    const connection = await getConnection();
+    const connection = await typeorm.getConnection();
 
     const clients = await connection.getRepository(Task).find({
         relations: ['user', 'project', 'project.client'], 

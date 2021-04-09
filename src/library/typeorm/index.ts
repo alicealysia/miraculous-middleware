@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {createConnection, Connection, ConnectionOptions} from 'typeorm'
+import {createConnection, Connection, ConnectionOptions, EntityTarget} from 'typeorm'
 import {compare} from 'bcrypt'
 import entities, {User} from './entity'
 
@@ -17,7 +17,7 @@ const config : ConnectionOptions = {
     logging: false
 }
 
-export const getConnection = async () => {
+const getConnection = async () => {
     if (connection) {
         return connection;
     }
@@ -25,7 +25,7 @@ export const getConnection = async () => {
     return connection;
 }
 
-export const auth = async (email: string, password: string) => {
+const auth = async (email: string, password: string) => {
     const connection = await getConnection();
     const user = await connection.getRepository(User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
     const valid = await compare(password, user.userHash);
@@ -33,6 +33,17 @@ export const auth = async (email: string, password: string) => {
         return user;
     }
     throw new Error('signin failure');
+}
+
+const getRepository = async <T>(target: EntityTarget<T>) => {
+    const connection = await getConnection();
+    return connection.getRepository(target)
+}
+
+export default {
+    getConnection,
+    auth,
+    getRepository
 }
 
 export * from './entity'
