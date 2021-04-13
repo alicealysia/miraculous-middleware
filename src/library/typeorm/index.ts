@@ -62,14 +62,24 @@ class typeorm <T> {
         const repo = await getConnection().then(con => con.getRepository(this._target));
         return repo.find(options);
     }
-    public async findOne (options?: FindOneOptions<T>, id?: string | number | Date | ObjectID) {
+    public async findOne (id: string | number | Date ): Promise<T>;
+    public async findOne (options: FindOneOptions<T>) : Promise<T>;
+    public async findOne (id: string | number | Date , options: FindOneOptions<T>): Promise<T>;
+    public async findOne (optionsOrId: string | number | Date | FindOneOptions<T>, options?: FindOneOptions<T>) {
         const repo = await getConnection().then(con => con.getRepository(this._target));
-        return repo.findOneOrFail(id, options);
+        if (bypassIdCheck<T>(optionsOrId)) {
+            return repo.findOneOrFail(optionsOrId);
+        }
+        return repo.findOneOrFail(optionsOrId, options);
     }
     public async del (criteria: string | number | Date | ObjectID | string[] | number[] | Date[] | ObjectID[] | FindConditions<T>) {
         const repo = await getConnection().then(con => con.getRepository(this._target));
         return repo.delete(criteria);
     }
+}
+
+function bypassIdCheck <T>(optionsOrId: string | number | Date | FindOneOptions<T>): optionsOrId is FindOneOptions<T> {
+    return typeof optionsOrId === 'object';
 }
 
 export default typeorm

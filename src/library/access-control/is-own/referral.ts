@@ -10,6 +10,6 @@ export default async (userId: number, referralId: number) => {
             user: {id: userId}
     }}).then(tasks => tasks.map(task => task.project.client));
     
-    const client = await new typeorm(Entity.Referral).findOne({relations: ['client']}, referralId).then(referral => referral.client);
+    const client = await new typeorm(Entity.Referral).findOne(referralId, {relations: ['client']}).then(referral => referral.client);
     return clients.includes(client);
 }

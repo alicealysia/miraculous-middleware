@@ -21,5 +21,6 @@ export type IndexableEntity = {
     [Resource.referral]: Entity.Referral,
     [Resource.skill]: Entity.Skill,
     [Resource.task]: Entity.Task,
-    [Resource.user]: Entity.User
+    [Resource.user]: Entity.User,
+    [Resource.billing]: Entity.XeroLink
 }

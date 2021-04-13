@@ -21,6 +21,8 @@ export class XeroLink {
     id!: number;
     @Column()
     xeroLink!: string;
+    @Column()
+    amount!: number;
 }
 
 @Entity()

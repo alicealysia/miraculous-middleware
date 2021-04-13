@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express'
 import Router from 'express-promise-router'
 import {sign} from 'jsonwebtoken'
 import passport from 'passport'
-import {ErrorTypes, ErrorStructure} from '../../types'
+import {ErrorHandling} from '../../types'
 
 const router = Router();
 
@@ -14,7 +14,7 @@ router.post(
             //check for failure
             if (err || !user || !process.env.JWT_SECRET) {
                 const error = new Error (JSON.stringify({
-                    type: ErrorTypes.SignInFailure,
+                    type: ErrorHandling.ErrorTypes.SignInFailure,
                     message: err,
                     possibleNulls: [user, process.env.JWT_SECRET]
                 }));

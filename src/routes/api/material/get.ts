@@ -1,11 +1,10 @@
 import {Request, Response, NextFunction} from 'express'
-import {database, accessControl} from '../../../library'
-import { Resource } from '../../../types';
+import {typeorm, accessControl} from '../../../library'
+import { AccessControl } from '../../../types';
 
 export default async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const materials = await database.material.read();
-        const filteredMaterials = await new accessControl(request.User).read(Resource.material).list(materials);
+        const filteredMaterials = await new accessControl(request.User).read(AccessControl.Resource.material).list();
         return response.json(filteredMaterials);
         
     } catch (err) {

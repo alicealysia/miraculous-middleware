@@ -25,7 +25,10 @@ export default async (userId: number, action: AccessControl.Action, resource: Ac
             }
         return false;
         break;
-
+        
+        case AccessControl.Resource.billing:
+            return project(userId, id);
+        break;
         // when created, referrals reference client id. as such, use client logic.
         // other actions use unique logic
         case AccessControl.Resource.referral:

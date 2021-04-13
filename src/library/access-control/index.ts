@@ -1,6 +1,7 @@
 import {Resource, Action, createAnyRequired, createOwnId, readList, cantReadList} from '../../types/access-control'
 import {Entity, IndexableEntity} from '../../types'
 import {Permission} from 'accesscontrol'
+import {DeepPartial} from 'typeorm'
 import accessManager from './access-manager'
 import findOwned from './filter-owned'
 
@@ -16,7 +17,7 @@ class accessControl {
     }
 
     // create overloads, narrows return function (promise vs class)
-    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: IndexableEntity[T]) => IndexableEntity[T]>;
+    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: DeepPartial<IndexableEntity[T]>) => DeepPartial<IndexableEntity[T]>>;
     public create<T extends createOwnId>(resource: T) : filterResourceById<Action.create, T>;
 
     //logic satisfies overloads and returns values
@@ -62,7 +63,7 @@ class filterResourceById <K extends Action, T extends Resource> {
         this._resource = resource;
     }
 
-    public async id (_id: number): Promise<(data:IndexableEntity[T]) => IndexableEntity[T]>;
+    public async id (_id: number): Promise<(data:DeepPartial<IndexableEntity[T]>) => DeepPartial<IndexableEntity[T]>>;
     public async id (_id: number) {
         return accessManager(this._user, this._action, this._resource, _id).then(permissions => permissions.filter);
     }
