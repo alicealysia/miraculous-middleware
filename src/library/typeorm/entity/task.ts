@@ -1,5 +1,8 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, OneToOne} from 'typeorm'
-import { Project, User } from '.';
+import { Project} from './project';
+import {User} from './user'
+import {TaskType} from '../enum/task'
+import Interface from '../interface'
 
 @Entity()
 export class Note {
@@ -41,13 +44,6 @@ export class OTAssessment {
     billableCode!: string;
     @Column()
     assessmentDate!: Date;
-}
-
-
-export enum TaskType {
-    simple= 0,
-    contract = 1,
-    assessment = 2
 }
 
 @Entity()

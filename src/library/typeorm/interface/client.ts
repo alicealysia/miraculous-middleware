@@ -1,19 +1,32 @@
 import {Service as ServiceEnum, Funding, NDIS} from '../enum/client'
-import {Referral, SharepointLink, Service, Project, Closure, Client} from '../entity'
+import Entity from '../entity'
+import { Closure, Project, Referral } from './ns-interface'
 
 export namespace Service {
-    interface Insert {
-        service: ServiceEnum;
-        client: Client;
+    export interface Insert extends ChildCreate {
+        client: Entity.Client;
     }
-    interface Update {
+    export interface Update {
         service?: ServiceEnum;
-        client?: Client;
+        client?: Entity.Client;
+    }
+    export interface ChildCreate {
+        service: ServiceEnum;
+    }
+}
+
+export namespace SharepointLink {
+    export interface Insert {
+        sharepointLink: string;
+    }
+    export interface Update {
+        id: number;
+        sharepointLink: string;
     }
 }
 
 export namespace Client {
-    interface Insert {
+    export interface Insert {
         fullName: string;
         DOB: Date;
         address: string;
@@ -26,29 +39,10 @@ export namespace Client {
         gender: string;
         occupation: string;
         disability: string;
-        referrals: Referral[];
-        approvals: SharepointLink[];
-        services: Service[];
-        projects: Project[];
-        closures: Closure[];
-    }
-    interface Update {
-        fullName?: string;
-        DOB?: Date;
-        address?: string;
-        phone?: string;
-        email?: string;
-        supportCoordinator?: string;
-        funding?: Funding;
-        NDIS?: NDIS;
-        orgName?: string;
-        gender?: string;
-        occupation?: string;
-        disability?: string;
-        referrals?: Referral[];
-        approvals?: SharepointLink[];
-        services?: Service[];
-        projects?: Project[];
-        closures?: Closure[];
+        referrals: (Entity.Referral | Referral.ChildCreate)[];
+        approvals: (Entity.SharepointLink | SharepointLink.Insert)[];
+        services: (Entity.Service | Service.ChildCreate)[];
+        projects: (Entity.Project | Project.ChildCreate)[];
+        closures: (Entity.Closure | Closure.ChildCreate)[];
     }
 }

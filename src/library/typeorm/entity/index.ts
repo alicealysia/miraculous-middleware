@@ -1,58 +1,28 @@
-import {SharepointLink, Service, Client} from './client'
-import Closure from './closure'
-import {XeroLink, Project, Assignment, Material} from './project'
-import {Referral, CustomDesignReferral, DesignLink, EquipmentReferral, OTDocument, OTReferral, ServiceReferral} from './referral'
-import {Note, Contract, OTAssessment, Task} from './task'
-import {User, Availability, Leave, Skill} from './user'
+import * as Entity from './ns-entity';
 
-export default [
-    Client,
-    SharepointLink,
-    Service,
-    Closure,
-    XeroLink,
-    Project,
-    Assignment,
-    Material,
-    Referral,
-    CustomDesignReferral,
-    DesignLink,
-    EquipmentReferral,
-    OTDocument,
-    OTReferral,
-    ServiceReferral,
-    Note,
-    Contract,
-    OTAssessment,
-    Task,
-    User,
-    Availability,
-    Leave,
-    Skill
+export const enumArray = [
+    Entity.Client,
+    Entity.SharepointLink,
+    Entity.Service,
+    Entity.Closure,
+    Entity.XeroLink,
+    Entity.Project,
+    Entity.Material,
+    Entity.Referral,
+    Entity.CustomDesignReferral,
+    Entity.DesignLink,
+    Entity.EquipmentReferral,
+    Entity.OTDocument,
+    Entity.OTReferral,
+    Entity.ServiceReferral,
+    Entity.Note,
+    Entity.Contract,
+    Entity.OTAssessment,
+    Entity.Task,
+    Entity.User,
+    Entity.Availability,
+    Entity.Leave,
+    Entity.Skill
 ]
 
-export {
-    Client,
-    SharepointLink,
-    Service,
-    Closure,
-    XeroLink,
-    Project,
-    Assignment,
-    Material,
-    Referral,
-    CustomDesignReferral,
-    DesignLink,
-    EquipmentReferral,
-    OTDocument,
-    OTReferral,
-    ServiceReferral,
-    Note,
-    Contract,
-    OTAssessment,
-    Task,
-    User,
-    Availability,
-    Leave,
-    Skill
-}
+export default Entity;

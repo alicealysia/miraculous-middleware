@@ -1,28 +1,8 @@
-import {Entity, Column, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent, ManyToOne} from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent} from 'typeorm'
 import {Client} from './client'
-
-export enum Design {
-    knittingAid = 0,
-    crochetAid = 1,
-    poolCue = 2,
-    walkerBar = 3
-}
-
-export enum OTDocType {
-    progressReport = 0,
-    NDISPlan = 1,
-    medicalLetter = 2
-}
-
-export enum BillableHours {
-    flexible = 0,
-    fixed = 1
-}
-
-export enum ServiceType {
-    repair = 0,
-    service = 1
-}
+import Enum from '../enum'
+import Interface from '../interface'
+import { isThisISOWeek } from 'date-fns';
 
 @Entity()
 @Tree('nested-set')
@@ -30,7 +10,7 @@ export class DesignLink {
     @PrimaryGeneratedColumn()
     id!: number;
     @Column('enum')
-    design!: Design;
+    design!: Enum.Design;
     @TreeParent()
     customDesign!: CustomDesignReferral;
 }
@@ -43,7 +23,7 @@ export class OTDocument {
     @TreeParent()
     otReferral!: OTReferral;
     @Column('enum')
-    docType!: OTDocType;
+    docType!: Enum.OTDocType;
     @Column()
     docLink!: string;
 }
@@ -92,7 +72,7 @@ export class OTReferral {
     @Column({length: 1000})
     clientGoals!: string;
     @Column('enum')
-    billableHours!: BillableHours;
+    billableHours!: Enum.BillableHours;
     @Column()
     bikeHeight?: number;
     @Column()
@@ -109,7 +89,7 @@ export class ServiceReferral {
     @TreeParent()
     referral!: Referral;
     @Column()
-    serviceType!: ServiceType;
+    serviceType!: Enum.ServiceType;
     @Column()
     serviceDescription!: string;
     @Column()

@@ -1,9 +1,9 @@
-import typeorm, {Referral, Task} from '../../typeorm'
+import typeorm, {Entity, getConnection} from '../../typeorm'
 
-export default async (userid: number, filter: (data: Referral) => Referral) => {
-    const connection = await typeorm.getConnection();
-    const allReferrals = await connection.getTreeRepository(Referral).findTrees();
-    const ownedClients = await connection.getRepository(Task).find({
+export default async (userid: number, filter: (data: Entity.Referral) => Entity.Referral) => {
+    const connection = await getConnection();
+    const allReferrals = await connection.getTreeRepository(Entity.Referral).findTrees();
+    const ownedClients = await connection.getRepository(Entity.Task).find({
         relations: ['user', 'project', 'project.client'],
         where: {user: {
             id: userid

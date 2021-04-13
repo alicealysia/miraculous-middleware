@@ -7,8 +7,7 @@ import typeorm from '../../typeorm'
 // this logic could grow in complexity, or multiple functions could be needed, so watch this space.
 
 export const create = async (userid: number, projectId: number) => {
-    const connection = await typeorm.getConnection();
-    return connection.getRepository(Entity.Task).findOneOrFail({
+    return new typeorm(Entity.Task).findOne({
         relations: ['user', 'project'], 
         where: {
             user: {id: userid}, 
@@ -20,8 +19,7 @@ export const create = async (userid: number, projectId: number) => {
 // find tasks within assignments, compare task ID to assignment ID.
 
 export const existing = async (userId: number, taskId: number) => {
-    const connection = await typeorm.getConnection();
-    return connection.getRepository(Entity.Task).findOneOrFail({
+    return new typeorm(Entity.Task).findOne({
         relations: ['user'],
         where: {
             id: taskId,
@@ -33,8 +31,7 @@ export const existing = async (userId: number, taskId: number) => {
 //contract, otAssessment
 
 export const existingContract = async (userId: number, contractId: number) => {
-    const connection = await typeorm.getConnection();
-    return connection.getRepository(Entity.Task).findOneOrFail({
+    return new typeorm(Entity.Task).findOne({
         relations: ['user', 'contract'],
         where: {
             contract: {id: contractId},

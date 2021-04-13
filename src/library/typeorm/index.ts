@@ -1,7 +1,9 @@
 import "reflect-metadata";
-import {createConnection, Connection, ConnectionOptions, EntityTarget} from 'typeorm'
+import {createConnection, Connection, ConnectionOptions, EntityTarget, DeepPartial, FindManyOptions, FindOneOptions, ObjectID, FindConditions} from 'typeorm'
 import {compare} from 'bcrypt'
-import entities, {User} from './entity'
+import Entity, {enumArray} from './entity'
+import Interface from './interface'
+import Enum from './enum'
 
 let connection: Connection;
 
@@ -12,7 +14,7 @@ const config : ConnectionOptions = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities,
+    entities: enumArray,
     synchronize: true,
     logging: false
 }
@@ -25,25 +27,56 @@ const getConnection = async () => {
     return connection;
 }
 
-const auth = async (email: string, password: string) => {
-    const connection = await getConnection();
-    const user = await connection.getRepository(User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
-    const valid = await compare(password, user.userHash);
-    if (valid) {
-        return user;
+class typeorm <T> {
+    public _target: EntityTarget<T>;
+    constructor (target: EntityTarget<T>) {
+        this._target = target;
     }
-    throw new Error('signin failure');
+    public async getRepository (target?: EntityTarget<T>) {
+        if (target) {
+            this._target = target;
+        }
+        const connection = await getConnection();
+        return connection.getRepository(this._target);
+    }
+    public async create (row: DeepPartial<T>) {
+        const repo = await getConnection().then(con => con.getRepository(this._target));
+        const entity = await repo.save(row) as T;
+        return entity;
+    }
+    public async update (row: DeepPartial<T>) {
+        const repo = await getConnection().then(con => con.getRepository(this._target));
+        const entity = await repo.save(row);
+        return entity;
+    }
+    public async auth (email: string, password: string) {
+        const connection = await getConnection();
+        const user = await connection.getRepository(Entity.User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
+        const valid = await compare(password, user.userHash);
+        if (valid) {
+            return user;
+        }
+        throw new Error('signin failure');
+    }
+    public async find (options?: FindManyOptions) {
+        const repo = await getConnection().then(con => con.getRepository(this._target));
+        return repo.find(options);
+    }
+    public async findOne (options?: FindOneOptions<T>, id?: string | number | Date | ObjectID) {
+        const repo = await getConnection().then(con => con.getRepository(this._target));
+        return repo.findOneOrFail(id, options);
+    }
+    public async del (criteria: string | number | Date | ObjectID | string[] | number[] | Date[] | ObjectID[] | FindConditions<T>) {
+        const repo = await getConnection().then(con => con.getRepository(this._target));
+        return repo.delete(criteria);
+    }
 }
 
-const getRepository = async <T>(target: EntityTarget<T>) => {
-    const connection = await getConnection();
-    return connection.getRepository(target)
-}
+export default typeorm
 
-export default {
-    getConnection,
-    auth,
-    getRepository
+export {
+    Entity,
+    Enum,
+    Interface,
+    getConnection
 }
-
-export * from './entity'

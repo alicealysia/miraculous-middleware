@@ -1,6 +1,8 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany, JoinTable} from 'typeorm'
 import { Client } from './client';
+import {ProjectType} from '../enum/project'
 import {Task} from './task'
+import Interface from '../interface'
 
 @Entity()
 export class Material {
@@ -19,11 +21,6 @@ export class XeroLink {
     id!: number;
     @Column()
     xeroLink!: string;
-}
-
-export enum ProjectType {
-    FreedomWheels = 0,
-    Other = 1
 }
 
 @Entity()
@@ -48,20 +45,18 @@ export class Project {
     client!: Client;
     @Column()
     amountInvoiced!: number;
-    @Column()
-    clientName?: string;
     @OneToMany(() => Task, task => task.project, {cascade: true})
-    tasks!: Task[];
+    tasks?: Task[];
     @ManyToMany(() => Material , {cascade: true})
     @JoinTable()
-    materials!: Material[];
+    materials?: Material[];
     @ManyToMany(() => Material, {cascade: true} )
     @JoinTable()
     materialsEstimate!: Material[];
     @ManyToMany(() => XeroLink, {cascade: true})
     @JoinTable()
-    quotes!: XeroLink[]
+    quotes?: XeroLink[]
     @ManyToMany(() => XeroLink, {cascade: true})
     @JoinTable()
-    invoices!: XeroLink[]
+    invoices?: XeroLink[];
 }

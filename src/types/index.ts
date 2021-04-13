@@ -1,15 +1,16 @@
 import * as ErrorHandling from './error-handling'
 import * as AccessControl from './access-control'
-import * as Entity from '../library/typeorm'
+import {Entity, Enum, Interface} from '../library/typeorm'
 
 export {
     ErrorHandling,
     AccessControl,
-    Entity
+    Entity,
+    Enum, 
+    Interface
 }
 
 const Resource = AccessControl.Resource;
-
 export type IndexableEntity = {
     [Resource.client]: Entity.Client,
     [Resource.closure]: Entity.Closure,

@@ -1,6 +1,7 @@
 import {TokenSet} from 'openid-client'
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinTable, ManyToMany} from 'typeorm'
-import { Task } from '.';
+import { Task } from './task';
+import {Weekday} from '../enum/user'
 
 @Entity()
 export class User {
@@ -30,25 +31,15 @@ export class User {
     xeroToken?: TokenSet;
     @Column()
     msalToken?: string;
-    @OneToMany(() => Availability, availability => availability.userId)
+    @OneToMany(() => Availability, availability => availability.user)
     availability?: Availability[];
-    @OneToMany(() => Leave, leave => leave.userId)
+    @OneToMany(() => Leave, leave => leave.user)
     leave?: Leave[];
     @ManyToMany(() => Skill)
     @JoinTable()
     skills!: Skill[];
     @OneToMany(() => Task, task => task.user)
     tasks!: Task[];
-}
-
-export enum Weekday {
-    sunday = 0,
-    monday = 1,
-    tuesday = 2,
-    wednesday = 3,
-    thursday = 4,
-    friday = 5,
-    saturday = 6
 }
 
 @Entity()
@@ -62,7 +53,7 @@ export class Availability {
     @Column()
     endTime!: number;
     @ManyToOne(() => User, user => user.availability)
-    userId!: User;
+    user!: User;
 }
 
 @Entity()
@@ -74,7 +65,7 @@ export class Leave {
     @Column()
     endDate!: Date;
     @ManyToOne(() => User, user => user.leave)
-    userId!: User;
+    user!: User;
 }
 
 @Entity()

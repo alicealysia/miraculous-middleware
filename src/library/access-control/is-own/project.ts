@@ -1,10 +1,9 @@
-import typeorm, {Task} from '../../typeorm'
+import typeorm, {Entity} from '../../typeorm'
 
 // is a project assigned to a user?
 
 export default async (userId: number, projectId: number) => {
-    const repo = await typeorm.getRepository(Task);
-    return repo.findOneOrFail({
+    return new typeorm(Entity.Task).findOne({
         relations: ['user', 'project'], 
         where: {
             user: {

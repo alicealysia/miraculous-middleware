@@ -3,8 +3,8 @@ import {typeorm} from '../library'
 import {Entity} from '../types'
 
 export default async () => {
-    const connection = await typeorm.getConnection();
-    return connection.getRepository(Entity.User).find({
+    const connection = new typeorm(Entity.User);
+    return connection.find({
         where: {
             accessRights: In(['projectManager'])
         }

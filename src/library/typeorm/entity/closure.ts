@@ -1,6 +1,8 @@
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm'
+import {Interface} from '../'
 import { Client } from './client';
-import {ProjectType} from './project'
+
+import {Enum} from '../'
 
 
 @Entity()
@@ -18,7 +20,7 @@ class Closure {
     @Column()
     finishDate!: Date;
     @Column('enum')
-    projectType!: ProjectType;
+    projectType!: Enum.ProjectType;
     @ManyToOne(() => Client, client => client.closures)
     client!: Client;
     @Column()
