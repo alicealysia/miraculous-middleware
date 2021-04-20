@@ -1,4 +1,4 @@
-import {Entity, AccessControl, IndexableEntity} from '../../../types'
+import {Entity, AccessControl} from '../../../types'
 import ac from '../permission'
 import {getConnection} from '../../typeorm'
 import {IQueryInfo} from 'accesscontrol'
@@ -16,7 +16,7 @@ async function findOwned (user: Entity.User, resource: AccessControl.readList): 
 
     //if anyperm, return unfiltered.
     // also, rare any usage :O
-    if (anyPerm.granted) {
+    if (anyPerm.granted && resource !== AccessControl.Resource.billing) {
         const connection = await getConnection();
         return connection.getRepository(Entity[resource]).find().then(obj => obj.map((currentItem: any) => anyPerm.filter(currentItem)));
     }
