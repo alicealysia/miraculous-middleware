@@ -21,7 +21,7 @@ class accessControl {
 
     //logic satisfies overloads and returns values
     public create (resource: createAnyRequired | createOwnId){
-        if (resource === Resource.client || Resource.project || Resource.skill || Resource.material) {
+        if (resource === Resource.client || resource ===  Resource.project || resource ===  Resource.skill || resource ===  Resource.material) {
             return accessManager(this._user, Action.create, resource).then(permissions => permissions.filter);
         }
         return new filterResourceById(this._user, Action.create, resource);
@@ -33,7 +33,7 @@ class accessControl {
 
     // satisfies overloads and returns values
     public read (resource: readList | cantReadList) {
-        if (resource === Resource.contract || Resource.material || Resource.otAssessment || Resource.skill) {
+        if (resource === Resource.contract || resource === Resource.material || resource === Resource.otAssessment || resource === Resource.skill) {
             return new filterResourceById(this._user, Action.read, resource);
         }
         return new readResourceWithList(this._user, resource as readList);
@@ -82,9 +82,9 @@ class readResourceWithList <T extends readList> {
         return accessManager(this._user, Action.read, this._resource, _id).then(permissions => permissions.filter);
     }
     public async list (): Promise<IndexableEntityType[T][]>;
-    public async list() {
+    public async list () {
         return findOwned(this._user, this._resource);
-    }
+    };
 }
 
 export default accessControl;

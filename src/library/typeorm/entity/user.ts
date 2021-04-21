@@ -23,13 +23,13 @@ export class User {
     WWVPexp?: Date;
     @Column()
     hourlyRate!: number;
-    @Column('array')
+    @Column('simple-array')
     accessRights!: string[];
     @Column()
     userHash!: string;
-    @Column('json')
+    @Column('json', {nullable: true})
     xeroToken?: TokenSet;
-    @Column()
+    @Column({nullable: true})
     msalToken?: string;
     @OneToMany(() => Availability, availability => availability.user)
     availability?: Availability[];
@@ -46,7 +46,7 @@ export class User {
 export class Availability {
     @PrimaryGeneratedColumn()
     id!: number;
-    @Column('simple-enum')
+    @Column()
     workDay!: Weekday;
     @Column()
     startTime!: number;

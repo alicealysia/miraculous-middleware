@@ -1,14 +1,17 @@
 import {Service as ServiceEnum, Funding, NDIS} from '../enum/client'
-import Entity from '../entity'
+import {Client, SharepointLink as SharepointLinkClass, Service as ServiceClass} from '../entity/client'
+import {Referral as ReferralClass} from '../entity/referral'
+import {Project as ProjectClass} from '../entity/project'
+import ClosureClass from '../entity/closure'
 import { Closure, Project, Referral } from './ns-interface'
 
 export namespace Service {
     export interface Insert extends ChildCreate {
-        client: Entity.Client;
+        client: Client;
     }
     export interface Update {
         service?: ServiceEnum;
-        client?: Entity.Client;
+        client?: Client;
     }
     export interface ChildCreate {
         service: ServiceEnum;
@@ -39,10 +42,10 @@ export namespace Client {
         gender: string;
         occupation: string;
         disability: string;
-        referrals: (Entity.Referral | Referral.ChildCreate)[];
-        approvals: (Entity.SharepointLink | SharepointLink.Insert)[];
-        services: (Entity.Service | Service.ChildCreate)[];
-        projects: (Entity.Project | Project.ChildCreate)[];
-        closures: (Entity.Closure | Closure.ChildCreate)[];
+        referrals: (ReferralClass | Referral.ChildCreate)[];
+        approvals: (SharepointLinkClass | SharepointLink.Insert)[];
+        services: (ServiceClass | Service.ChildCreate)[];
+        projects: (ProjectClass | Project.ChildCreate)[];
+        closures: (ClosureClass | Closure.ChildCreate)[];
     }
 }

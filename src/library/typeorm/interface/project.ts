@@ -1,5 +1,8 @@
 import {Client} from './client'
-import Entity from '../entity'
+import {Client as ClientClass} from '../entity/client'
+import {XeroLink as XeroLinkClass, Material as MaterialClass} from '../entity/project'
+import {Task as TaskClass} from '../entity/task'
+
 import Enum from '../enum'
 import {Task} from './task'
 
@@ -23,7 +26,7 @@ export namespace XeroLink {
 
 export namespace Project {
     export interface Insert extends ChildCreate {
-        client: Entity.Client;
+        client: ClientClass;
     }
     export interface ChildCreate {
         projectName: string;
@@ -34,10 +37,10 @@ export namespace Project {
         hoursEstimate: number;
         projectType: Enum.ProjectType;
         amountInvoiced: number;
-        tasks?: (Entity.Task | Task.ProjectChildCreate)[];
-        materials?: (Entity.Material | Material.Insert)[];
-        materialsEstimate: (Entity.Material | Material.Insert)[];
-        quotes?: (Entity.XeroLink | XeroLink.Insert)[];
-        invoices?: (Entity.XeroLink | XeroLink.Insert )[];
+        tasks?: (TaskClass | Task.ProjectChildCreate)[];
+        materials?: (MaterialClass | Material.Insert)[];
+        materialsEstimate: (MaterialClass | Material.Insert)[];
+        quotes?: (XeroLinkClass | XeroLink.Insert)[];
+        invoices?: (XeroLinkClass | XeroLink.Insert )[];
     }
 }

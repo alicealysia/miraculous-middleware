@@ -9,7 +9,7 @@ import { isThisISOWeek } from 'date-fns';
 export class DesignLink {
     @PrimaryGeneratedColumn()
     id!: number;
-    @Column('enum')
+    @Column()
     design!: Enum.Design;
     @TreeParent()
     customDesign!: CustomDesignReferral;
@@ -22,7 +22,7 @@ export class OTDocument {
     id!: number;
     @TreeParent()
     otReferral!: OTReferral;
-    @Column('enum')
+    @Column()
     docType!: Enum.OTDocType;
     @Column()
     docLink!: string;
@@ -71,11 +71,11 @@ export class OTReferral {
     therapyGoals!: string;
     @Column({length: 1000})
     clientGoals!: string;
-    @Column('enum')
+    @Column()
     billableHours!: Enum.BillableHours;
-    @Column()
+    @Column({nullable: true})
     bikeHeight?: number;
-    @Column()
+    @Column({nullable: true})
     bikeWidth?: number;
     @TreeChildren({cascade: true})
     documents!: OTDocument[];
@@ -92,7 +92,7 @@ export class ServiceReferral {
     serviceType!: Enum.ServiceType;
     @Column()
     serviceDescription!: string;
-    @Column()
+    @Column({nullable: true})
     serialNumber?: string;
 }
 

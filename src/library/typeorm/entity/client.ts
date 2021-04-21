@@ -11,7 +11,7 @@ export class Service {
     id!: number;
     @Column()
     service!: EService;
-    @ManyToOne(() => Client, client => client.services, {cascade: true})
+    @ManyToOne(() => Client, client => client.services)
     client!: Client;
     public update(changes: IService.Update) {
         this.service = changes.service ?? this.service;
@@ -25,9 +25,6 @@ export class SharepointLink {
     id!: number;
     @Column()
     sharepointLink!: string;
-    public update (changes: string) {
-        this.sharepointLink = changes;
-    }
 }
 
 @Entity()
@@ -46,9 +43,9 @@ export class Client {
     email!: string;
     @Column()
     supportCoordinator!: string;
-    @Column('enum')
+    @Column()
     funding!: EFunding;
-    @Column('enum')
+    @Column()
     NDIS!: ENDIS;
     @Column()
     orgName!: string;

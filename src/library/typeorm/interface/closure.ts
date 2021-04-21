@@ -1,10 +1,10 @@
-import {Entity} from '../'
+import {Client} from '../entity/client'
 
 import Enum from '../enum'
 
 export namespace Closure {
     export interface Insert extends ChildCreate {
-        client: Entity.Client;
+        client: Client;
     }
     export interface ChildCreate {
         projectName: string;

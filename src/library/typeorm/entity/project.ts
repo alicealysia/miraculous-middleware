@@ -2,7 +2,6 @@ import {Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, ManyToMany
 import { Client } from './client';
 import {ProjectType} from '../enum/project'
 import {Task} from './task'
-import Interface from '../interface'
 
 @Entity()
 export class Material {
@@ -16,6 +15,7 @@ export class Material {
     serialCode?: string;
 }
 
+@Entity()
 export class XeroLink {
     @PrimaryGeneratedColumn()
     id!: number;
@@ -41,7 +41,7 @@ export class Project {
     finishEstimate!: Date;
     @Column()
     hoursEstimate!: number;
-    @Column('enum')
+    @Column()
     projectType!: ProjectType;
     @ManyToOne(() => Client, client => client.projects)
     client!: Client;

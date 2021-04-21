@@ -1,4 +1,7 @@
-import Entity from "../entity";
+import {Task} from "../entity/task";
+import {Project} from '../entity/project';
+import {User} from '../entity/user';
+import {Contract as ContractClass, OTAssessment as OTAssessmentClass, Note as NoteClass} from '../entity/task'
 import Enum from '../enum';
 
 export namespace Note {
@@ -6,14 +9,14 @@ export namespace Note {
         id: number;
         note?: string;
         noteDate?: Date;
-        task?: Entity.Task;
+        task?: Task;
     }
     export interface ChildCreate {
         note: string;
         noteDate: Date;
     }
     export interface Insert extends ChildCreate {
-        task: Entity.Task;
+        task: Task;
     }
 }
 export namespace Contract {
@@ -51,8 +54,8 @@ export namespace OTAssessment {
 export namespace Task {
     export interface Update {
         id: number;
-        project?: Entity.Project;
-        user?: Entity.User;
+        project?: Project;
+        user?: User;
         taskName?: string;
         due?: Date;
         taskType?: Enum.TaskType;
@@ -62,9 +65,9 @@ export namespace Task {
         actualTravel?: number;
         report?: string;
         complete?: Date;
-        contract?: Entity.Contract;
-        assessment?: Entity.OTAssessment;
-        notes?: Entity.Note[];
+        contract?: ContractClass;
+        assessment?: OTAssessmentClass;
+        notes?: NoteClass[];
     }
     interface CreateRoot {
         taskName: string;
@@ -76,18 +79,18 @@ export namespace Task {
         actualTravel: number;
         report?: string;
         complete?: Date;
-        contract?: (Entity.Contract | Contract.Insert);
-        assessment?: (Entity.OTAssessment | OTAssessment.Insert);
-        notes?: (Entity.Note | Note.ChildCreate)[];
+        contract?: (ContractClass | Contract.Insert);
+        assessment?: (OTAssessmentClass | OTAssessment.Insert);
+        notes?: (NoteClass | Note.ChildCreate)[];
     }
     export interface ProjectChildCreate extends CreateRoot {
-        project: Entity.Project;
+        project: Project;
     }
     export interface UserChildCreate extends CreateRoot {
-        user: Entity.User;
+        user: User;
     }
     export interface Insert extends CreateRoot {
-        project: Entity.Project;
-        user: Entity.User;
+        project: Project;
+        user: User;
     }
 }

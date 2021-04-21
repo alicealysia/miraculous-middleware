@@ -1,9 +1,19 @@
 import Enum from '../enum'
-import Entity from '../entity'
+import {
+    CustomDesignReferral as CustomDesignReferralClass,
+    EquipmentReferral as EquipmentReferralClass,
+    OTReferral as OTReferralClass,
+    ServiceReferral as ServiceReferralClass,
+    Referral as ReferralClass,
+    DesignLink as DesignLinkClass,
+    OTDocument as OTDocumentClass
+} from '../entity/referral'
+
+import {Client as ClientClass} from '../entity/client'
 
 export namespace DesignLink {
     export interface Insert extends ChildCreate {
-        customDesign: Entity.CustomDesignReferral;
+        customDesign: CustomDesignReferralClass;
     }
     export interface ChildCreate {
         design: Enum.Design;
@@ -12,7 +22,7 @@ export namespace DesignLink {
 
 export namespace OTDocument {
     export interface Insert extends ChildCreate {
-        otReferral: Entity.OTReferral;
+        otReferral: OTReferralClass;
     }
     export interface ChildCreate {
         docType: Enum.OTDocType;
@@ -22,18 +32,18 @@ export namespace OTDocument {
 
 export namespace CustomDesignReferral {
     export interface Insert extends ChildCreate {
-        referral: Entity.Referral;
+        referral: ReferralClass;
     }
     export interface ChildCreate {
         productType: string;
         concept: string;
-        designs: (Entity.DesignLink | DesignLink.ChildCreate)[];
+        designs: (DesignLinkClass | DesignLink.ChildCreate)[];
     }
 }
 
 export namespace EquipmentReferral {
     export interface Insert extends ChildCreate {
-        referral: Entity.Referral;
+        referral: ReferralClass;
     }
     export interface ChildCreate {
         product: string;
@@ -44,7 +54,7 @@ export namespace EquipmentReferral {
 
 export namespace OTReferral {
     export interface Insert extends ChildCreate{
-        referral: Entity.Referral;
+        referral: ReferralClass;
     }
     export interface ChildCreate {
         focus: string;
@@ -54,14 +64,14 @@ export namespace OTReferral {
         billableHours: Enum.BillableHours;
         bikeHeight?: number;
         bikeWidth?: number;
-        documents: (Entity.OTDocument | OTDocument.ChildCreate)[];
+        documents: (OTDocumentClass | OTDocument.ChildCreate)[];
     }
 }
 
 
 export namespace ServiceReferral {
     export interface Insert extends ChildCreate {
-        referral: Entity.Referral;
+        referral: ReferralClass;
     }
     export interface ChildCreate {
         serviceType: Enum.ServiceType;
@@ -72,12 +82,12 @@ export namespace ServiceReferral {
 
 export namespace Referral {
     export interface Insert extends ChildCreate{
-        client: Entity.Client;
+        client: ClientClass;
     }
     export interface ChildCreate {
-        customDesigns?: (Entity.CustomDesignReferral | CustomDesignReferral.ChildCreate)[];
-        equipmentReferrals?: (Entity.EquipmentReferral | EquipmentReferral.ChildCreate)[];
-        OTReferrals?: (Entity.OTReferral | OTReferral.ChildCreate)[];
-        services?: (Entity.ServiceReferral | ServiceReferral.ChildCreate)[];
+        customDesigns?: (CustomDesignReferralClass | CustomDesignReferral.ChildCreate)[];
+        equipmentReferrals?: (EquipmentReferralClass | EquipmentReferral.ChildCreate)[];
+        OTReferrals?: (OTReferralClass | OTReferral.ChildCreate)[];
+        services?: (ServiceReferralClass | ServiceReferral.ChildCreate)[];
     }
 }

@@ -12,7 +12,7 @@ export class Note {
     note!: string;
     @Column()
     noteDate!: Date;
-    @ManyToOne(() => Task, task => task.notes, {cascade: true})
+    @ManyToOne(() => Task, task => task.notes)
     task!: Task;
 }
 
@@ -24,9 +24,9 @@ export class Contract {
     referringAgent!: string;
     @Column()
     billerCode!: string;
-    @Column()
+    @Column({nullable: true})
     quoteLink?: string;
-    @Column()
+    @Column({nullable: true})
     invoiceLink?: string;
     @Column()
     cost?: number;
@@ -50,7 +50,7 @@ export class OTAssessment {
 export class Task {
     @PrimaryGeneratedColumn()
     id!: number;
-    @ManyToOne(() => Project, project => project.tasks, {cascade: true})
+    @ManyToOne(() => Project, project => project.tasks)
     project!: Project;
     @ManyToOne(() => User, user => user.tasks)
     user!: User;
@@ -58,7 +58,7 @@ export class Task {
     taskName!: string;
     @Column()
     due!: Date;
-    @Column('enum')
+    @Column()
     taskType!: TaskType;
     @Column()
     estimatedTravel!: number;
@@ -68,9 +68,9 @@ export class Task {
     actualHours: number = 0;
     @Column()
     actualTravel: number = 0;
-    @Column()
+    @Column({nullable: true})
     report?: string;
-    @Column()
+    @Column({nullable: true})
     complete?: Date;
     @OneToOne(() => Contract)
     @JoinColumn()

@@ -4,7 +4,5 @@ import {User} from './library/typeorm/entity/user'
 import {milliseconds} from 'date-fns'
 import {hash} from 'bcrypt'
 
-export default async () => {
-    
-    
+export default async () => {  
 }

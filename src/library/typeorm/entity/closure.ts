@@ -19,7 +19,7 @@ class Closure {
     startDate!: Date;
     @Column()
     finishDate!: Date;
-    @Column('enum')
+    @Column()
     projectType!: Enum.ProjectType;
     @ManyToOne(() => Client, client => client.closures)
     client!: Client;

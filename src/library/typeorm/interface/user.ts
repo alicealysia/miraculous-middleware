@@ -1,5 +1,6 @@
 import {TokenSet} from 'openid-client'
-import Entity from '../entity';
+import {Availability as AvailabilityClass, Leave as LeaveClass, Skill as SkillClass, User as UserClass} from '../entity/user';
+import {Task as TaskClass} from '../entity/task'
 import {Weekday} from '../enum/user'
 import {Task} from './task'
 
@@ -17,10 +18,10 @@ export namespace User {
         userHash: string;
         xeroToken?: TokenSet;
         msalToken?: string;
-        availability?: (Entity.Availability | Availability.ChildCreate)[];
-        leave?: (Entity.Leave | Leave.ChildCreate)[];
-        skills: (Entity.Skill | Skill.Insert)[];
-        tasks: (Entity.Task | Task.UserChildCreate)[];
+        availability?: (AvailabilityClass | Availability.ChildCreate)[];
+        leave?: (LeaveClass | Leave.ChildCreate)[];
+        skills: (SkillClass | Skill.Insert)[];
+        tasks: (TaskClass | Task.UserChildCreate)[];
     }
 }
 export namespace Availability {
@@ -30,7 +31,7 @@ export namespace Availability {
         endTime: number;
     }
     export interface Insert extends ChildCreate {
-        user: Entity.User;
+        user: UserClass;
     }
 }
 export namespace Leave {
@@ -39,7 +40,7 @@ export namespace Leave {
         endDate: Date;
     }
     export interface Insert extends ChildCreate {
-        user: Entity.User;
+        user: UserClass;
     }
 }
 export namespace Skill {
