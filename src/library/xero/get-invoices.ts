@@ -1,5 +1,5 @@
 import getXero from './init'
-import {User} from '../typeorm'
+import {User} from '../typeorm/entity/user';
 import { InvoiceReminder } from 'xero-node';
 
 export default async(user: User, invoiceId?: string) => {

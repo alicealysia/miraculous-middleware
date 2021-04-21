@@ -1,4 +1,4 @@
-import {Entity} from '../../../types'
+import {Task} from '../../typeorm/entity/task'
 import typeorm from '../../typeorm'
 
 //tasks reference assignment id when created, meaning we just need to check the given ID vs the user assignments
@@ -7,7 +7,7 @@ import typeorm from '../../typeorm'
 // this logic could grow in complexity, or multiple functions could be needed, so watch this space.
 
 export const create = async (userid: number, projectId: number) => {
-    return new typeorm(Entity.Task).findOne({
+    return new typeorm(Task).findOne({
         relations: ['user', 'project'], 
         where: {
             user: {id: userid}, 
@@ -19,7 +19,7 @@ export const create = async (userid: number, projectId: number) => {
 // find tasks within assignments, compare task ID to assignment ID.
 
 export const existing = async (userId: number, taskId: number) => {
-    return new typeorm(Entity.Task).findOne({
+    return new typeorm(Task).findOne({
         relations: ['user'],
         where: {
             id: taskId,
@@ -31,7 +31,7 @@ export const existing = async (userId: number, taskId: number) => {
 //contract, otAssessment
 
 export const existingContract = async (userId: number, contractId: number) => {
-    return new typeorm(Entity.Task).findOne({
+    return new typeorm(Task).findOne({
         relations: ['user', 'contract'],
         where: {
             contract: {id: contractId},

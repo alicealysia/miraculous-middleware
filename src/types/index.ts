@@ -1,26 +1,7 @@
 import * as ErrorHandling from './error-handling'
-import * as AccessControl from './access-control'
-import {Entity, Enum, Interface} from '../library/typeorm'
+import {Resource, Action, Read} from './access-control'
 
 export {
     ErrorHandling,
-    AccessControl,
-    Entity,
-    Enum, 
-    Interface
-}
-
-const Resource = AccessControl.Resource;
-export type IndexableEntity = {
-    [Resource.client]: Entity.Client,
-    [Resource.closure]: Entity.Closure,
-    [Resource.contract]: Entity.Contract,
-    [Resource.material]: Entity.Material,
-    [Resource.otAssessment]: Entity.OTAssessment,
-    [Resource.project]: Entity.Project,
-    [Resource.referral]: Entity.Referral,
-    [Resource.skill]: Entity.Skill,
-    [Resource.task]: Entity.Task,
-    [Resource.user]: Entity.User,
-    [Resource.billing]: Entity.XeroLink
+    Resource, Action, Read
 }

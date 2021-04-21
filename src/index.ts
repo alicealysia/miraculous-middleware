@@ -1,19 +1,19 @@
 const result = require('dotenv').config();
 import express from 'express'
 import passport from 'passport'
-// import {bootFunc} from './boot';
+import bootFunc from './boot';
 import routes from './routes';
 import cookieParser from 'cookie-parser'
 import errorHandler from './middleware/error-handler'
 import './library/passport'
 import 'isomorphic-fetch'
-import { Entity } from './types';
+import { User } from './library/typeorm/entity/user';
 import "reflect-metadata";
 
 const app = express();
 const port = 8080;
 
-type ExpressUser = Entity.User;
+type ExpressUser = User;
 
 declare global {
     namespace Express {
@@ -32,6 +32,7 @@ app.use(passport.initialize());
 app.use('/', routes);
 app.use(errorHandler);
 
+bootFunc();
 
 if (result.parsed) {
     console.log(result.parsed);

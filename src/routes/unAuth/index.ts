@@ -1,8 +1,8 @@
 import {Request, Response, NextFunction} from 'express'
-import {Entity, Interface} from '../../types'
+import { Interface } from '../../library/typeorm/'
+import { Client } from '../../library/typeorm/entity/client'
 import findProjectManagers from '../../utils/find-project-managers'
-import {nodemailer, typeorm} from '../../library' 
-import {DeepPartial} from 'typeorm'
+import {nodemailer, typeorm} from '../../library'
 
 const emailProjectManagers = async (clientName: string, clientId: number) => {
     const projectManagers = await findProjectManagers();
@@ -13,7 +13,7 @@ const emailProjectManagers = async (clientName: string, clientId: number) => {
 
 export default async (request: Request<any, any, Interface.Client.Insert, any>, response: Response, next: NextFunction) => {
     const client = request.body;
-    const clientQuery = new typeorm(Entity.Client);
+    const clientQuery = new typeorm(Client);
     let dbClient = await clientQuery.findOne({
         relations: ['referrals'],
         where: [{

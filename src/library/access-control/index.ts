@@ -1,11 +1,10 @@
 import {Resource, Action, createAnyRequired, createOwnId, readList, cantReadList} from '../../types/access-control'
-import {Entity, IndexableEntity} from '../../types'
+import {User} from '../typeorm/entity/user'
+import {IndexableEntityObj, IndexableEntityType} from '../typeorm'
 import {Permission} from 'accesscontrol'
 import {DeepPartial} from 'typeorm'
 import accessManager from './access-manager'
 import findOwned from './filter-owned'
-
-type User = Entity.User;
 
 class accessControl {
 
@@ -17,7 +16,7 @@ class accessControl {
     }
 
     // create overloads, narrows return function (promise vs class)
-    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: DeepPartial<IndexableEntity[T]>) => DeepPartial<IndexableEntity[T]>>;
+    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: DeepPartial<IndexableEntityType[T]>) => DeepPartial<IndexableEntityType[T]>>;
     public create<T extends createOwnId>(resource: T) : filterResourceById<Action.create, T>;
 
     //logic satisfies overloads and returns values
@@ -63,7 +62,7 @@ class filterResourceById <K extends Action, T extends Resource> {
         this._resource = resource;
     }
 
-    public async id (_id: number): Promise<(data:DeepPartial<IndexableEntity[T]>) => DeepPartial<IndexableEntity[T]>>;
+    public async id (_id: number): Promise<(data:DeepPartial<IndexableEntityType[T]>) => DeepPartial<IndexableEntityType[T]>>;
     public async id (_id: number) {
         return accessManager(this._user, this._action, this._resource, _id).then(permissions => permissions.filter);
     }
@@ -78,11 +77,11 @@ class readResourceWithList <T extends readList> {
         this._user = user;
         this._resource = resource;
     }
-    public async id (_id: number): Promise<(data:IndexableEntity[T]) => IndexableEntity[T]>;
+    public async id (_id: number): Promise<(data:IndexableEntityType[T]) => IndexableEntityType[T]>;
     public async id (_id: number) {
         return accessManager(this._user, Action.read, this._resource, _id).then(permissions => permissions.filter);
     }
-    public async list (): Promise<IndexableEntity[T][]>;
+    public async list (): Promise<IndexableEntityType[T][]>;
     public async list() {
         return findOwned(this._user, this._resource);
     }

@@ -1,7 +1,7 @@
 import Router from 'express-promise-router'
 import {Request, Response, NextFunction} from 'express'
 import {sharepoint, typeorm} from '../../../library'
-import {Entity} from '../../../types'
+import { User } from '../../../library/typeorm/entity/user'
 import returnSuccess from '../returnSuccess'
 
 const router = Router();
@@ -13,7 +13,7 @@ router.get('/consent', async (request: Request, response: Response, next: NextFu
 router.get('/token', async (request, response, next) => {
     const token = await sharepoint.getToken(request.query.code as string).catch(error => next(error));
     console.log(token);
-    await new typeorm(Entity.User).update({id: request.User.id, msalToken: token.accessToken});
+    await new typeorm(User).update({id: request.User.id, msalToken: token.accessToken});
     request.User.msalToken = token.accessToken;
     return next();
 }, returnSuccess);

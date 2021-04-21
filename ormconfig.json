@@ -6,19 +6,5 @@
    "password": "test",
    "database": "test",
    "synchronize": true,
-   "logging": false,
-   "entities": [
-      "src/typeorm/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/typeorm/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/typeorm/subscriber/**/*.ts"
-   ],
-   "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
-   }
+   "logging": false
 }

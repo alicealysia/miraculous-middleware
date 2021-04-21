@@ -1,7 +1,8 @@
-import typeorm, {Entity} from '../../typeorm'
+import typeorm from '../../typeorm'
+import {Task} from '../../typeorm/entity/task'
 
 export default async (user: number, clientId: number) => {
-    return new typeorm(Entity.Task).findOne({
+    return new typeorm(Task).findOne({
         relations: ['user', 'project', 'project.client'], 
         where: {
             user: {id: user},

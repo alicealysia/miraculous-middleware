@@ -1,9 +1,9 @@
 import { In } from 'typeorm';
 import {typeorm} from '../library'
-import {Entity} from '../types'
+import {User} from '../library/typeorm/entity/user'
 
 export default async () => {
-    const connection = new typeorm(Entity.User);
+    const connection = new typeorm(User);
     return connection.find({
         where: {
             accessRights: In(['projectManager'])

@@ -1,6 +1,7 @@
-import {Entity, AccessControl} from '../../../types'
+import {User} from '../../typeorm/entity/user'
+import {readList, Resource, Action} from '../../../types/access-control'
 import ac from '../permission'
-import {getConnection} from '../../typeorm'
+import {getConnection, IndexableEntityObj} from '../../typeorm'
 import {IQueryInfo} from 'accesscontrol'
 import client from './client'
 import {projects} from './project'
@@ -8,38 +9,38 @@ import referral from './referral'
 import task from './task'
 
 
-async function findOwned (user: Entity.User, resource: AccessControl.readList): Promise<any[]> {
+async function findOwned (user: User, resource: readList): Promise<any[]> {
 
     //build a queryInfo object
-    const query: IQueryInfo = {action: AccessControl.Action.read, resource, role: user.accessRights};
+    const query: IQueryInfo = {action: Action.read, resource, role: user.accessRights};
     const anyPerm = ac.permission({...query, possession: 'any'});
 
     //if anyperm, return unfiltered.
     // also, rare any usage :O
-    if (anyPerm.granted && resource !== AccessControl.Resource.billing) {
+    if (anyPerm.granted && resource !== Resource.billing) {
         const connection = await getConnection();
-        return connection.getRepository(Entity[resource]).find().then(obj => obj.map((currentItem: any) => anyPerm.filter(currentItem)));
+        return connection.getRepository(IndexableEntityObj[resource]).find().then(obj => obj.map((currentItem: any) => anyPerm.filter(currentItem)));
     }
 
     const ownPerm = ac.permission({...query, possession: 'own'});
 
     if (ownPerm.granted) {
         switch (resource) {
-            case AccessControl.Resource.user: 
+            case Resource.user: 
                 const connection = await getConnection();
-                const me = await connection.getRepository(Entity.User).findOneOrFail(user.id);
+                const me = await connection.getRepository(User).findOneOrFail(user.id);
                 return ownPerm.filter(me); 
             break;
-            case AccessControl.Resource.client:
+            case Resource.client:
                 return client(user.id, ownPerm.filter); 
             break;
-            case AccessControl.Resource.project: 
+            case Resource.project: 
                 return projects(user.id, ownPerm.filter); 
             break;
-            case AccessControl.Resource.referral: 
+            case Resource.referral: 
                 return referral(user.id, ownPerm.filter); 
             break;
-            case AccessControl.Resource.task: 
+            case Resource.task: 
                 return task(user.id, ownPerm.filter); 
             break;
             default:

@@ -1,7 +1,9 @@
-import typeorm, {Entity} from '../../typeorm'
+import typeorm from '../../typeorm'
+import {Project} from '../../typeorm/entity/project'
+import {Task} from '../../typeorm/entity/task'
 
-export const projects = async (userId: number, filter: (data: Entity.Project) => Entity.Project) => {
-    return new typeorm(Entity.Task).find({
+export const projects = async (userId: number, filter: (data: Project) => Project) => {
+    return new typeorm(Task).find({
         relations: ['user', 'project'],
         where: {
             user: {

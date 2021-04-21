@@ -1,6 +1,6 @@
 import getXero from './init'
 import {Invoice} from 'xero-node'
-import {User} from '../typeorm'
+import {User} from '../typeorm/entity/user'
 
 export default async(user: User, invoice: Invoice) => {
     if (!user.xeroToken  || !process.env.XERO_TENNANT_ID) {

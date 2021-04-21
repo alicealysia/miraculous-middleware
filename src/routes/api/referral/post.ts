@@ -1,12 +1,15 @@
 import {Request, Response, NextFunction} from 'express'
 import {typeorm, accessControl} from '../../../library'
-import { AccessControl, Entity, Interface } from '../../../types';
+import { Resource } from '../../../types';
+import { Client } from '../../../library/typeorm/entity/client'
+import { Referral } from '../../../library/typeorm/entity/referral'
+import {Interface} from '../../../library/typeorm'
 
 export default async (request: Request<any, any, Interface.Referral.Insert, {id: number}>, response: Response, next: NextFunction) => {
     try {
-        const filter = await new accessControl(request.User).create(AccessControl.Resource.referral).id(request.query.id);
-        const parent = await new typeorm(Entity.Client).findOne(request.query.id);
-        const res = await new typeorm(Entity.Referral).create({...filter(request.body), client: parent})
+        const filter = await new accessControl(request.User).create(Resource.referral).id(request.query.id);
+        const parent = await new typeorm(Client).findOne(request.query.id);
+        const res = await new typeorm(Referral).create({...filter(request.body), client: parent})
         return response.json(res);
     } catch (err) {
         return next(err);

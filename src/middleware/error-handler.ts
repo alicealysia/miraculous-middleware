@@ -1,11 +1,11 @@
 import {Request, Response, NextFunction, } from 'express'
-import {ErrorStructure, ErrorTypes} from '../types'
+import {ErrorHandling} from '../types'
 
 export default (err: Error, request: Request, response: Response, next: NextFunction) => {
     console.error(err);
     try {
-        const error = JSON.parse(err.message) as ErrorStructure;
-        if (error.type === ErrorTypes.SignInFailure) {
+        const error = JSON.parse(err.message) as ErrorHandling.ErrorStructure;
+        if (error.type === ErrorHandling.ErrorTypes.SignInFailure) {
             if (error.possibleNulls[1] === null || undefined) {
                 return response.status(503).send('API down, please try again later');
             }
@@ -14,7 +14,7 @@ export default (err: Error, request: Request, response: Response, next: NextFunc
             }
             return response.status(503).send('API down, please try again later');
         }
-        if (error.type === ErrorTypes.TokenExpired) {
+        if (error.type === ErrorHandling.ErrorTypes.TokenExpired) {
             return response.status(401).send('not signed in');
         }
         return response.status(500).send('something went wrong');
