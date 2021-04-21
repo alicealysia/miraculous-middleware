@@ -1,19 +1,22 @@
 import {Request, Response, NextFunction} from 'express'
-import {database, accessControl} from '../../../library'
-import { Resource } from '../../../types';
+import {typeorm, accessControl} from '../../../library'
+import { AccessControl, Entity } from '../../../types';
 
-export default async (request: Request<any, any, any, {taskId?: number, assignmentId?: number}>, response: Response, next: NextFunction) => {
+export default async (request: Request<any, any, any, {taskId?: number, userId?: number, projectId?: number}>, response: Response, next: NextFunction) => {
     try {
         if (request.query.taskId) {
-            const filter = await new accessControl(request.User).read(Resource.task).id(request.query.taskId);
-            const task = await database.task.read.one(request.query.taskId);
+            const filter = await new accessControl(request.User).read(AccessControl.Resource.task).id(request.query.taskId);
+            const task = await new typeorm(Entity.Task).findOne(request.query.taskId);
             return response.json(filter(task));
         }
-        if (!request.query.assignmentId) {
-            throw new Error('no referral or client specified');
+        const tasks = await new accessControl(request.User).read(AccessControl.Resource.task).list();
+        let filteredTasks = tasks;
+        if (request.query.userId) {
+            filteredTasks = tasks.filter(task => task.user.id === request.query.userId);
         }
-        const tasks = await database.task.read.list(request.query.assignmentId);
-        const filteredTasks = await new accessControl(request.User).read(Resource.task).list(tasks);
+        if (request.query.projectId) {
+            filteredTasks = filteredTasks.filter(task => task.project.id === request.query.projectId)
+        }
         return response.json(filteredTasks);
         
     } catch (err) {

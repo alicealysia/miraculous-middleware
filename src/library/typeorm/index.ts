@@ -2,9 +2,9 @@ import "reflect-metadata";
 import {createConnection, Connection, ConnectionOptions, EntityTarget, DeepPartial, FindManyOptions, FindOneOptions, ObjectID, FindConditions} from 'typeorm'
 import {compare} from 'bcrypt'
 import Entity, {enumArray} from './entity'
+import {IndexableEntity} from '../../types'
 import Interface from './interface'
 import Enum from './enum'
-
 let connection: Connection;
 
 const config : ConnectionOptions = {

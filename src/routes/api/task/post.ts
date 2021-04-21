@@ -1,13 +1,14 @@
 import {Request, Response, NextFunction} from 'express'
-import {database, accessControl} from '../../../library'
-import { Resource, InsertTask } from '../../../types';
+import {typeorm, accessControl} from '../../../library'
+import { AccessControl, Interface, Entity } from '../../../types';
 
-export default async (request: Request<any, any, InsertTask, {id: number}>, response: Response, next: NextFunction) => {
+export default async (request: Request<any, any, Interface.Task.Insert, {projectId: number, userId: number}>, response: Response, next: NextFunction) => {
     try {
-        const filter = await new accessControl(request.User).create(Resource.task).id(request.query.id);
-        const task: InsertTask = {...request.body, assignment: request.query.id};
-        await database.task.create(filter(task));
-        return response.send('success');
+        const filter = await new accessControl(request.User).create(AccessControl.Resource.task).id(request.query.projectId);
+        const project = await new typeorm(Entity.Project).findOne(request.query.projectId);
+        const user = await new typeorm(Entity.User).findOne(request.query.userId);
+        const task = await new typeorm(Entity.Task).create(filter({...request.body, project, user}));
+        return response.json(task);
     } catch (err) {
         return next(err);
     }

@@ -1,7 +1,7 @@
 import Router from 'express-promise-router'
-import {xero, database} from '../../../library'
+import {xero, typeorm} from '../../../library'
 import returnSuccess from '../returnSuccess'
-import {Resource} from '../../../types'
+import {AccessControl, Entity} from '../../../types'
 const router = Router();
 
 router.get('/consent', async (request, response, next) => {
@@ -11,13 +11,13 @@ router.get('/consent', async (request, response, next) => {
 
 router.get('/token', async (request, response, next) => {
     const token = await xero.apiCallback(request.url);
-    database.user.update.xero(request.User.id, JSON.stringify(token));
+    await new typeorm(Entity.User).update({id: request.User.id, xeroToken: token});
     return next();
 }, returnSuccess);
 
 router.put('/token', async (request, response, next) => {
     const token = await xero.refresh();
-    database.user.update.xero(request.User.id, JSON.stringify(token));
+    await new typeorm(Entity.User).update({id: request.User.id, xeroToken: token});
     return next();
 }, returnSuccess)
 

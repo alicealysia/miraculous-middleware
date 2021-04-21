@@ -16,7 +16,7 @@ export type IndexableEntity = {
     [Resource.closure]: Entity.Closure,
     [Resource.contract]: Entity.Contract,
     [Resource.material]: Entity.Material,
-    [Resource.otAssessment]: Entity.Note,
+    [Resource.otAssessment]: Entity.OTAssessment,
     [Resource.project]: Entity.Project,
     [Resource.referral]: Entity.Referral,
     [Resource.skill]: Entity.Skill,
