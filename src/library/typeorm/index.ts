@@ -1,8 +1,13 @@
 import "reflect-metadata";
 import {createConnection, Connection, ConnectionOptions, EntityTarget, DeepPartial, FindManyOptions, FindOneOptions, ObjectID, FindConditions} from 'typeorm'
 import {compare} from 'bcrypt'
-import Entity, {enumArray} from './entity'
-import {IndexableEntity} from '../../types'
+import {SharepointLink, Service, Client} from './entity/client'
+import Closure from './entity/closure'
+import {XeroLink, Project, Material} from './entity/project'
+import {Referral, CustomDesignReferral, DesignLink, EquipmentReferral, OTDocument, OTReferral, ServiceReferral} from './entity/referral'
+import {Note, Contract, OTAssessment, Task} from './entity/task'
+import {User, Availability, Leave, Skill} from './entity/user'
+import {Resource} from '../../types'
 import Interface from './interface'
 import Enum from './enum'
 let connection: Connection;
@@ -14,7 +19,30 @@ const config : ConnectionOptions = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: enumArray,
+    entities: [
+        Client,
+        SharepointLink,
+        Service,
+        Closure,
+        XeroLink,
+        Project,
+        Material,
+        Referral,
+        CustomDesignReferral,
+        DesignLink,
+        EquipmentReferral,
+        OTDocument,
+        OTReferral,
+        ServiceReferral,
+        Note,
+        Contract,
+        OTAssessment,
+        Task,
+        User,
+        Availability,
+        Leave,
+        Skill
+    ],
     synchronize: true,
     logging: false
 }
@@ -27,21 +55,20 @@ const getConnection = async () => {
     return connection;
 }
 
+
+
 class typeorm <T> {
     public _target: EntityTarget<T>;
     constructor (target: EntityTarget<T>) {
         this._target = target;
     }
-    public async getRepository (target?: EntityTarget<T>) {
-        if (target) {
-            this._target = target;
-        }
+    public async getRepository () {
         const connection = await getConnection();
         return connection.getRepository(this._target);
     }
     public async create (row: DeepPartial<T>) {
         const repo = await getConnection().then(con => con.getRepository(this._target));
-        const entity = await repo.save(row) as T;
+        const entity = await repo.save(row);
         return entity;
     }
     public async update (row: DeepPartial<T>) {
@@ -51,7 +78,7 @@ class typeorm <T> {
     }
     public async auth (email: string, password: string) {
         const connection = await getConnection();
-        const user = await connection.getRepository(Entity.User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
+        const user = await connection.getRepository(User).findOneOrFail({relations: ['availability', 'leave', 'skills', 'tasks'], where: {email}});
         const valid = await compare(password, user.userHash);
         if (valid) {
             return user;
@@ -83,10 +110,56 @@ function bypassIdCheck <T>(optionsOrId: string | number | Date | FindOneOptions<
 }
 
 export default typeorm
-
 export {
-    Entity,
+    Client,
+    SharepointLink,
+    Service,
+    Closure,
+    XeroLink,
+    Project,
+    Material,
+    Referral,
+    CustomDesignReferral,
+    DesignLink,
+    EquipmentReferral,
+    OTDocument,
+    OTReferral,
+    ServiceReferral,
+    Note,
+    Contract,
+    OTAssessment,
+    Task,
+    User,
+    Availability,
+    Leave,
+    Skill,
     Enum,
     Interface,
     getConnection
+}
+export const IndexableEntityObj = {
+    [Resource.client]: Client,
+    [Resource.closure]: Closure,
+    [Resource.contract]: Contract,
+    [Resource.material]: Material,
+    [Resource.otAssessment]: OTAssessment,
+    [Resource.project]: Project,
+    [Resource.referral]: Referral,
+    [Resource.skill]: Skill,
+    [Resource.task]: Task,
+    [Resource.user]: User,
+    [Resource.billing]: XeroLink
+}
+export type IndexableEntityType = {
+    [Resource.client]: Client,
+    [Resource.closure]: Closure,
+    [Resource.contract]: Contract,
+    [Resource.material]: Material,
+    [Resource.otAssessment]: OTAssessment,
+    [Resource.project]: Project,
+    [Resource.referral]: Referral,
+    [Resource.skill]: Skill,
+    [Resource.task]: Task,
+    [Resource.user]: User,
+    [Resource.billing]: XeroLink
 }
