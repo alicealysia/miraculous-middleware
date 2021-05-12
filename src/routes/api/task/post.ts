@@ -10,7 +10,7 @@ export default async (request: Request<any, any, Interface.Task.Insert, {project
         const filter = await new accessControl(request.User).create(Resource.task).id(request.query.projectId);
         const project = await new typeorm(Project).findOne(request.query.projectId);
         const user = await new typeorm(User).findOne(request.query.userId);
-        const task = await new typeorm(Task).create(filter({...request.body, project, user}));
+        const task = await new typeorm(Task).create(filter.filter({...request.body, project, user}));
         return response.json(task);
     } catch (err) {
         return next(err);

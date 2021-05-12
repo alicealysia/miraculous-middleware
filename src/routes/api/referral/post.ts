@@ -9,7 +9,7 @@ export default async (request: Request<any, any, Interface.Referral.Insert, {id:
     try {
         const filter = await new accessControl(request.User).create(Resource.referral).id(request.query.id);
         const parent = await new typeorm(Client).findOne(request.query.id);
-        const res = await new typeorm(Referral).create({...filter(request.body), client: parent})
+        const res = await new typeorm(Referral).create({...filter.filter(request.body), client: parent})
         return response.json(res);
     } catch (err) {
         return next(err);

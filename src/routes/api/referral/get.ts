@@ -8,7 +8,7 @@ export default async (request: Request<any, any, any, {referralId?: number, clie
         if (request.query.referralId) {
             const filter = await new accessControl(request.User).read(Resource.referral).id(request.query.referralId);
             const referral = await new typeorm(Referral).findOne(request.query.referralId);
-            return response.json(filter(referral));
+            return response.json(filter.filter(referral));
         }
         if (!request.query.clientId) {
             throw new Error('no referral or client specified');

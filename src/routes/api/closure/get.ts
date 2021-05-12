@@ -8,7 +8,7 @@ export default async (request: Request<any, any, any, {id?: number}>, response: 
         if (request.query.id) {
             const filter = await new accessControl(request.User).read(Resource.closure).id(request.query.id);
             const closure = await new typeorm(Closure).findOne(request.query.id);
-            return response.json(filter(closure));
+            return response.json(filter.filter(closure));
         }
         const closures = await new typeorm(Closure).find();
         const filtered = await new accessControl(request.User).read(Resource.closure).list();

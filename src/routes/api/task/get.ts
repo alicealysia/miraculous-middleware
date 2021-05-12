@@ -9,7 +9,7 @@ export default async (request: Request<any, any, any, {taskId?: number, userId?:
         if (request.query.taskId) {
             const filter = await new accessControl(request.User).read(Resource.task).id(request.query.taskId);
             const task = await new typeorm(Task).findOne(request.query.taskId);
-            return response.json(filter(task));
+            return response.json(filter.filter(task));
         }
         const tasks = await new accessControl(request.User).read(Resource.task).list();
         let filteredTasks = tasks;

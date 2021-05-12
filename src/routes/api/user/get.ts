@@ -10,7 +10,7 @@ export default async (request: Request<any, any, any, {id?: number}>, response: 
     if (uid) {
         const filter = await new accessControl(request.User).read(Resource.user).id(uid);
         const user = await new typeorm(User).findOne(uid);
-        return response.json(filter(user));
+        return response.json(filter.filter(user));
     }
     const filteredUsers = await new accessControl(request.User).read(Resource.user).list();
     return response.json(filteredUsers);

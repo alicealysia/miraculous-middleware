@@ -9,7 +9,7 @@ export default async (request: Request<any, any, {closure: Interface.Closure.Ins
         const projectId = request.query.id;
         const filter = await new accessControl(request.User).create(Resource.closure).id(projectId);
         const closure = {...request.body.closure, projectId};
-        await new typeorm(Closure).create(filter(closure));
+        await new typeorm(Closure).create(filter.filter(closure));
         return response.send(`success`);
     } catch (err) {
         return next(err);

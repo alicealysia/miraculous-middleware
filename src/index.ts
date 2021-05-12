@@ -11,7 +11,7 @@ import { User } from './library/typeorm/entity/user';
 import "reflect-metadata";
 
 const app = express();
-const port = 8080;
+const port = 4000;
 
 type ExpressUser = User;
 

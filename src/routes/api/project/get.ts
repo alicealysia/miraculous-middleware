@@ -8,7 +8,7 @@ export default async (request: Request<any, any, any, {id: number | undefined}>,
         if (request.query.id) {
             const filter = await new accessControl(request.User).read(Resource.project).id(request.query.id);
             const project = await new typeorm(Project).findOne(request.query.id);
-            return response.json(filter(project));
+            return response.json(filter.filter(project));
         }
         const filteredProjects = await new accessControl(request.User).read(Resource.project).list();
         return response.json(filteredProjects);

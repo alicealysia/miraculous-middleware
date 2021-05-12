@@ -16,13 +16,13 @@ class accessControl {
     }
 
     // create overloads, narrows return function (promise vs class)
-    public async create<T extends createAnyRequired>(resource: T) : Promise<(data: DeepPartial<IndexableEntityType[T]>) => DeepPartial<IndexableEntityType[T]>>;
+    public async create<T extends createAnyRequired>(resource: T) : Promise<Permission>;
     public create<T extends createOwnId>(resource: T) : filterResourceById<Action.create, T>;
 
     //logic satisfies overloads and returns values
     public create (resource: createAnyRequired | createOwnId){
         if (resource === Resource.client || resource ===  Resource.project || resource ===  Resource.skill || resource ===  Resource.material) {
-            return accessManager(this._user, Action.create, resource).then(permissions => permissions.filter);
+            return accessManager(this._user, Action.create, resource);
         }
         return new filterResourceById(this._user, Action.create, resource);
     }
@@ -62,9 +62,9 @@ class filterResourceById <K extends Action, T extends Resource> {
         this._resource = resource;
     }
 
-    public async id (_id: number): Promise<(data:DeepPartial<IndexableEntityType[T]>) => DeepPartial<IndexableEntityType[T]>>;
+    public async id (_id: number): Promise<Permission>;
     public async id (_id: number) {
-        return accessManager(this._user, this._action, this._resource, _id).then(permissions => permissions.filter);
+        return accessManager(this._user, this._action, this._resource, _id);
     }
 }
 
@@ -77,9 +77,9 @@ class readResourceWithList <T extends readList> {
         this._user = user;
         this._resource = resource;
     }
-    public async id (_id: number): Promise<(data:IndexableEntityType[T]) => IndexableEntityType[T]>;
+    public async id (_id: number): Promise<Permission>;
     public async id (_id: number) {
-        return accessManager(this._user, Action.read, this._resource, _id).then(permissions => permissions.filter);
+        return accessManager(this._user, Action.read, this._resource, _id);
     }
     public async list (): Promise<IndexableEntityType[T][]>;
     public async list () {
