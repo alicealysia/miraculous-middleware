@@ -9,7 +9,7 @@ export default async (request: Request<any, any, Interface.Material.Insert, any>
         const filter = await new accessControl(request.User).create(Resource.material);
         const material = request.body;
         const id = await new typeorm(Material).create(filter.filter(material));
-        return response.send(`${id}`);
+        return response.json(id);
     } catch (err) {
         return next(err);
     }

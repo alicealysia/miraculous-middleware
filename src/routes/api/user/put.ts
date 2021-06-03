@@ -9,7 +9,7 @@ export default async (request: Request<any, any, DeepPartial<User>, {id: number}
     try {
     const uid = request.query.id;
     const filter = await new accessControl(request.User).update(Resource.user).id(uid);
-    const userObject = await new typeorm(User).update({...filter.filter(request.body), id: request.query.id});
+    const userObject = await new typeorm(User).update(filter.filter(request.body), request.query.id);
     return response.json(userObject);
 
     } catch(err) {

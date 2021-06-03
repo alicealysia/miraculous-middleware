@@ -22,6 +22,7 @@
   "dependencies": {
     "@azure/msal-common": "^4.0.2",
     "@azure/msal-node": "^1.0.1",
+    "@googlemaps/google-maps-services-js": "^3.1.16",
     "@microsoft/microsoft-graph-client": "^2.2.1",
     "@pnp/graph": "^2.2.0",
     "@pnp/sp": "^2.2.0",

@@ -13,7 +13,7 @@ router.get('/consent', async (request: Request, response: Response, next: NextFu
 router.get('/token', async (request, response, next) => {
     const token = await sharepoint.getToken(request.query.code as string).catch(error => next(error));
     console.log(token);
-    await new typeorm(User).update({id: request.User.id, msalToken: token.accessToken});
+    await new typeorm(User).update(token.accessToken, request.User.id);
     request.User.msalToken = token.accessToken;
     return next();
 }, returnSuccess);

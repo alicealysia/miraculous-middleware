@@ -11,6 +11,7 @@ import billing from './billing'
 import closure from './closure'
 import skill from './skill'
 import material from './material'
+import places from './places'
 
 const router = Router();
 
@@ -32,5 +33,6 @@ router.use(billing);
 router.use('/closure', closure);
 router.use('/skill', skill);
 router.use('/material', material);
+router.use('/places', places);
 
 export default router;

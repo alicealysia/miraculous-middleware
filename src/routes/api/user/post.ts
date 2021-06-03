@@ -9,8 +9,8 @@ export default async (request: Request<any, any, {user: Interface.User.Insert, p
     try {
         const userHash = request.body.password? await hash(request.body.password, 12) : undefined;
         const filter = await new accessControl(request.User).create(Resource.user);
-        await new typeorm(User).create({...filter.filter(request.body.user), userHash});
-        response.send('success');
+        const id = await new typeorm(User).create({...filter.filter(request.body.user), userHash});
+        response.json(id);
     } catch(err) {
         next(err);
     }

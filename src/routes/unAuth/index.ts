@@ -36,7 +36,7 @@ export default async (request: Request<any, any, Interface.Client.Insert, any>, 
     })
     //const clientId = await database.client.read.similar(client).catch(err => {return undefined});
     if (dbClient && dbClient.id) {
-        await clientQuery.update({id: dbClient.id, ...client});
+        await clientQuery.update(client, dbClient.id);
         await nodemailer.newClient(client.email, client.fullName);
         await emailProjectManagers(client.fullName, dbClient.id);
         return response.send('success');

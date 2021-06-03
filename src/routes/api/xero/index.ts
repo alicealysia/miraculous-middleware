@@ -10,14 +10,14 @@ router.get('/consent', async (request, response, next) => {
 })
 
 router.get('/token', async (request, response, next) => {
-    const token = await xero.apiCallback(request.url);
-    await new typeorm(User).update({id: request.User.id, xeroToken: token});
+    const xeroToken = await xero.apiCallback(request.url);
+    await new typeorm(User).update({xeroToken}, request.User.id);
     return next();
 }, returnSuccess);
 
 router.put('/token', async (request, response, next) => {
-    const token = await xero.refresh();
-    await new typeorm(User).update({id: request.User.id, xeroToken: token});
+    const xeroToken = await xero.refresh();
+    await new typeorm(User).update({xeroToken}, request.User.id);
     return next();
 }, returnSuccess)
 

@@ -71,9 +71,10 @@ class typeorm <T> {
         const entity = await repo.save(row);
         return entity;
     }
-    public async update (row: DeepPartial<T>) {
+    public async update (row: DeepPartial<T>, id: number) {
         const repo = await getConnection().then(con => con.getRepository(this._target));
-        const entity = await repo.save(row);
+        const original = await repo.findOne(id);
+        const entity = await repo.save({...original, ...row});
         return entity;
     }
     public async auth (email: string, password: string) {

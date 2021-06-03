@@ -10,7 +10,7 @@ export default async (request: Request<any, any, Interface.Client.Insert, any>, 
         const filter = await new accessControl(request.User).create(Resource.client);
         const client = request.body;
         const id = await new typeorm(Client).create(filter.filter(client));
-        return response.send(`${id}`);
+        return response.json(id);
     } catch (err) {
         return next(err);
     }

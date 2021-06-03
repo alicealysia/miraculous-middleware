@@ -19,7 +19,7 @@ export default async (request: Request<any, any, {password: string, existingPass
         } 
     }
     const userHash = await hash(request.body.password, 12);
-    await new typeorm(User).update({id: uid, userHash});
+    await new typeorm(User).update({userHash}, uid);
     return response.send('success');
 
     } catch(err) {
