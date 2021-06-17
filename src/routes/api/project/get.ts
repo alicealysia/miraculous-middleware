@@ -7,7 +7,7 @@ export default async (request: Request<any, any, any, {id: number | undefined}>,
     try {
         if (request.query.id) {
             const filter = await new accessControl(request.User).read(Resource.project).id(request.query.id);
-            const project = await new typeorm(Project).findOne(request.query.id);
+            const project = await new typeorm(Project).findOne(request.query.id, {relations: ['client', 'materials', 'materialsEstimate']});
             return response.json(filter.filter(project));
         }
         const filteredProjects = await new accessControl(request.User).read(Resource.project).list();

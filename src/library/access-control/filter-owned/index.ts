@@ -1,7 +1,7 @@
 import {User} from '../../typeorm/entity/user'
 import {readList, Resource, Action} from '../../../types/access-control'
 import ac from '../permission'
-import {getConnection, IndexableEntityObj} from '../../typeorm'
+import {Client, Closure, Contract, getConnection, IndexableEntityObj, Material, Project, Referral, Skill, Task} from '../../typeorm'
 import {IQueryInfo} from 'accesscontrol'
 import client from './client'
 import {projects} from './project'
@@ -19,7 +19,32 @@ async function findOwned (user: User, resource: readList): Promise<any[]> {
     // also, rare any usage :O
     if (anyPerm.granted && resource !== Resource.billing) {
         const connection = await getConnection();
-        return connection.getRepository(IndexableEntityObj[resource]).find().then(obj => obj.map((currentItem: any) => anyPerm.filter(currentItem)));
+        switch (resource) {
+            case Resource.client:
+                return connection.getRepository(Client).find({relations: ['approvals', 'closures', 'projects', 'referrals', 'services']}).then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.closure:
+                return connection.getRepository(Closure).find({relations: ['client']}).then(obj => obj.map(currentItem => {anyPerm.filter(currentItem)}));
+            break;
+            case Resource.material:
+                return connection.getRepository(Material).find().then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.project:
+                return connection.getRepository(Project).find({relations: ['client', 'invoices', 'materials', 'materialsEstimate']}).then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.referral:
+                return connection.getTreeRepository(Referral).find({relations: ['OTReferrals', 'client', 'customDesigns', 'equipmentReferrals', 'services']}).then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.skill:
+                return connection.getRepository(Skill).find().then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.task:
+                return connection.getRepository(Task).find({relations:['assessment', 'contract', 'notes', 'project', 'user']}).then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+            case Resource.user:
+                return connection.getRepository(User).find({relations:['availability', 'leave', 'skills', 'tasks']}).then(obj => obj.map(currentItem => anyPerm.filter(currentItem)));
+            break;
+        }
     }
 
     const ownPerm = ac.permission({...query, possession: 'own'});
