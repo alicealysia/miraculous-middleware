@@ -64,9 +64,9 @@ export class Task {
     estimatedTravel!: number;
     @Column()
     estimatedHours!: number;
-    @Column()
+    @Column({nullable: true})
     actualHours: number = 0;
-    @Column()
+    @Column({nullable: true})
     actualTravel: number = 0;
     @Column({nullable: true})
     report?: string;
